@@ -47,7 +47,9 @@ const AdminCategoryCreate = (props) => {
   return (
     <div>
       <Helmet>
-        <title>Acres - Real Estate React Template | Admin Category Create</title>
+        <title>
+          Acres - Real Estate React Template | Admin Category Create
+        </title>
         <meta name="description" content="#" />
       </Helmet>
       <AdminHeader />

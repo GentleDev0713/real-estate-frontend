@@ -59,61 +59,75 @@ const App = () => {
     <div className="App">
       {userInfo && userInfo.isAdmin ? (
         <Routes>
-          <Route path="/" element={<Navigate to="/admin" />} />
-          <Route path="/admin" element={<AdminPanel url="/admin" />} />
+          <Route exact path="/" element={<Navigate to="/admin" />} />
+          <Route exact path="/admin" element={<AdminPanel url="/admin" />} />
           <Route
+            exact
             path="/admin/users"
             element={<AdminUser url="/admin/users" />}
           />
           <Route
+            exact
             path="/admin/user/:id"
             element={<AdminUserEdit url="/admin/users" />}
           />
           <Route
+            exact
             path="/admin/categories"
             element={<AdminCategory url="/admin/categories" />}
           />
           <Route
+            exact
             path="/admin/category/create"
             element={<AdminCategoryCreate url="/admin/categories" />}
           />
           <Route
+            exact
             path="/admin/category/:id"
             element={<AdminCategoryEdit url="/admin/categories" />}
           />
           <Route
+            exact
             path="/admin/properties"
             element={<AdminProperty url="/admin/properties" />}
           />
           <Route
+            exact
             path="/admin/property/create"
             element={<AdminPropertyCreate url="/admin/properties" />}
           />
           <Route
+            exact
             path="/admin/property/:id"
             element={<AdminPropertyEdit url="/admin/properties" />}
           />
           <Route
+            exact
             path="/admin/currencies"
             element={<AdminCurrency url="/admin/currencies" />}
           />
           <Route
+            exact
             path="/admin/currency/create"
             element={<AdminCurrencyCreate url="/admin/currencies" />}
           />
           <Route
+            exact
             path="/admin/currency/:id"
             element={<AdminCurrencyEdit url="/admin/currencies" />}
           />
           <Route
+            exact
             path="/admin/features"
             element={<AdminFeature url="/admin/features" />}
           />
           <Route
+            exact
             path="/admin/feature/create"
             element={<AdminFeatureCreate url="/admin/features" />}
           />
           <Route
+            exact
             path="/admin/feature/:id"
             element={<AdminFeatureEdit url="/admin/features" />}
           />
@@ -121,42 +135,43 @@ const App = () => {
       ) : (
         <Routes>
           <Route exact path="/" element={<Homefour />} />
-          <Route path="/submit-listing" element={<Submitlisting />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/agent" element={<Retirement />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/buy" element={<Pricing />} />
-          <Route path="/sell" element={<Sell />} />
-          <Route path="/rent" element={<Rent />} />
-          <Route path="/register" element={<Register />} />
+          <Route exact path="/submit-listing" element={<Submitlisting />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/agent" element={<Retirement />} />
+          <Route exact path="/services" element={<Services />} />
+          <Route exact path="/buy" element={<Pricing />} />
+          <Route exact path="/sell" element={<Sell />} />
+          <Route exact path="/rent" element={<Rent />} />
+          <Route exact path="/register" element={<Register />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/chat" element={<Chat />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/chat" element={<Chat />} />
           <Route
+            exact
             path="/listing-details-v1/:id"
             element={<ListingDetailsOne />}
           />
-          <Route path="/property/:type" element={<PropertyListing />} />
-          <Route path="/sell/:type" element={<PropertyListing />} />
-          <Route path="/rent/:type" element={<PropertyListing />} />
-          <Route path="/view-all" element={<View />} />
+          <Route exact path="/property/:type" element={<PropertyListing />} />
+          <Route exact path="/sell/:type" element={<PropertyListing />} />
+          <Route exact path="/rent/:type" element={<PropertyListing />} />
+          <Route exact path="/view-all" element={<View />} />
 
-          <Route path="/Distress" element={<Distress />} />
-          <Route path="/Planing" element={<Planing />} />
-          <Route path="/Modification" element={<Modification />} />
-          <Route path="/Management" element={<Management />} />
-          <Route path="/Planner" element={<Planner />} />
+          <Route exact path="/Distress" element={<Distress />} />
+          <Route exact path="/Planing" element={<Planing />} />
+          <Route exact path="/Modification" element={<Modification />} />
+          <Route exact path="/Management" element={<Management />} />
+          <Route exact path="/Planner" element={<Planner />} />
 
-          <Route path="/Property" element={<Property />} />
-          <Route path="/Terms" element={<Terms />} />
-          <Route path="/Estate" element={<Estate />} />
-          <Route path="/Retire" element={<Retire />} />
+          <Route exact path="/Property" element={<Property />} />
+          <Route exact path="/Terms" element={<Terms />} />
+          <Route exact path="/Estate" element={<Estate />} />
+          <Route exact path="/Retire" element={<Retire />} />
 
-          <Route path="/Mortgage" element={<Mortgage />} />
-          <Route path="/Invest" element={<Invest />} />
-          <Route path="/Loans" element={<Loans />} />
-          <Route path="/listing-map" element={<Listing />} />
-          <Route path="/contact" component={Contact} />
+          <Route exact path="/Mortgage" element={<Mortgage />} />
+          <Route exact path="/Invest" element={<Invest />} />
+          <Route exact path="/Loans" element={<Loans />} />
+          <Route exact path="/listing-map" element={<Listing />} />
+          <Route exact path="/contact" component={Contact} />
         </Routes>
       )}
     </div>

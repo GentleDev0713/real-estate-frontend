@@ -14,7 +14,7 @@ const AdminHeader = () => {
     if (!userInfo || !userInfo.isAdmin) {
       navigate("/");
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <div
