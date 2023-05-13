@@ -13,7 +13,6 @@ const AdminUserEdit = (props) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("Buyer");
   const [admin, setAdmin] = useState(false);
@@ -93,17 +92,6 @@ const AdminUserEdit = (props) => {
               name="username"
             />
           </div>
-          {/* <div className="form-group">
-              <label>Email Address or mobile number</label>
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="form-control form-control-light"
-                placeholder="Email Address"
-                name="email"
-              />
-            </div> */}
           <div className="form-group">
             <label>Password</label>
             <input

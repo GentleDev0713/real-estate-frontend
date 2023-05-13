@@ -66,6 +66,13 @@ const AdminUser = (props) => {
             </tr>
           </thead>
           <tbody>
+            {state.length == 0 ? (
+              <tr>
+                <td colSpan="6">No Data</td>
+              </tr>
+            ) : (
+              <></>
+            )}
             {state.map((res, key) => {
               return (
                 <tr>
