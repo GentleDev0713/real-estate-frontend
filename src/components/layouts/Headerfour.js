@@ -10,8 +10,8 @@ const Headerfour = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const logout = () => {
-    navigate("/login");
     JSON.parse(localStorage.removeItem("userInfo"));
+    navigate("/login");
   };
 
   useEffect(() => {

@@ -6,8 +6,8 @@ const AdminHeader = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const logout = () => {
-    navigate("/login");
     JSON.parse(localStorage.removeItem("userInfo"));
+    navigate("/login");
   };
 
   useEffect(() => {
