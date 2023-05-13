@@ -59,7 +59,7 @@ const App = () => {
     <div className="App">
       {userInfo && userInfo.isAdmin ? (
         <Routes>
-          <Route exact path="/" element={<Navigate url="/admin" />} />
+          <Route path="/" element={<Link to="/admin" />} />
           <Route path="/admin" element={<AdminPanel url="/admin" />} />
           <Route
             path="/admin/users"
