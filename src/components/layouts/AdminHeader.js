@@ -26,13 +26,13 @@ const AdminHeader = () => {
       }}
     >
       <div
-        className="col-md-10 col-lg-10"
-        style={{ fontSize: "25px", marginLeft: "60px", MarginTop: "5px" }}
+        className="col-md-10 col-lg-10 text-center"
+        style={{ fontSize: "25px", marginLeft: "100px", MarginTop: "8px" }}
       >
         Admin Panel
       </div>
       <div
-        className="col-md-2 col-lg-2 text-right"
+        className="col-md-1 col-lg-1 text-right"
         style={{ fontSize: "20px" }}
       >
         {userInfo.name}
