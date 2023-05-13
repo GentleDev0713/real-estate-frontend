@@ -6,7 +6,7 @@ const AdminHeader = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const logout = () => {
-    JSON.parse(localStorage.removeItem("userInfo"));
+    localStorage.removeItem("userInfo");
     navigate("/login");
   };
 

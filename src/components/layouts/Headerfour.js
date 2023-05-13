@@ -10,7 +10,7 @@ const Headerfour = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const logout = () => {
-    JSON.parse(localStorage.removeItem("userInfo"));
+    localStorage.removeItem("userInfo");
     navigate("/login");
   };
 

@@ -11,8 +11,8 @@ const Header = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const logout = () => {
+    localStorage.removeItem("userInfo");
     navigate("/login");
-    JSON.parse(localStorage.removeItem("userInfo"));
   };
 
   useEffect(() => {
