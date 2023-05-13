@@ -26,8 +26,12 @@ const AdminHeader = () => {
       }}
     >
       <div
-        className="col-md-7 col-lg-7 text-right"
-        style={{ fontSize: "25px", marginLeft: "100px", MarginTop: "10px" }}
+        className="col-md-7 col-lg-7"
+        style={{
+          fontFamily: "Times New Roman",
+          fontSize: "30px",
+          marginLeft: "80px",
+        }}
       >
         Admin Panel
       </div>
