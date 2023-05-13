@@ -26,8 +26,8 @@ const AdminHeader = () => {
       }}
     >
       <div
-        className="col-md-9 col-lg-9"
-        style={{ fontSize: "25px", left: "60px", top: "5px" }}
+        className="col-md-10 col-lg-10"
+        style={{ fontSize: "25px", marginLeft: "60px", MarginTop: "5px" }}
       >
         Admin Panel
       </div>
@@ -37,7 +37,7 @@ const AdminHeader = () => {
       >
         {userInfo.name}
       </div>
-      <div className="col-md-2 col-lg-2 text-center" style={{}}>
+      <div className="col-md-1 col-lg-1 text-center" style={{}}>
         <p
           onClick={() => logout()}
           style={{

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 import $ from "jquery";
 
@@ -13,24 +14,24 @@ const AdminSider = (props) => {
 
   return (
     <Menu>
-      <a className="menu-item" href="/admin">
+      <Link className="menu-item" to="/admin">
         Home
-      </a>
-      <a className="menu-item" href="/admin/users">
+      </Link>
+      <Link className="menu-item" to="/admin/users">
         User
-      </a>
-      <a className="menu-item" href="/admin/categories">
+      </Link>
+      <Link className="menu-item" to="/admin/categories">
         Category
-      </a>
-      <a className="menu-item" href="/admin/properties">
+      </Link>
+      <Link className="menu-item" to="/admin/properties">
         Property
-      </a>
-      <a className="menu-item" href="/admin/currencies">
+      </Link>
+      <Link className="menu-item" to="/admin/currencies">
         Currency
-      </a>
-      <a className="menu-item" href="/admin/features">
+      </Link>
+      <Link className="menu-item" to="/admin/features">
         Feature
-      </a>
+      </Link>
     </Menu>
   );
 };
