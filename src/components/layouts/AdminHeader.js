@@ -34,10 +34,10 @@ const AdminHeader = () => {
       <div
         className="col-md-3 col-lg-3"
         style={{
-          fontSize: "20px",
+          fontSize: "30px",
           textAlign: "right",
-          marginLeft: "20px",
-          marginTop: "5px",
+          paddingRight: "15px",
+          marginTop: "-5px",
           fontFamily: "Times New Roman",
         }}
       >
