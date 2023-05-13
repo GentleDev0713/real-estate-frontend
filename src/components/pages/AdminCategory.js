@@ -27,7 +27,9 @@ const AdminCategory = (props) => {
   };
   const deleteCategory = (id) => {
     axios
-      .delete(`/admin/delete/category/${id}`)
+      .delete(
+        `https://real-estate-backend-9ph8.onrender.com/admin/delete/category/${id}`
+      )
       .then((res) => {
         setData(res.data.result);
         toast({
