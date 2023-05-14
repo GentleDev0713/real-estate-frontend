@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import avatar from "../../../assets/img/profile.png";
+import convertToBase64 from "../../../helper/convert";
 
 const Content = () => {
   const [error, setError] = useState(false);
@@ -10,6 +11,7 @@ const Content = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("Buyer");
+  const [file, setFile] = useState();
 
   const registerUser = (data) => {
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -17,24 +19,26 @@ const Content = () => {
   };
 
   const postData = async () => {
-    await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        mode: "no-cors",
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-        user: user,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data.Msg === "register" ? registerUser(data) : setError(true);
-        setErrorMsg(data.Msg);
-      });
+    // await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     mode: "no-cors",
+    //   },
+    //   body: JSON.stringify({
+    //     name: name,
+    //     email: email,
+    //     password: password,
+    //     user: user,
+    //     pic: file,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.Msg === "register" ? registerUser(data) : setError(true);
+    //     setErrorMsg(data.Msg);
+    //   });
+    console.log(file);
   };
 
   const images = [
@@ -63,6 +67,12 @@ const Content = () => {
     dots: true,
     dotsClass: "d-flex slick-dots",
   };
+
+  const onUpload = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setFile(base64);
+  };
+
   return (
     <div className="acr-auth-container">
       <div className="acr-auth-content">
@@ -80,10 +90,19 @@ const Content = () => {
             </p>
           </div>
           <div className="profile flex justify-center py-4">
-            <img
-              src={avatar}
-              className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
-              alt="avatar"
+            <label htmlFor="profile">
+              <img
+                src={file || avatar}
+                className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
+                alt="avatar"
+              />
+            </label>
+            <input
+              onChange={onUpload}
+              type="file"
+              id="profile"
+              name="profile"
+              style={{ display: "none" }}
             />
           </div>
           <div className="form-group">
@@ -134,7 +153,7 @@ const Content = () => {
           <button
             type="Submit"
             className="btn-custom secondary btn-block"
-            onClick={postData()}
+            onClick={() => postData()}
           >
             Register
           </button>
