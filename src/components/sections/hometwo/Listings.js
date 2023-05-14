@@ -109,12 +109,9 @@ const Listings = () => {
         );
         if (!chats.find((c) => c.id === data.id)) setChats([data, ...chats]);
         setSelectedChat(data);
-        console.log(data);
         navigate("/chat");
         window.location.reload(false);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -347,12 +344,11 @@ const Listings = () => {
               <div className="sidebar-widget">
                 <h5>Recent Listing</h5>
                 Listing Start
-                {state.map((res) => {
-                  console.log(res);
+                {state.map((res, key) => {
                   const basicInformation = res.BasicInformation;
                   const Gallery = res.Gallery;
                   return (
-                    <div className="listing listing-list ">
+                    <div className="listing listing-list " key={key}>
                       <div className="listing-thumbnail">
                         <Link
                           onClick={() => {
@@ -361,7 +357,7 @@ const Listings = () => {
                           }}
                         >
                           <img
-                            src={`/${Gallery.file}`}
+                            src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.file}`}
                             alt="listing"
                             style={{
                               width: "100%",
@@ -394,15 +390,16 @@ const Listings = () => {
                             <></>
                           )}{" "}
                           <div style={{ display: "flex" }}>
-                            {Gallery.picture.map((item) => {
+                            {Gallery.picture.map((item, key) => {
                               return (
                                 <img
-                                  src={`/${item}`}
+                                  src={`https://real-estate-backend-rwp6.onrender.com/${item}`}
                                   alt="listing"
                                   style={{
                                     width: "50px",
                                     height: "50px",
                                   }}
+                                  key={key}
                                 />
                               );
                             })}
@@ -448,14 +445,12 @@ const Listings = () => {
               ) : (
                 <div>
                   <div>
-                    {filter.slice(0, 3).map((res) => {
+                    {filter.slice(0, 3).map((res, key) => {
                       const basicInformation = res.BasicInformation;
                       const deatils = res.Details;
                       const author = res.Author;
-                      // console.log(author);
-                      console.log(Gallery.picture);
                       return (
-                        <div className="listing listing-list ">
+                        <div className="listing listing-list " key={key}>
                           <div
                             className="listing-thumbnail"
                             style={{ width: "60%" }}
@@ -467,7 +462,7 @@ const Listings = () => {
                               }}
                             >
                               <img
-                                src={Gallery.picture}
+                                src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.picture}`}
                                 alt="listing"
                                 style={{
                                   width: "100%",
@@ -657,15 +652,13 @@ const Listings = () => {
             ) : (
               <div>
                 <div>
-                  {state.slice(0, 3).map((res) => {
+                  {state.slice(0, 3).map((res, key) => {
                     const basicInformation = res.BasicInformation;
                     const deatils = res.Details;
                     const author = res.Author;
                     const Gallery = res.Gallery;
-                    // console.log(author);
-                    // console.log(gallery.picture);
                     return (
-                      <div className="listing listing-list ">
+                      <div className="listing listing-list " key={key}>
                         <div
                           className="listing-thumbnail"
                           style={{ width: "60%" }}
@@ -677,7 +670,7 @@ const Listings = () => {
                             }}
                           >
                             <img
-                              src={`/${Gallery.file}`}
+                              src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.file}`}
                               alt="listing"
                               style={{
                                 width: "100%",

@@ -45,7 +45,7 @@ const Latestblog = () => {
                 </p>
               </div>
             ) : (
-              state.map((res) => {
+              state.map((res, key) => {
                 const basicInformation = res.BasicInformation;
                 const deatils = res.Details;
                 // const gallery = res.Gallery;
@@ -56,6 +56,7 @@ const Latestblog = () => {
                   <div
                     className="listing listing-list"
                     style={{ margin: "0.5rem" }}
+                    key={key}
                   >
                     <div className="listing-thumbnail" style={{ width: "60%" }}>
                       <Link

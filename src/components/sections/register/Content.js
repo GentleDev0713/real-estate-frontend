@@ -28,7 +28,7 @@ const Content = () => {
         description: "Enter your username.",
         status: "error",
         duration: 2000,
-        // variant: "left-accent",
+        variant: "left-accent",
         position: "top-right",
         isClosable: true,
       });
@@ -143,8 +143,8 @@ const Content = () => {
             <input
               onChange={onUpload}
               type="file"
-              id="profile"
-              name="profile"
+              id="pic"
+              name="pic"
               style={{ display: "none" }}
             />
           </div>
