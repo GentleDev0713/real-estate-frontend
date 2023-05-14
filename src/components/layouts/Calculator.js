@@ -80,10 +80,10 @@ const Calculator = () => {
           value={loanDuration}
           onInput={(e) => setLoanDuration(e.target.value)}
         />
-        <h6 className="alert alert-info">
+        <div className="alert alert-info font-sans text-lg font-bold">
           Monthly payment: <FaDollarSign />
           {parseFloat(monthlyPayment.toFixed(2))}
-        </h6>
+        </div>
         <button
           type="submit"
           className="btn btn-primary btn-lg w-100 center"

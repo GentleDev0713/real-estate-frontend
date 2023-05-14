@@ -7,8 +7,11 @@ import { useNavigate } from "react-router-dom";
 const Headerfour = () => {
   const [navtoggle, setnavtoggle] = useState(false);
   const [sticky, setSticky] = useState("false");
+
   const navigate = useNavigate();
+
   const user = JSON.parse(localStorage.getItem("userInfo"));
+
   const logout = () => {
     localStorage.removeItem("userInfo");
     navigate("/login");

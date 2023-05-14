@@ -90,6 +90,7 @@ const Content = () => {
                     <img
                       src="https://real-estate-frontend-uevy.onrender.com/assets/img/exclaimationMark.png "
                       width={"100%"}
+                      alt="NotFound"
                     />
                   </div>
                   <div className="w-10/12">
@@ -289,6 +290,7 @@ const Content = () => {
                   <img
                     src="https://real-estate-frontend-uevy.onrender.com/assets/img/exclaimationMark.png"
                     width={"100%"}
+                    alt="NotFound"
                   />
                 </div>
                 <div className="w-10/12">

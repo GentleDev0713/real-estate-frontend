@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import avatar from "../../../assets/img/profile.png";
 
 const Content = () => {
   const [error, setError] = useState(false);
@@ -66,8 +67,8 @@ const Content = () => {
     <div className="acr-auth-container">
       <div className="acr-auth-content">
         <form
+          className="py-1"
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
         >
@@ -77,6 +78,13 @@ const Content = () => {
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's
             </p>
+          </div>
+          <div className="profile flex justify-center py-4">
+            <img
+              src={avatar}
+              className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
+              alt="avatar"
+            />
           </div>
           <div className="form-group">
             <label>Username</label>
@@ -123,7 +131,11 @@ const Content = () => {
               <option value="Seller">Seller</option>
             </select>
           </div>
-          <button type="Submit" className="btn-custom secondary btn-block">
+          <button
+            type="Submit"
+            className="btn-custom secondary btn-block"
+            onClick={postData()}
+          >
             Register
           </button>
 
