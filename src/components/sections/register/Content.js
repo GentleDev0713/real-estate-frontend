@@ -23,7 +23,6 @@ const Content = () => {
 
   const postData = async () => {
     if (!name || name === undefined) {
-      alert("sdfsdfs");
       toast({
         title: "Error",
         description: "Enter your username.",

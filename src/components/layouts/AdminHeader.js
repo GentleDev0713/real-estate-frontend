@@ -7,7 +7,7 @@ const AdminHeader = () => {
 
   const logout = () => {
     localStorage.removeItem("userInfo");
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {

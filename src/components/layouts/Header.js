@@ -12,7 +12,7 @@ const Header = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const logout = () => {
     localStorage.removeItem("userInfo");
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
