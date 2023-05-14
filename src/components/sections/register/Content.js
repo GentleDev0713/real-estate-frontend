@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import { useToast } from "@chakra-ui/react";
 import avatar from "../../../assets/img/profile.png";
 import convertToBase64 from "../../../helper/convert";
 
@@ -12,6 +13,7 @@ const Content = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("Buyer");
   const [file, setFile] = useState();
+  const toast = useToast();
 
   const registerUser = (data) => {
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -19,7 +21,17 @@ const Content = () => {
   };
 
   const postData = async () => {
-    console.log(file);
+    if (!name) {
+      toast({
+        title: "Error",
+        description: "Enter your username.",
+        status: "error",
+        duration: 2000,
+        variant: "left-accent",
+        position: "top-right",
+        isClosable: true,
+      });
+    }
 
     await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
       method: "POST",
