@@ -7,12 +7,12 @@ const AdminHeader = () => {
 
   const logout = () => {
     localStorage.removeItem("userInfo");
-    navigate("/");
+    window.location.replace("/");
   };
 
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
-      navigate("/");
+      window.location.replace("/");
     }
   }, []);
 

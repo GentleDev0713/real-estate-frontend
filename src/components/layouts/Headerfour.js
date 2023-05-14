@@ -14,7 +14,7 @@ const Headerfour = () => {
 
   const logout = () => {
     localStorage.removeItem("userInfo");
-    navigate("/");
+    window.location.replace("/");
   };
 
   useEffect(() => {

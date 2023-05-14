@@ -40,7 +40,7 @@ const SideDrawer = () => {
   const toast = useToast();
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
-    navigate("/");
+    window.location.replace("/");
   };
 
   const handleSearch = async () => {
