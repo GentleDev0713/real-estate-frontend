@@ -19,26 +19,26 @@ const Content = () => {
   };
 
   const postData = async () => {
-    // await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     mode: "no-cors",
-    //   },
-    //   body: JSON.stringify({
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //     user: user,
-    //     pic: file,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     data.Msg === "register" ? registerUser(data) : setError(true);
-    //     setErrorMsg(data.Msg);
-    //   });
-    console.log(file);
+    await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        user: user,
+        pic: file,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        data.Msg === "register" ? registerUser(data) : setError(true);
+        setErrorMsg(data.Msg);
+      });
+    // console.log(file);
   };
 
   const images = [
