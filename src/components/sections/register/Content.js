@@ -21,6 +21,7 @@ const Content = () => {
   };
 
   const postData = async () => {
+    console.log(name, email, password);
     if (name == "") {
       toast({
         title: "Error",
