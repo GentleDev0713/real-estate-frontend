@@ -143,7 +143,7 @@ const Content = () => {
             <input
               onChange={onUpload}
               type="file"
-              id="pic"
+              id="profile"
               name="pic"
               style={{ display: "none" }}
             />
