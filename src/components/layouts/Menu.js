@@ -8,7 +8,7 @@ const Menu = () => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-9ph8.onrender.com/admin/get-categories")
+      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-categories")
       .then((res) => {
         setStatuslist(res.data.result);
       });

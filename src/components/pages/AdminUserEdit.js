@@ -20,7 +20,7 @@ const AdminUserEdit = (props) => {
   useEffect(() => {
     axios
       .get(
-        `https://real-estate-backend-9ph8.onrender.com/admin/user/${params.id}`
+        `https://real-estate-backend-rwp6.onrender.com/admin/user/${params.id}`
       )
       .then((res) => {
         setState(res.data.result);
@@ -44,7 +44,7 @@ const AdminUserEdit = (props) => {
     console.log(formData);
     axios
       .put(
-        `https://real-estate-backend-9ph8.onrender.com/admin/user/${state._id}/update`,
+        `https://real-estate-backend-rwp6.onrender.com/admin/user/${state._id}/update`,
         formData
       )
       .then((res) => {

@@ -70,7 +70,7 @@ const Content = () => {
                 <div className="listing-author">
                   <img
                     src={
-                      "https://real-estate-frontend-uevy.onrender.com/assets/img/people/2.jpg"
+                      "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
                     }
                     alt="author"
                   />

@@ -16,7 +16,7 @@ const AdminProperty = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-9ph8.onrender.com/admin/get-properties")
+      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-properties")
       .then((res) => {
         setData(res.data.result);
       });
@@ -28,7 +28,7 @@ const AdminProperty = (props) => {
   const deleteProperty = (id) => {
     axios
       .delete(
-        `https://real-estate-backend-9ph8.onrender.com/admin/delete/property/${id}`
+        `https://real-estate-backend-rwp6.onrender.com/admin/delete/property/${id}`
       )
       .then((res) => {
         setData(res.data.result);

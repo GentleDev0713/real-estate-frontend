@@ -63,7 +63,7 @@ const AdminCurrencyCreate = (props) => {
     };
     axios
       .post(
-        `https://real-estate-backend-9ph8.onrender.com/admin/currency/create`,
+        `https://real-estate-backend-rwp6.onrender.com/admin/currency/create`,
         formData
       )
       .then((res) => {

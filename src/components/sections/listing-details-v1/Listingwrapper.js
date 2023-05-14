@@ -34,7 +34,7 @@ const Listingwrapper = () => {
 
   const getData = async () => {
     const response = await fetch(
-      "https://real-estate-backend-9ph8.onrender.com/submitlisting/submit",
+      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
       {
         method: "GET",
         headers: {

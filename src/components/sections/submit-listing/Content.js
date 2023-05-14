@@ -310,7 +310,7 @@ function Content() {
 
       axios
         .post(
-          "https://real-estate-backend-9ph8.onrender.com/submitlisting/submit",
+          "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },

@@ -62,7 +62,7 @@ const SideDrawer = () => {
       };
 
       const { data } = await axios.post(
-        `https://real-estate-backend-9ph8.onrender.com/search=${search}`,
+        `https://real-estate-backend-rwp6.onrender.com/search=${search}`,
         config
       );
       setLoading(false);
@@ -94,7 +94,7 @@ const SideDrawer = () => {
       };
 
       const { data } = await axios.post(
-        "https://real-estate-backend-9ph8.onrender.com/api/chat",
+        "https://real-estate-backend-rwp6.onrender.com/api/chat",
         { userId },
         config
       );

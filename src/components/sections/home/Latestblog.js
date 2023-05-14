@@ -12,7 +12,7 @@ const Latestblog = () => {
 
   const SubmitlistingData = async () => {
     const resposne = await fetch(
-      "https://real-estate-backend-9ph8.onrender.com/submitlisting/submit"
+      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit"
     );
     const data = await resposne.json();
     setState(data.result.slice(-2));
@@ -38,7 +38,7 @@ const Latestblog = () => {
             {!state ? (
               <div className="">
                 <div className="flex justify-center">
-                  <img src="https://real-estate-frontend-uevy.onrender.com/assets/img/Loading.gif" />
+                  <img src="https://real-estate-frontend-u4cg.onrender.com/assets/img/Loading.gif" />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">
                   Loading .....
@@ -65,7 +65,7 @@ const Latestblog = () => {
                         }}
                       >
                         <img
-                          src="https://real-estate-frontend-uevy.onrender.com/assets/img/listings/1.jpg"
+                          src="https://real-estate-frontend-u4cg.onrender.com/assets/img/listings/1.jpg"
                           alt="listing"
                           style={{
                             width: "100%",
@@ -98,7 +98,7 @@ const Latestblog = () => {
                       <div className="listing-author">
                         <img
                           src={
-                            "https://real-estate-frontend-uevy.onrender.com/assets/img/people/2.jpg"
+                            "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
                           }
                           alt="author"
                         />

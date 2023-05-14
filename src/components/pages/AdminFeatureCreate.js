@@ -50,7 +50,7 @@ const AdminFeatureCreate = (props) => {
     };
     axios
       .post(
-        `https://real-estate-backend-9ph8.onrender.com/admin/feature/create`,
+        `https://real-estate-backend-rwp6.onrender.com/admin/feature/create`,
         formData
       )
       .then((res) => {

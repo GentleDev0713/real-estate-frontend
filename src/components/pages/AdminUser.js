@@ -13,7 +13,7 @@ const AdminUser = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-9ph8.onrender.com/admin/get-users")
+      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-users")
       .then((res) => {
         setState(res.data.result);
       });
@@ -29,7 +29,7 @@ const AdminUser = (props) => {
   const deleteUser = (id) => {
     axios
       .delete(
-        `https://real-estate-backend-9ph8.onrender.com/admin/delete/user/${id}`
+        `https://real-estate-backend-rwp6.onrender.com/admin/delete/user/${id}`
       )
       .then((res) => {
         // setError(true);

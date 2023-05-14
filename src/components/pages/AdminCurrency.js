@@ -16,7 +16,7 @@ const AdminCurrency = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-9ph8.onrender.com/admin/get-currencies")
+      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-currencies")
       .then((res) => {
         setData(res.data.result);
       });
@@ -28,7 +28,7 @@ const AdminCurrency = (props) => {
   const deleteCurrency = (id) => {
     axios
       .delete(
-        `https://real-estate-backend-9ph8.onrender.com/admin/delete/currency/${id}`
+        `https://real-estate-backend-rwp6.onrender.com/admin/delete/currency/${id}`
       )
       .then((res) => {
         setData(res.data.result);

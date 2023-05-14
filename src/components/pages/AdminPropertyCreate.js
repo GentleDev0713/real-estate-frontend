@@ -32,7 +32,7 @@ const AdminUserEdit = (props) => {
     };
     axios
       .post(
-        `https://real-estate-backend-9ph8.onrender.com/admin/category/create`,
+        `https://real-estate-backend-rwp6.onrender.com/admin/category/create`,
         formData
       )
       .then((res) => {

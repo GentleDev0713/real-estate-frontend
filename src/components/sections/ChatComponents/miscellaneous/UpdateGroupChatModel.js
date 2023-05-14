@@ -54,7 +54,7 @@
 //         },
 //       };
 //       const { data } = await axios.put(
-//         `https://real-estate-backend-9ph8.onrender.com/api/chat/groupremove`,
+//         `https://real-estate-backend-rwp6.onrender.com/api/chat/groupremove`,
 //         {
 //           chatId: selectedChat._id,
 //           userId: user1._id,
@@ -102,7 +102,7 @@
 //       };
 
 //       const { data } = await axios.put(
-//         "https://real-estate-backend-9ph8.onrender.com/api/chat/groupadd",
+//         "https://real-estate-backend-rwp6.onrender.com/api/chat/groupadd",
 //         {
 //           chatId: selectedChat._id,
 //           userId: user1._id,
@@ -136,7 +136,7 @@
 //         },
 //       };
 //       const { data } = await axios.put(
-//         "https://real-estate-backend-9ph8.onrender.com/api/chat/rename",
+//         "https://real-estate-backend-rwp6.onrender.com/api/chat/rename",
 //         {
 //           chatId: selectedChat._id,
 //           chatName: groupChatName,
@@ -173,7 +173,7 @@
 //         },
 //       };
 //       const { data } = await axios.get(
-//         `https://real-estate-backend-9ph8.onrender.com/api/user?search=${search}`,
+//         `https://real-estate-backend-rwp6.onrender.com/api/user?search=${search}`,
 //         config
 //       );
 //       console.log(data);

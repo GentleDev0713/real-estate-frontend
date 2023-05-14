@@ -27,7 +27,7 @@ const Banner = () => {
     // const data = await response.json();
 
     axios
-      .get("https://real-estate-backend-9ph8.onrender.com/submitlisting/submit")
+      .get("https://real-estate-backend-rwp6.onrender.com/submitlisting/submit")
       .then((res) => {
         const find = res.data.result.find((res) => res._id === id);
         setData(find);

@@ -33,7 +33,7 @@ const Listings = () => {
 
   const SubmitlistingData = async () => {
     const resposne = await fetch(
-      "https://real-estate-backend-9ph8.onrender.com/submitlisting/submit"
+      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit"
     );
     const data = await resposne.json();
     setState(data.result);
@@ -103,7 +103,7 @@ const Listings = () => {
         };
 
         const { data } = await axios.post(
-          "https://real-estate-backend-9ph8.onrender.com/api/chat",
+          "https://real-estate-backend-rwp6.onrender.com/api/chat",
           { userId },
           config
         );
@@ -431,7 +431,7 @@ const Listings = () => {
                   <div className="md:w-9/12 lg:w-4/6  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                     <div className="w-32 pr-12">
                       <img
-                        src="https://real-estate-frontend-uevy.onrender.com/assets/img/exclaimationMark.png "
+                        src="https://real-estate-frontend-u4cg.onrender.com/assets/img/exclaimationMark.png "
                         width={"100%"}
                       />
                     </div>
@@ -511,7 +511,7 @@ const Listings = () => {
                             <div className="listing-author">
                               <img
                                 src={
-                                  "https://real-estate-frontend-uevy.onrender.com/assets/img/people/2.jpg"
+                                  "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
                                 }
                                 alt="author"
                               />
@@ -648,7 +648,7 @@ const Listings = () => {
             ) : !state ? (
               <div className="">
                 <div className="flex justify-center">
-                  <img src="https://real-estate-frontend-uevy.onrender.com/assets/img/Loading.gif" />
+                  <img src="https://real-estate-frontend-u4cg.onrender.com/assets/img/Loading.gif" />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">
                   Loading .....
@@ -713,7 +713,7 @@ const Listings = () => {
                           <div className="listing-author">
                             <img
                               src={
-                                "https://real-estate-frontend-uevy.onrender.com/assets/img/people/2.jpg"
+                                "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
                               }
                               alt="author"
                             />
@@ -852,7 +852,7 @@ const Listings = () => {
             {/* Promoitional Banner */}
             {/* <div className="mt-72">
               <img
-                src="https://real-estate-frontend-uevy.onrender.com/assets/img/PromotionalBanner.png"
+                src="https://real-estate-frontend-u4cg.onrender.com/assets/img/PromotionalBanner.png"
                 className="h-96"
               />
             </div> */}

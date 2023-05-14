@@ -22,7 +22,7 @@ const Content = () => {
 
   const getData = async () => {
     const response = await fetch(
-      "https://real-estate-backend-9ph8.onrender.com/submitlisting/submit",
+      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
       {
         method: "GET",
         headers: {
@@ -87,7 +87,7 @@ const Content = () => {
                 <div className="md:w-9/12 lg:w-4/6  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                   <div className="w-32 pr-12">
                     <img
-                      src="https://real-estate-frontend-uevy.onrender.com/assets/img/exclaimationMark.png "
+                      src="https://real-estate-frontend-u4cg.onrender.com/assets/img/exclaimationMark.png "
                       width={"20%"}
                     />
                   </div>
@@ -162,7 +162,7 @@ const Content = () => {
                           <div className="listing-author">
                             <img
                               src={
-                                "https://real-estate-frontend-uevy.onrender.com/assets/img/people/2.jpg"
+                                "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
                               }
                               alt="author"
                             />
@@ -285,7 +285,7 @@ const Content = () => {
               <div className="md:w-9/12 lg:w-4/6 my-4  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                 <div className="w-32 pr-12">
                   <img
-                    src="https://real-estate-frontend-uevy.onrender.com/assets/img/exclaimationMark.png"
+                    src="https://real-estate-frontend-u4cg.onrender.com/assets/img/exclaimationMark.png"
                     width={"100%"}
                   />
                 </div>
@@ -348,7 +348,7 @@ const Content = () => {
                     <div className="listing-author">
                       <img
                         src={
-                          "https://real-estate-frontend-uevy.onrender.com/assets/img/people/2.jpg"
+                          "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
                         }
                         alt="author"
                       />

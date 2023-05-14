@@ -20,7 +20,7 @@ const AdminFeatureEdit = (props) => {
   useEffect(() => {
     axios
       .get(
-        `https://real-estate-backend-9ph8.onrender.com/admin/feature/${params.id}`
+        `https://real-estate-backend-rwp6.onrender.com/admin/feature/${params.id}`
       )
       .then((res) => {
         setName(res.data.result.name);
@@ -62,7 +62,7 @@ const AdminFeatureEdit = (props) => {
     };
     axios
       .put(
-        `https://real-estate-backend-9ph8.onrender.com/admin/feature/${params.id}/update`,
+        `https://real-estate-backend-rwp6.onrender.com/admin/feature/${params.id}/update`,
         formData
       )
       .then((res) => {

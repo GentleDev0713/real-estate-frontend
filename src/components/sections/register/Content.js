@@ -64,7 +64,7 @@ const Content = () => {
       setFile(avatar);
     }
 
-    await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
+    await fetch("https://real-estate-backend-rwp6.onrender.com/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

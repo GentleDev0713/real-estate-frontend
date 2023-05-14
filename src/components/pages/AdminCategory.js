@@ -16,7 +16,7 @@ const AdminCategory = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-9ph8.onrender.com/admin/get-categories")
+      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-categories")
       .then((res) => {
         setData(res.data.result);
       });
@@ -28,7 +28,7 @@ const AdminCategory = (props) => {
   const deleteCategory = (id) => {
     axios
       .delete(
-        `https://real-estate-backend-9ph8.onrender.com/admin/delete/category/${id}`
+        `https://real-estate-backend-rwp6.onrender.com/admin/delete/category/${id}`
       )
       .then((res) => {
         setData(res.data.result);
