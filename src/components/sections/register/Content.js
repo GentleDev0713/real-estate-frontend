@@ -19,6 +19,8 @@ const Content = () => {
   };
 
   const postData = async () => {
+    console.log(file);
+
     await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
       method: "POST",
       headers: {
@@ -38,7 +40,6 @@ const Content = () => {
         data.Msg === "register" ? registerUser(data) : setError(true);
         setErrorMsg(data.Msg);
       });
-    // console.log(file);
   };
 
   const images = [
