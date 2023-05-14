@@ -36,6 +36,7 @@ import "./index.css";
 import PropertyListing from "./components/pages/PropertyListing";
 import View from "./components/sections/view-all/View-All";
 
+import AdminLogin from "./components/pages/AdminLogin";
 import AdminPanel from "./components/pages/AdminPanel";
 import AdminUser from "./components/pages/AdminUser";
 import AdminUserEdit from "./components/pages/AdminUserEdit";
@@ -135,6 +136,7 @@ const App = () => {
       ) : (
         <Routes>
           <Route exact path="/" element={<Homefour />} />
+          <Route exact path="/admin" element={<AdminLogin />} />
           <Route exact path="/submit-listing" element={<Submitlisting />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/agent" element={<Retirement />} />
