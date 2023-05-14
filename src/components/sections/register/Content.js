@@ -6,6 +6,8 @@ import avatar from "../../../assets/img/profile.png";
 import convertToBase64 from "../../../helper/convert";
 
 const Content = () => {
+  const toast = useToast();
+
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
@@ -13,7 +15,6 @@ const Content = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("Buyer");
   const [file, setFile] = useState();
-  const toast = useToast();
 
   const registerUser = (data) => {
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -21,19 +22,20 @@ const Content = () => {
   };
 
   const postData = async () => {
-    console.log(name, email, password);
-    if (name == "") {
+    if (!name || name === undefined) {
+      alert("sdfsdfs");
       toast({
         title: "Error",
         description: "Enter your username.",
         status: "error",
         duration: 2000,
-        variant: "left-accent",
+        // variant: "left-accent",
         position: "top-right",
         isClosable: true,
       });
+      return false;
     }
-    if (email == "") {
+    if (!email || email === "") {
       toast({
         title: "Error",
         description: "Enter your Email address.",
@@ -43,8 +45,9 @@ const Content = () => {
         position: "top-right",
         isClosable: true,
       });
+      return false;
     }
-    if (password == "") {
+    if (!password || password === "") {
       toast({
         title: "Error",
         description: "Enter the password.",
@@ -54,27 +57,32 @@ const Content = () => {
         position: "top-right",
         isClosable: true,
       });
+      return false;
     }
 
-    // await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     mode: "no-cors",
-    //   },
-    //   body: JSON.stringify({
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //     user: user,
-    //     pic: file,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     data.Msg === "register" ? registerUser(data) : setError(true);
-    //     setErrorMsg(data.Msg);
-    //   });
+    if (!file) {
+      setFile(avatar);
+    }
+
+    await fetch("https://real-estate-backend-9ph8.onrender.com/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        user: user,
+        pic: file,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        data.Msg === "register" ? registerUser(data) : setError(true);
+        setErrorMsg(data.Msg);
+      });
   };
 
   const images = [

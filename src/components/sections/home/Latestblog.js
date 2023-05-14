@@ -15,7 +15,6 @@ const Latestblog = () => {
       "https://real-estate-backend-9ph8.onrender.com/submitlisting/submit"
     );
     const data = await resposne.json();
-    console.log(data.result.slice(-2));
     setState(data.result.slice(-2));
   };
 

@@ -112,9 +112,10 @@ const Menu = () => {
                 Properties
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {statuslist.map((res) => {
+                {statuslist.map((res, key) => {
                   return (
                     <Dropdown.Item
+                      key={key}
                       href="#/action-1"
                       style={{
                         padding: "6% 2%",
@@ -153,9 +154,10 @@ const Menu = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                {statuslist.map((res) => {
+                {statuslist.map((res, key) => {
                   return (
                     <Dropdown.Item
+                      key={key}
                       href="#/action-1"
                       style={{
                         padding: "6% 2%",
@@ -194,10 +196,11 @@ const Menu = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                {statuslist.map((res) => {
+                {statuslist.map((res, key) => {
                   return (
                     <Dropdown.Item
                       href="#/action-1"
+                      key={key}
                       style={{
                         padding: "6% 2%",
                         margin: "0px 8px",

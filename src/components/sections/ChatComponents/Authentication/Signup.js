@@ -27,7 +27,6 @@ const Signup = () => {
   const handleClick = () => setShow(!show);
 
   const postDetails = (pics) => {
-    console.log("active()");
     setLoading(true);
     if (pics === undefined) {
       toast({
