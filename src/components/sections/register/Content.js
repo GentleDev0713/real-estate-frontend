@@ -21,10 +21,32 @@ const Content = () => {
   };
 
   const postData = async () => {
-    if (!name) {
+    if (name == "") {
       toast({
         title: "Error",
         description: "Enter your username.",
+        status: "error",
+        duration: 2000,
+        variant: "left-accent",
+        position: "top-right",
+        isClosable: true,
+      });
+    }
+    if (email == "") {
+      toast({
+        title: "Error",
+        description: "Enter your Email address.",
+        status: "error",
+        duration: 2000,
+        variant: "left-accent",
+        position: "top-right",
+        isClosable: true,
+      });
+    }
+    if (password == "") {
+      toast({
+        title: "Error",
+        description: "Enter the password.",
         status: "error",
         duration: 2000,
         variant: "left-accent",
