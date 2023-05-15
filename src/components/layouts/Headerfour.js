@@ -88,6 +88,10 @@ const Headerfour = () => {
               <ul className="top-header-nav">
                 <li>
                   {" "}
+                  <Link to={"/admin"}> Admin Login</Link>{" "}
+                </li>
+                <li>
+                  {" "}
                   <Link to={"/login"}> Login</Link>{" "}
                 </li>
                 <li>or</li>
