@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useToast } from "@chakra-ui/react";
-import avatar from "../../../assets/img/profile.png";
 import convertToBase64 from "../../../helper/convert";
+import axios from "axios";
 
 const Content = () => {
   const toast = useToast();
@@ -15,6 +15,10 @@ const Content = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("Buyer");
   const [file, setFile] = useState();
+  const [url, setUrl] = useState();
+  const [verify, setVerify] = useState(false);
+  const [code, setCode] = useState("");
+  const [id, setId] = useState("");
 
   const registerUser = (data) => {
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -58,29 +62,44 @@ const Content = () => {
       });
       return false;
     }
+    const formData = new FormData();
 
-    if (!file) {
-      setFile(avatar);
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("user", user);
+    formData.append("pic", file);
+
+    await axios
+      .post("https://real-estate-backend-rwp6.onrender.com/register", formData)
+      .then((res) => {
+        setVerify(true);
+        setId(res.data.user.id);
+      });
+  };
+
+  const postDataVerify = async () => {
+    if (!code || code === undefined) {
+      toast({
+        title: "Error",
+        description: "Enter your username.",
+        status: "error",
+        duration: 2000,
+        variant: "left-accent",
+        position: "top-right",
+        isClosable: true,
+      });
+      return false;
     }
 
-    await fetch("https://real-estate-backend-rwp6.onrender.com/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        mode: "no-cors",
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-        user: user,
-        pic: file,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data.Msg === "register" ? registerUser(data) : setError(true);
-        setErrorMsg(data.Msg);
+    await axios
+      .post(
+        `https://real-estate-backend-rwp6.onrender.com/register-verify/${id}`,
+        { code: code }
+      )
+      .then((res) => {
+        res.data.Msg === "register" ? registerUser(res.data) : setError(true);
+        setErrorMsg(res.data.Msg);
       });
   };
 
@@ -113,156 +132,269 @@ const Content = () => {
 
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
-    setFile(base64);
+    setUrl(base64);
+    setFile(e.target.files[0]);
   };
 
   return (
     <div className="acr-auth-container">
       <div className="acr-auth-content">
-        <form
-          className="py-1"
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <div className="auth-text">
-            <h3>Create An Acres Account</h3>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's
-            </p>
-          </div>
-          <div className="profile flex justify-center py-4">
-            <label htmlFor="profile">
-              <img
-                src={file || avatar}
-                className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
-                alt="avatar"
-              />
-            </label>
-            <input
-              onChange={onUpload}
-              type="file"
-              id="profile"
-              name="pic"
-              style={{ display: "none" }}
-            />
-          </div>
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="form-control form-control-light"
-              placeholder="Username"
-              name="username"
-            />
-          </div>
-          <div className="form-group">
-            <label>Email Address or mobile number</label>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-control form-control-light"
-              placeholder="Email Address"
-              name="email"
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-control form-control-light"
-              placeholder="Password"
-              name="password"
-            />
-          </div>
-          <div className="form-group">
-            <label>User</label>
-            <select
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              type="user"
-              className="form-control"
-            >
-              <option value="Buyer">Buyer</option>
-              <option value="Seller">Seller</option>
-            </select>
-          </div>
-          <button
-            type="Submit"
-            className="btn-custom secondary btn-block"
-            onClick={() => postData()}
+        {verify ? (
+          <form
+            className="py-1"
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            // enctype="multipart/form-data"
+            // method="post"
           >
-            Register
-          </button>
+            <div className="auth-text">
+              <h3>Create An Acres Account</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's
+              </p>
+            </div>
+            <div className="profile flex justify-center py-4">
+              <label htmlFor="profile">
+                <img
+                  src={
+                    url ||
+                    "https://real-estate-backend-rwp6.onrender.com/uploads/profiles/profile.png"
+                  }
+                  className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
+                  alt="avatar"
+                />
+              </label>
+              <input
+                onChange={onUpload}
+                type="file"
+                id="profile"
+                name="pic"
+                style={{ display: "none" }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Verification Code</label>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                className="form-control form-control-light"
+                placeholder="Enter your verification code"
+                name="code"
+              />
+            </div>
+            <button
+              type="Submit"
+              className="btn-custom secondary btn-block"
+              onClick={() => postDataVerify()}
+            >
+              Verify
+            </button>
 
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {error ? (
-              <div
-                style={{
-                  marginTop: "20px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "80%",
-                  backgroundColor: "#FF3131",
-                  color: "white",
-                  padding: "10px 20px 10px 20px",
-                  borderRadius: "5px",
-                  alignItems: "center",
-                }}
-              >
-                <span>{error ? `${errorMsg}` : ""}</span>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {error ? (
                 <div
                   style={{
-                    cursor: "pointer",
+                    marginTop: "20px",
                     display: "flex",
-                    justifyContent: "center",
-                    border: "white 2px solid",
-                    borderRadius: "30px",
-                    width: "40px",
+                    justifyContent: "space-between",
+                    width: "80%",
                     backgroundColor: "#FF3131",
-                    height: "40px",
-                  }}
-                  onClick={() => {
-                    setError(false);
+                    color: "white",
+                    padding: "10px 20px 10px 20px",
+                    borderRadius: "5px",
+                    alignItems: "center",
                   }}
                 >
-                  <p
+                  <span>{error ? `${errorMsg}` : ""}</span>
+                  <div
                     style={{
-                      color: "white",
-                      alignItems: "center",
-                      marginTop: "3px",
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      border: "white 2px solid",
+                      borderRadius: "30px",
+                      width: "40px",
+                      backgroundColor: "#FF3131",
+                      height: "40px",
+                    }}
+                    onClick={() => {
+                      setError(false);
                     }}
                   >
-                    x
-                  </p>
+                    <p
+                      style={{
+                        color: "white",
+                        alignItems: "center",
+                        marginTop: "3px",
+                      }}
+                    >
+                      x
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+              ) : (
+                ""
+              )}
+            </div>
 
-          <div className="auth-seperator">
-            <span>OR</span>
-          </div>
-          <div className="social-login">
-            <button type="button" className="acr-social-login facebook">
-              <i className="fab fa-facebook-f" /> Continue with Facebook{" "}
+            <p className="text-center mb-0">
+              Already have an account? <Link to="/login">Login</Link>{" "}
+            </p>
+          </form>
+        ) : (
+          <form
+            className="py-1"
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            // enctype="multipart/form-data"
+            // method="post"
+          >
+            <div className="auth-text">
+              <h3>Create An Acres Account</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's
+              </p>
+            </div>
+            <div className="profile flex justify-center py-4">
+              <label htmlFor="profile">
+                <img
+                  src={
+                    url ||
+                    "https://real-estate-backend-rwp6.onrender.com/uploads/profiles/profile.png"
+                  }
+                  className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
+                  alt="avatar"
+                />
+              </label>
+              <input
+                onChange={onUpload}
+                type="file"
+                id="profile"
+                name="pic"
+                style={{ display: "none" }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="form-control form-control-light"
+                placeholder="Username"
+                name="username"
+              />
+            </div>
+            <div className="form-group">
+              <label>Email Address or mobile number</label>
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-control form-control-light"
+                placeholder="Email Address"
+                name="email"
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-control form-control-light"
+                placeholder="Password"
+                name="password"
+              />
+            </div>
+            <div className="form-group">
+              <label>User</label>
+              <select
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                type="user"
+                className="form-control"
+              >
+                <option value="Buyer">Buyer</option>
+                <option value="Seller">Seller</option>
+              </select>
+            </div>
+            <button
+              type="Submit"
+              className="btn-custom secondary btn-block"
+              onClick={() => postData()}
+            >
+              Register
             </button>
-            <button type="button" className="acr-social-login google">
-              <i className="fab fa-google" /> Continue with Google
-            </button>
-          </div>
-          <p className="text-center mb-0">
-            Already have an account? <Link to="/login">Login</Link>{" "}
-          </p>
-        </form>
+
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {error ? (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "80%",
+                    backgroundColor: "#FF3131",
+                    color: "white",
+                    padding: "10px 20px 10px 20px",
+                    borderRadius: "5px",
+                    alignItems: "center",
+                  }}
+                >
+                  <span>{error ? `${errorMsg}` : ""}</span>
+                  <div
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      border: "white 2px solid",
+                      borderRadius: "30px",
+                      width: "40px",
+                      backgroundColor: "#FF3131",
+                      height: "40px",
+                    }}
+                    onClick={() => {
+                      setError(false);
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: "white",
+                        alignItems: "center",
+                        marginTop: "3px",
+                      }}
+                    >
+                      x
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="auth-seperator">
+              <span>OR</span>
+            </div>
+            <div className="social-login">
+              <button type="button" className="acr-social-login facebook">
+                <i className="fab fa-facebook-f" /> Continue with Facebook{" "}
+              </button>
+              <button type="button" className="acr-social-login google">
+                <i className="fab fa-google" /> Continue with Google
+              </button>
+            </div>
+            <p className="text-center mb-0">
+              Already have an account? <Link to="/login">Login</Link>{" "}
+            </p>
+          </form>
+        )}
       </div>
       <div className="acr-auth-bg">
         <Slider className="acr-auth-bg-slider acr-cs-bg-slider" {...settings}>

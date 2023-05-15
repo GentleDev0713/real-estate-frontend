@@ -130,8 +130,8 @@ const App = () => {
           <Route path="/buy" element={<Pricing />} />
           <Route path="/sell" element={<Sell />} />
           <Route path="/rent" element={<Rent />} />
-          <Route path="/register" element={<Register />} />
 
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/chat" element={<Chat />} />
           <Route

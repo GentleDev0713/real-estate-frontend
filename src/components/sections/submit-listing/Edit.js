@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Tab, Nav } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
@@ -8,8 +8,9 @@ import { statusList } from "../../../data/common";
 
 import { Container, useToast } from "@chakra-ui/react";
 
-function Content() {
+function Edit() {
   const toast = useToast();
+  const params = useParams();
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -35,7 +36,43 @@ function Content() {
       .then((res) => {
         setFeatureList(res.data.result);
       });
-  }, []);
+    axios
+      .get(
+        `https://real-estate-backend-rwp6.onrender.com/admin/property/${params.id}`
+      )
+      .then((res) => {
+        let data = res.data.result;
+        setDescription(data.BasicInformation.description);
+        setName(data.BasicInformation.name);
+        setStatus(data.BasicInformation.status);
+        setType(data.BasicInformation.type);
+        setCurrency(data.BasicInformation.currency);
+        setPrice(data.BasicInformation.price);
+        setPeriod(data.BasicInformation.period);
+        setSpace(data.BasicInformation.space);
+        setVideo(data.BasicInformation.video);
+        setThumbnail(data.Gallery.file);
+        setFiles(data.Gallery.picture);
+        setLocation({
+          lat: data.Location.latitude,
+          long: data.Location.longitude,
+          region: data.Location.region,
+          address: data.Location.address,
+        });
+        let features = data.Features[0].split(",");
+        setFeatures(features);
+        setId(data.Details.id);
+        setBeds(data.Details.beds);
+        setBaths(data.Details.bathrooms);
+        setCondition(data.Details.condition);
+        setBuilt(data.Details.built);
+        setNeighbor(data.Details.neighbor);
+        setLiving(data.Details.living);
+        setDining(data.Details.dining);
+        setStory(data.Details.story);
+        setParking(data.Details.parking);
+      });
+  }, [params.id]);
 
   // Error
   const [error, setError] = useState(undefined);
@@ -71,8 +108,8 @@ function Content() {
     },
   });
 
-  const thumbs = files.map((file) => (
-    <div className="thumb" key={file.name}>
+  const thumbs = files.map((file, key) => (
+    <div className="thumb" key={key}>
       <div className="thumbInner">
         <img src={file.preview} alt="img" />
       </div>
@@ -97,7 +134,7 @@ function Content() {
   //  Feature
   const [features, setFeatures] = useState([]);
   const featuresData = (id) => {
-    if (features.indexOf(id) != -1) {
+    if (features.indexOf(id) !== -1) {
       features.splice(features.indexOf(id), 1);
     } else {
       setFeatures([...features, id]);
@@ -271,53 +308,43 @@ function Content() {
     if (user === null) {
       alert("You need to login first");
     } else {
-      const formData = new FormData();
-
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("status", status);
-      formData.append("type", type ? type : typeList[0].name);
-      formData.append("currency", currency ? currency : currencyList[0].symbol);
-      formData.append("price", price);
-      formData.append("period", period ? period : "Monthly");
-      formData.append("space", space);
-      formData.append("video", video);
-
-      formData.append("thumbnail", thumbnail);
-      files.map((file, inx) => formData.append("picture", file));
-
-      formData.append("lat", location.lat);
-      formData.append("long", location.long);
-      formData.append("address", location.address);
-      formData.append("region", location.region);
-
-      formData.append("features", features);
-
-      formData.append("id", id);
-      formData.append("beds", beds);
-      formData.append("bathrooms", baths);
-      formData.append("condition", condition);
-      formData.append("built", built);
-      formData.append("neighbor", neighbor);
-      formData.append("living", living);
-      formData.append("dining", dining);
-      formData.append("story", story);
-      formData.append("parking", parking);
-
-      formData.append("category", type ? type : typeList[0].name);
-      // formData.append("buy");
-
-      formData.append("authorname", user.name);
-      formData.append("email", user.email);
-      formData.append("authorId", user._id);
-
+      const formData = {
+        name: name,
+        description: description,
+        status: status,
+        type: type ? type : typeList[0].name,
+        currency: currency ? currency : currencyList[0].symbol,
+        price: price,
+        period: period ? period : "Monthly",
+        space: space,
+        video: video,
+        lat: location.lat,
+        long: location.long,
+        address: location.address,
+        region: location.region,
+        id: id,
+        beds: beds,
+        bathrooms: baths,
+        condition: condition,
+        built: built,
+        neighbor: neighbor,
+        living: living,
+        dining: dining,
+        story: story,
+        parking: parking,
+        category: type ? type : typeList[0].name,
+        authorname: user.name,
+        email: user.email,
+        authorId: user._id,
+      };
+      console.log(formData);
       axios
-        .post(
-          "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
+        .put(
+          `https://real-estate-backend-rwp6.onrender.com/admin/property/${params.id}/update`,
+          formData
+          // {
+          //   headers: { "Content-Type": "multipart/form-data" },
+          // }
         )
         .then((res) => {
           const Msg = res.data.Msg;
@@ -802,4 +829,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default Edit;

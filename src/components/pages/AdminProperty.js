@@ -87,6 +87,7 @@ const AdminProperty = (props) => {
           <thead>
             <tr>
               <th>No</th>
+              <th>ID</th>
               <th>Name</th>
               <th>Description</th>
               <th>Type</th>
@@ -99,23 +100,24 @@ const AdminProperty = (props) => {
           <tbody>
             {data.length == 0 ? (
               <tr>
-                <td colSpan="8">No Data</td>
+                <td colSpan="9">No Data</td>
               </tr>
             ) : (
               <></>
             )}
             {data.map((res, key) => {
               return (
-                <tr>
+                <tr key={key}>
                   <td>{key + 1}</td>
+                  <td>{res.Details.id}</td>
                   <td>{res.BasicInformation.name}</td>
                   <td>{res.BasicInformation.description}</td>
                   <td>{res.BasicInformation.type}</td>
                   <td>{res.BasicInformation.status}</td>
                   <td>
                     {res.BasicInformation.status === "Rental"
-                      ? `$${res.BasicInformation.price}/${res.BasicInformation.period}`
-                      : `$${res.BasicInformation.price}`}
+                      ? `${res.BasicInformation.currency}${res.BasicInformation.price}/${res.BasicInformation.period}`
+                      : `${res.BasicInformation.currency}${res.BasicInformation.price}`}
                   </td>
                   <td>{res.BasicInformation.space}</td>
                   <td>
