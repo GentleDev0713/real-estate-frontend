@@ -36,7 +36,6 @@ const Listings = () => {
       "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit"
     );
     const data = await resposne.json();
-    console.log(data);
     setState(data.result);
   };
 
