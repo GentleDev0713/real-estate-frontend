@@ -24,17 +24,18 @@ const Listingwrapper = () => {
   const [state, setState] = useState({
     Location: "location",
     BasicInformation: "BasicInformation",
-
     Details: "Details",
     Features: "Features",
     Gallery: "Gallery",
   });
+
+  const [featureList, setFeatureList] = useState([]);
   const [showmore, setShowMore] = useState(false);
   const { id } = useParams();
 
   const getData = async () => {
     const response = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
+      "https://real-estate-backend-rwp6.onrender.com/submitlisting/get-properties",
       {
         method: "GET",
         headers: {
@@ -46,6 +47,18 @@ const Listingwrapper = () => {
     const data = await response.json();
     const find = data.result.find((res) => res._id === id);
     setState(find);
+    const features = await fetch(
+      "https://real-estate-backend-rwp6.onrender.com/admin/get-features",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          mode: "no-cors",
+        },
+      }
+    );
+    const featureList = await features.json();
+    setFeatureList(featureList.result);
   };
   useEffect(() => {
     getData();
@@ -69,18 +82,7 @@ const Listingwrapper = () => {
             {/* Content Start */}
             <div className="listing-content">
               <h4>Property Overview</h4>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </p>
+              <p>{state.BasicInformation.description}</p>
               <div className="row">
                 {state.Gallery.picture &&
                   state.Gallery.picture.map((item, i) => (
@@ -90,7 +92,11 @@ const Listingwrapper = () => {
                         className="gallery-thumb"
                         style={{ border: "none", background: "none" }}
                       >
-                        <img src={`/${item}`} alt="post" />
+                        <img
+                          src={`https://real-estate-backend-rwp6.onrender.com/${item}`}
+                          alt="post"
+                          style={{ width: "300px", height: "200px" }}
+                        />
                       </button>
                     </div>
                   ))}
@@ -108,7 +114,10 @@ const Listingwrapper = () => {
             {/* Price Range In the area Start */}
             <div className="section">
               <div className="acr-area-price">
-                <span style={{ left: "30%" }}>852,000$</span>
+                <span style={{ left: "30%" }}>
+                  {state.BasicInformation.price}
+                  {state.BasicInformation.currency}
+                </span>
                 <div className="progress">
                   <div
                     className="progress-bar"
@@ -139,37 +148,63 @@ const Listingwrapper = () => {
                 <div className="col-lg-6 col-md-6">
                   <div className="listing-feature-wrapper">
                     <div className="listing-feature">
+                      <i className="flaticon-key" />
+                      <h6 className="listing-feature-label">Property Id</h6>
+                      <span className="listing-feature-value">
+                        {state.Details.id}
+                      </span>
+                    </div>
+                    <div className="listing-feature">
+                      <i className="flaticon-garage" />
+                      <h6 className="listing-feature-label">Parking</h6>
+                      <span className="listing-feature-value">
+                        {state.Details.parking}
+                      </span>
+                    </div>
+                    <div className="listing-feature">
+                      <i className="flaticon-garage" />
+                      <h6 className="listing-feature-label">
+                        Building Stories
+                      </h6>
+                      <span className="listing-feature-value">
+                        {state.Details.story}
+                      </span>
+                    </div>
+                    <div className="listing-feature">
+                      <i className="flaticon-history" />
+                      <h6 className="listing-feature-label">Year Built</h6>
+                      <span className="listing-feature-value">
+                        {state.Details.built}
+                      </span>
+                    </div>
+                    <div className="listing-feature">
                       <i className="flaticon-picture" />
                       <h6 className="listing-feature-label">Propery Type</h6>
                       <span className="listing-feature-value">
                         {state.BasicInformation.type}
                       </span>
                     </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-bone" />
-                      <h6 className="listing-feature-label">Pet Friendly</h6>
-                      <span className="listing-feature-value">
-                        {state.Features.pet ? "YES" : "NO"}
-                      </span>
-                    </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-chair" />
-                      <h6 className="listing-feature-label">Furnished</h6>
-                      <span className="listing-feature-value">
-                        {state.Features.furnished ? "YES" : "NO"}
-                      </span>
-                    </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-fan" />
-                      <h6 className="listing-feature-label">Cooling</h6>
-                      <span className="listing-feature-value">
-                        {state.Features.cooling ? "YES" : "NO"}
-                      </span>
-                    </div>
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6">
                   <div className="listing-feature-wrapper">
+                    <div className="listing-feature">
+                      <i className="flaticon-ruler" />
+                      <h6 className="listing-feature-label">Property Size</h6>
+                      <span className="listing-feature-value">
+                        {`${state.BasicInformation.space} sqft`}
+                      </span>
+                    </div>
+                    <div className="listing-feature">
+                      <i className="flaticon-ruler" />
+                      <h6 className="listing-feature-label">Lot Size</h6>
+                      <span className="listing-feature-value">89 Acres</span>
+                    </div>
+                    <div className="listing-feature">
+                      <i className="flaticon-ruler" />
+                      <h6 className="listing-feature-label">Grading</h6>
+                      <span className="listing-feature-value">Yes</span>
+                    </div>
                     <div className="listing-feature">
                       <i className="flaticon-bathroom" />
                       <h6 className="listing-feature-label">Bathrooms</h6>
@@ -184,56 +219,24 @@ const Listingwrapper = () => {
                         {state.Details.beds}
                       </span>
                     </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-mailbox" />
-                      <h6 className="listing-feature-label">Mail box</h6>
-                      <span className="listing-feature-value">
-                        {state.Features.mail ? "YES" : "NO"}
-                      </span>
-                    </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-ruler" />
-                      <h6 className="listing-feature-label">Property Size</h6>
-                      <span className="listing-feature-value">
-                        {`${state.BasicInformation.space} sqft`}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>
-              <button
-                type="button"
-                className={
-                  showmore
-                    ? "d-none"
-                    : "load-more-features btn-custom-2 light-grey btn-block"
-                }
-                onClick={() => setShowMore(true)}
-              >
-                Show More
-              </button>
+
               <div className={showmore ? "d-block" : `hidden-listing-features`}>
                 <div className="row">
                   <div className="col-lg-6 col-md-6">
-                    <div className="listing-feature">
-                      <i className="flaticon-key" />
-                      <h6 className="listing-feature-label">Property Id</h6>
-                      <span className="listing-feature-value">
-                        {state.Details.id}
-                      </span>
-                    </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-garage" />
-                      <h6 className="listing-feature-label">Parking</h6>
-                      <span className="listing-feature-value">
-                        {state.Features.parking ? "YES" : "NO"}
-                      </span>
-                    </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-history" />
-                      <h6 className="listing-feature-label">Year Built</h6>
-                      <span className="listing-feature-value">1979</span>
-                    </div>
+                    {featureList
+                      .slice(0, featureList.length / 2 + 1)
+                      .map((item, key) => (
+                        <div key={key} className="listing-feature">
+                          <i className={`flaticon-${item.icon}`}></i>
+                          <h6 className="listing-feature-label">{item.name}</h6>
+                          {state.Features.indexOf(item._id) !== -1
+                            ? "Yes"
+                            : "No"}
+                        </div>
+                      ))}
                   </div>
                   <div className="col-lg-6 col-md-6">
                     <div className="listing-feature">
@@ -245,21 +248,29 @@ const Listingwrapper = () => {
                           : "--"}
                       </span>
                     </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-ruler" />
-                      <h6 className="listing-feature-label">Lot Size</h6>
-                      <span className="listing-feature-value">89 Acres</span>
-                    </div>
-                    <div className="listing-feature">
-                      <i className="flaticon-eye" />
-                      <h6 className="listing-feature-label">View</h6>
-                      <span className="listing-feature-value">
-                        {state.Features.view ? "YES" : "NO"}
-                      </span>
-                    </div>
+                    {featureList
+                      .slice(featureList.length / 2 + 1)
+                      .map((item, key) => (
+                        <div key={key} className="listing-feature">
+                          <i className={`flaticon-${item.icon}`}></i>
+                          <h6 className="listing-feature-label">{item.name}</h6>
+                          <span className="listing-feature-value">
+                            {state.Features.indexOf(item._id) !== -1
+                              ? "Yes"
+                              : "No"}
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
+              <button
+                type="button"
+                className="load-more-features btn-custom-2 light-grey btn-block"
+                onClick={() => setShowMore(!showmore)}
+              >
+                {showmore ? "Few" : "More"}
+              </button>
             </div>
             <div className="section pt-0 acr-listing-nearby">
               <h4>What's Nearby</h4>
@@ -513,103 +524,85 @@ const Listingwrapper = () => {
             <div className="section pt-0 acr-listing-history">
               <h4>Property History</h4>
               <Accordion defaultActiveKey="0" className="with-gap">
-                <Card>
-                  <Accordion.Collapse eventKey="0" className="collapseparent">
-                    <Card.Body>
-                      <div className="row">
-                        <div className="col-sm-4">
-                          <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              "/assets/img/listing-single/history-1.jpg"
-                            }
-                            alt="property history"
-                          />
-                        </div>
-                        <div className="col-sm-8">
-                          <h5>The Beginning</h5>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high
-                          life accusamus terry richardson ad squid. 3 wolf moon
-                          officia aute, non cupidatat skateboard dolor brunch.
-                          Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-                          wolf moon tempor, sunt aliqua put a bird on it squid
-                          single-origin coffee nulla assumenda shoreditch et.
-                          Nihil anim keffiyeh helvetica, craft beer labore wes
-                          anderson cred nesciunt sapiente ea proident. Ad vegan
-                          excepteur butcher vice lomo. Leggings occaecat craft
-                          beer farm-to-table, raw denim aesthetic synth nesciunt
-                          you probably haven't heard of them accusamus labore
-                          sustainable VHS.
-                        </div>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>1979 - 1999</Accordion.Header>
+                  <Accordion.Body className="collapseparent">
+                    <div className="row">
+                      <div className="col-sm-4">
+                        <img
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/img/listing-single/history-1.jpg"
+                          }
+                          alt="property history"
+                        />
                       </div>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                  <Card.Header>
-                    <Accordion.Toggle as={NavLink} variant="link" eventKey="0">
-                      1979 - 1999
-                    </Accordion.Toggle>
-                  </Card.Header>
-                </Card>
-                <Card>
-                  <Accordion.Collapse eventKey="1" className="collapseparent">
-                    <Card.Body>
-                      <div className="row">
-                        <div className="col-sm-4">
-                          <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              "/assets/img/listing-single/history-2.jpg"
-                            }
-                            alt="property history"
-                          />
-                        </div>
-                        <div className="col-sm-8">
-                          <h5>The Rebuilding Phase</h5>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high
-                          life accusamus terry richardson ad squid. 3 wolf moon
-                          officia aute, non cupidatat skateboard dolor brunch.
-                          Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-                          wolf moon tempor,
-                        </div>
+                      <div className="col-sm-8">
+                        <h5>The Beginning</h5>
+                        Anim pariatur cliche reprehenderit, enim eiusmod high
+                        life accusamus terry richardson ad squid. 3 wolf moon
+                        officia aute, non cupidatat skateboard dolor brunch.
+                        Food truck quinoa nesciunt laborum eiusmod. Brunch 3
+                        wolf moon tempor, sunt aliqua put a bird on it squid
+                        single-origin coffee nulla assumenda shoreditch et.
+                        Nihil anim keffiyeh helvetica, craft beer labore wes
+                        anderson cred nesciunt sapiente ea proident. Ad vegan
+                        excepteur butcher vice lomo. Leggings occaecat craft
+                        beer farm-to-table, raw denim aesthetic synth nesciunt
+                        you probably haven't heard of them accusamus labore
+                        sustainable VHS.
                       </div>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                  <Card.Header>
-                    <Accordion.Toggle as={NavLink} variant="link" eventKey="1">
-                      2000 - 2012
-                    </Accordion.Toggle>
-                  </Card.Header>
-                </Card>
-                <Card>
-                  <Accordion.Collapse eventKey="2" className="collapseparent">
-                    <Card.Body>
-                      <div className="row">
-                        <div className="col-sm-4">
-                          <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              "/assets/img/listing-single/history-3.jpg"
-                            }
-                            alt="property history"
-                          />
-                        </div>
-                        <div className="col-sm-8">
-                          <h5>Modernization</h5>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high
-                          life accusamus terry richardson ad squid. 3 wolf moon
-                          officia aute, non cupidatat skateboard dolor brunch.
-                          Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-                          wolf moon tempor,
-                        </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>2000 - 2012</Accordion.Header>
+                  <Accordion.Body className="collapseparent">
+                    <div className="row">
+                      <div className="col-sm-4">
+                        <img
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/img/listing-single/history-2.jpg"
+                          }
+                          alt="property history"
+                        />
                       </div>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                  <Card.Header>
-                    <Accordion.Toggle as={NavLink} variant="link" eventKey="2">
-                      2013 - Till date
-                    </Accordion.Toggle>
-                  </Card.Header>
-                </Card>
+                      <div className="col-sm-8">
+                        <h5>The Rebuilding Phase</h5>
+                        Anim pariatur cliche reprehenderit, enim eiusmod high
+                        life accusamus terry richardson ad squid. 3 wolf moon
+                        officia aute, non cupidatat skateboard dolor brunch.
+                        Food truck quinoa nesciunt laborum eiusmod. Brunch 3
+                        wolf moon tempor,
+                      </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                  <Accordion.Header>2013 - Till date</Accordion.Header>
+                  <Accordion.Body className="collapseparent">
+                    <div className="row">
+                      <div className="col-sm-4">
+                        <img
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/img/listing-single/history-3.jpg"
+                          }
+                          alt="property history"
+                        />
+                      </div>
+                      <div className="col-sm-8">
+                        <h5>Modernization</h5>
+                        Anim pariatur cliche reprehenderit, enim eiusmod high
+                        life accusamus terry richardson ad squid. 3 wolf moon
+                        officia aute, non cupidatat skateboard dolor brunch.
+                        Food truck quinoa nesciunt laborum eiusmod. Brunch 3
+                        wolf moon tempor,
+                      </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
               </Accordion>
             </div>
             <div className="section pt-0">
@@ -685,167 +678,11 @@ const Listingwrapper = () => {
             </div>
             {/* Pagination End */}
             {/* Similar Start */}
-            <div className="section section-padding">
-              <h4>Similar Listings</h4>
-              <div className="row">
-                {/* Listing Start */}
-                {listing.slice(0, 2).map((item, i) => (
-                  <div key={i} className="col-md-6">
-                    <div className="listing">
-                      <div className="listing-thumbnail">
-                        <Link to="/listing-details-v1">
-                          <img
-                            src={process.env.PUBLIC_URL + "/" + item.gridimg}
-                            alt="listing"
-                          />
-                        </Link>
-                        <div className="listing-badges">
-                          {item.star === true ? (
-                            <span className="listing-badge featured">
-                              {" "}
-                              <i className="fas fa-star" />{" "}
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                          {item.sale === true ? (
-                            <span className="listing-badge sale">On Sale</span>
-                          ) : (
-                            ""
-                          )}
-                          {item.pending === true ? (
-                            <span className="listing-badge pending">
-                              {" "}
-                              Pending
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                          {item.rental === true ? (
-                            <span className="listing-badge rent"> Rental</span>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="listing-controls">
-                          <Link to="#" className="favorite">
-                            <i className="far fa-heart" />
-                          </Link>
-                          <Link to="#" className="compare">
-                            <i className="fas fa-sync-alt" />
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="listing-body">
-                        <div className="listing-author">
-                          <img
-                            src={process.env.PUBLIC_URL + "/" + item.authorimg}
-                            alt="author"
-                          />
-                          <div className="listing-author-body">
-                            <p>
-                              {" "}
-                              <Link to="#">{item.authorname}</Link>{" "}
-                            </p>
-                            <span className="listing-date">
-                              {item.postdate}
-                            </span>
-                          </div>
-                          <Dropdown className="options-dropdown">
-                            <Dropdown.Toggle as={NavLink}>
-                              <i className="fas fa-ellipsis-v" />
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu className="dropdown-menu-right">
-                              <ul>
-                                <li>
-                                  {" "}
-                                  <Link to="tel:+123456789">
-                                    {" "}
-                                    <i className="fas fa-phone" /> Call Agent
-                                  </Link>{" "}
-                                </li>
-                                <li>
-                                  {" "}
-                                  <Link to="mailto:+123456789">
-                                    {" "}
-                                    <i className="fas fa-envelope" /> Send
-                                    Message
-                                  </Link>{" "}
-                                </li>
-                                <li>
-                                  {" "}
-                                  <Link to="/listing-details-v1">
-                                    {" "}
-                                    <i className="fas fa-bookmark" /> Book Tour
-                                  </Link>{" "}
-                                </li>
-                              </ul>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </div>
-                        <h5 className="listing-title">
-                          {" "}
-                          <Link to="/listing-details-v1" title={item.title}>
-                            {item.title}
-                          </Link>{" "}
-                        </h5>
-                        <span className="listing-price">
-                          {new Intl.NumberFormat().format(
-                            item.monthlyprice.toFixed(2)
-                          )}
-                          $ <span>/month</span>{" "}
-                        </span>
-                        <p className="listing-text">{item.text}</p>
-                        <div className="acr-listing-icons">
-                          <OverlayTrigger overlay={bedstip}>
-                            <div className="acr-listing-icon">
-                              <i className="flaticon-bedroom" />
-                              <span className="acr-listing-icon-value">
-                                {item.beds}
-                              </span>
-                            </div>
-                          </OverlayTrigger>
-                          <OverlayTrigger overlay={bathstip}>
-                            <div className="acr-listing-icon">
-                              <i className="flaticon-bathroom" />
-                              <span className="acr-listing-icon-value">
-                                {item.bathrooms}
-                              </span>
-                            </div>
-                          </OverlayTrigger>
-                          <OverlayTrigger overlay={areatip}>
-                            <div className="acr-listing-icon">
-                              <i className="flaticon-ruler" />
-                              <span className="acr-listing-icon-value">
-                                {new Intl.NumberFormat().format(item.area)}
-                              </span>
-                            </div>
-                          </OverlayTrigger>
-                        </div>
-                        <div className="listing-gallery-wrapper">
-                          <Link
-                            to="/listing-details-v1"
-                            className="btn-custom btn-sm secondary"
-                          >
-                            View Details
-                          </Link>
-                          <OverlayTrigger overlay={gallerytip}>
-                            <Link to="#" className="listing-gallery">
-                              {" "}
-                              <i className="fas fa-camera" />{" "}
-                            </Link>
-                          </OverlayTrigger>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                {/* Listing End */}
-              </div>
-            </div>
+
             {/* Similar End */}
           </div>
           {/* Listings End */}
+
           {/* Sidebar Start */}
           <div className="col-lg-4">
             <div className="sidebar sticky-sidebar">

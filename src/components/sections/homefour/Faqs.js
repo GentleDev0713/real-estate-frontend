@@ -58,53 +58,6 @@ const Faqs = () => {
                 </Accordion.Body>
               </Accordion.Item>
               {/* <Card>
-                <Accordion.Collapse eventKey="1" className="collapseparent">
-                  <Card.Body>
-                    <p>
-                      {" "}
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life
-                      accusamus terry richardson ad squid. 3 wolf moon officia
-                      aute, non cupidatat skateboard dolor brunch. Food truck
-                      quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                      tempor, sunt aliqua put a bird on it squid single-origin
-                      coffee nulla assumenda shoreditch et.
-                    </p>
-                    <p>
-                      {" "}
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life
-                      accusamus terry richardson ad squid. 3 wolf moon officia
-                      aute, non cupidatat skateboard dolor brunch. Food truck
-                      quinoa nesciunt laborum eiusmod.
-                    </p>
-                    <ul className="acr-list mb-0">
-                      <li>
-                        {" "}
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry.{" "}
-                      </li>
-                      <li>
-                        {" "}
-                        Many desktop publishing packages and web page editors
-                        now use Lorem Ipsum{" "}
-                      </li>
-                      <li>
-                        {" "}
-                        There are many variations of passages of Lorem Ipsum{" "}
-                      </li>
-                      <li>
-                        {" "}
-                        Internet tend to repeat predefined chunks as necessary{" "}
-                      </li>
-                    </ul>
-                  </Card.Body>
-                </Accordion.Collapse>
-                <Card.Header>
-                  <Accordion.Toggle as={NavLink} variant="link" eventKey="1">
-                    Is the service free?
-                  </Accordion.Toggle>
-                </Card.Header>
-              </Card> */}
-              {/* <Card>
                 <Accordion.Collapse eventKey="2" className="collapseparent">
                   <Card.Body>
                     <p>
