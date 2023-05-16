@@ -125,7 +125,7 @@ const Menu = () => {
                     >
                       <Link
                         style={{ padding: "0" }}
-                        to={"/Property/" + res.name}
+                        to={"/property/" + res.name}
                       >
                         {res.name}
                       </Link>

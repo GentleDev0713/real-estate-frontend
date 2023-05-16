@@ -524,7 +524,7 @@ const Listingwrapper = () => {
             <div className="section pt-0 acr-listing-history">
               <h4>Property History</h4>
               <Accordion defaultActiveKey="0" className="with-gap">
-                <Accordion.Item eventKey="0">
+                <Accordion.Item eventKey="1">
                   <Accordion.Header>1979 - 1999</Accordion.Header>
                   <Accordion.Body className="collapseparent">
                     <div className="row">
@@ -555,7 +555,7 @@ const Listingwrapper = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-                <Accordion.Item eventKey="1">
+                <Accordion.Item eventKey="2">
                   <Accordion.Header>2000 - 2012</Accordion.Header>
                   <Accordion.Body className="collapseparent">
                     <div className="row">
@@ -579,7 +579,7 @@ const Listingwrapper = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-                <Accordion.Item eventKey="2">
+                <Accordion.Item eventKey="3">
                   <Accordion.Header>2013 - Till date</Accordion.Header>
                   <Accordion.Body className="collapseparent">
                     <div className="row">

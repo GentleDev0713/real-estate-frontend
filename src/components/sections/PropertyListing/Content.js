@@ -25,19 +25,14 @@ const Content = () => {
       }
     );
     const data = await response.json();
-
-    console.log(data.result[0].BasicInformation.type, "this i");
-
     const newArray = data.result.filter(function (item) {
-      return item.BasicInformation.type === type;
+      return item.category === type;
     });
     setState(newArray);
   };
   useEffect(() => {
     getData();
-  }, [getData]);
-
-  console.log(state);
+  }, []);
 
   const acessChat = () => {
     return;
@@ -66,14 +61,13 @@ const Content = () => {
             </div>
           </div>
         ) : (
-          state.map((res) => {
+          state.map((res, key) => {
             const basicInformation = res.BasicInformation;
-            const deatils = res.Details;
+            const details = res.Details;
             const author = res.Author;
-            // console.log(author);
-            // console.log(gallery.picture);
+            const Gallery = res.Gallery;
             return (
-              <div className="listing listing-list ">
+              <div className="listing listing-list " key={key}>
                 <div className="listing-thumbnail" style={{ width: "60%" }}>
                   <Link
                     onClick={() => {
@@ -82,7 +76,7 @@ const Content = () => {
                     }}
                   >
                     <img
-                      src="https://real-estate-frontend-u4cg.onrender.com/assets/img/listings/1.jpg"
+                      src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.file}`}
                       alt="listing"
                       style={{
                         width: "100%",
@@ -114,17 +108,17 @@ const Content = () => {
                 <div className="listing-body" style={{ width: "70%" }}>
                   <div className="listing-author">
                     <img
-                      src={
-                        "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
-                      }
+                      src={`https://real-estate-backend-rwp6.onrender.com/${author.pic}`}
                       alt="author"
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{author.authorname}</Link>{" "}
+                        <Link to="#">{author.name}</Link>{" "}
                       </p>
-                      <span className="listing-date">{"item.postdate"}</span>
+                      <span className="listing-date">
+                        {res.createdAt.split("T")[0]}
+                      </span>
                     </div>
                     <Dropdown className="options-dropdown">
                       <Dropdown.Toggle as={NavLink}>
@@ -165,11 +159,13 @@ const Content = () => {
                     </Link>{" "}
                   </h5>
                   <span className="listing-price">
+                    {basicInformation.currency}
                     {basicInformation.price}
-                    {/* {new Intl.NumberFormat().format(
-                      item.monthlyprice.toFixed(2)
-                    )} */}
-                    $ <span>/{basicInformation.period}</span>{" "}
+                    {basicInformation.status === "Rental" ? (
+                      <span>/{basicInformation.period}</span>
+                    ) : (
+                      <></>
+                    )}
                   </span>
                   <p className="listing-text">{basicInformation.description}</p>
                   <div className="acr-listing-icons">
@@ -177,7 +173,7 @@ const Content = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-bedroom" />
                         <span className="acr-listing-icon-value">
-                          {deatils.beds}
+                          {details.beds}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -185,7 +181,7 @@ const Content = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-bathroom" />
                         <span className="acr-listing-icon-value">
-                          {deatils.bathrooms}
+                          {details.bathrooms}
                         </span>
                       </div>
                     </OverlayTrigger>

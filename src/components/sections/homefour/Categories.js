@@ -8,9 +8,11 @@ const Categories = () => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-categories")
+      .get(
+        "https://real-estate-backend-rwp6.onrender.com/get-propertycount-by-category"
+      )
       .then((res) => {
-        setData(res.data.result);
+        setData(res.data);
       });
   }, []);
 
@@ -40,7 +42,7 @@ const Categories = () => {
                         {item.name}
                       </Link>{" "}
                     </h5>
-                    <span>{item.numberofitem} Listings</span>
+                    <span>{item.count} Listings</span>
                   </div>
                 </div>
               </div>

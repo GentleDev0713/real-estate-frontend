@@ -505,15 +505,13 @@ const Listings = () => {
                           >
                             <div className="listing-author">
                               <img
-                                src={
-                                  "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
-                                }
+                                src={`https://real-estate-backend-rwp6.onrender.com/${author.pic}`}
                                 alt="author"
                               />
                               <div className="listing-author-body">
                                 <p>
                                   {" "}
-                                  <Link to="#">{author.authorname}</Link>{" "}
+                                  <Link to="#">{author.name}</Link>{" "}
                                 </p>
                                 <span className="listing-date">
                                   {"item.postdate"}
@@ -711,7 +709,7 @@ const Listings = () => {
                             <div className="listing-author-body">
                               <p>
                                 {" "}
-                                <Link to="#">{author.authorname}</Link>{" "}
+                                <Link to="#">{author.name}</Link>{" "}
                               </p>
                               <span className="listing-date">
                                 {res.createdAt.split("T")[0]}
