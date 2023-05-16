@@ -5,7 +5,7 @@ const Content = () => {
   return (
     <>
       <Banner />
-      <Listingwrapper />
+      {/* <Listingwrapper /> */}
     </>
   );
 };

@@ -36,6 +36,7 @@ const Listings = () => {
       "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit"
     );
     const data = await resposne.json();
+    console.log(data);
     setState(data.result);
   };
 
@@ -447,7 +448,7 @@ const Listings = () => {
                   <div>
                     {filter.slice(0, 3).map((res, key) => {
                       const basicInformation = res.BasicInformation;
-                      const deatils = res.Details;
+                      const details = res.Details;
                       const author = res.Author;
                       return (
                         <div className="listing listing-list " key={key}>
@@ -582,7 +583,7 @@ const Listings = () => {
                                 <div className="acr-listing-icon">
                                   <i className="flaticon-bedroom" />
                                   <span className="acr-listing-icon-value">
-                                    {deatils.beds}
+                                    {details.beds}
                                   </span>
                                 </div>
                               </OverlayTrigger>
@@ -590,7 +591,7 @@ const Listings = () => {
                                 <div className="acr-listing-icon">
                                   <i className="flaticon-bathroom" />
                                   <span className="acr-listing-icon-value">
-                                    {deatils.bathrooms}
+                                    {details.bathrooms}
                                   </span>
                                 </div>
                               </OverlayTrigger>
@@ -654,7 +655,7 @@ const Listings = () => {
                 <div>
                   {state.slice(0, 3).map((res, key) => {
                     const basicInformation = res.BasicInformation;
-                    const deatils = res.Details;
+                    const details = res.Details;
                     const author = res.Author;
                     const Gallery = res.Gallery;
                     return (
@@ -705,9 +706,7 @@ const Listings = () => {
                         <div className="listing-body" style={{ width: "70%" }}>
                           <div className="listing-author">
                             <img
-                              src={
-                                "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
-                              }
+                              src={`https://real-estate-backend-rwp6.onrender.com/${author.pic}`}
                               alt="author"
                             />
                             <div className="listing-author-body">
@@ -716,7 +715,7 @@ const Listings = () => {
                                 <Link to="#">{author.authorname}</Link>{" "}
                               </p>
                               <span className="listing-date">
-                                {"item.postdate"}
+                                {res.createdAt.split("T")[0]}
                               </span>
                             </div>
                             <Dropdown className="options-dropdown">
@@ -755,7 +754,7 @@ const Listings = () => {
                           <h5 className="listing-title">
                             {" "}
                             <Link
-                              to="/listing-details-v1"
+                              to={`/listing-details-v1/${res._id}`}
                               title={basicInformation.name}
                             >
                               {basicInformation.name}
@@ -763,10 +762,7 @@ const Listings = () => {
                           </h5>
                           <span className="listing-price">
                             {basicInformation.price}
-                            {/* {new Intl.NumberFormat().format(
-                    item.monthlyprice.toFixed(2)
-                  )} */}
-                            ${" "}
+                            {basicInformation.currency}
                             {basicInformation.status === "Rental" ? (
                               <span>/{basicInformation.period}</span>
                             ) : (
@@ -781,7 +777,7 @@ const Listings = () => {
                               <div className="acr-listing-icon">
                                 <i className="flaticon-bedroom" />
                                 <span className="acr-listing-icon-value">
-                                  {deatils.beds}
+                                  {details.beds}
                                 </span>
                               </div>
                             </OverlayTrigger>
@@ -789,7 +785,7 @@ const Listings = () => {
                               <div className="acr-listing-icon">
                                 <i className="flaticon-bathroom" />
                                 <span className="acr-listing-icon-value">
-                                  {deatils.bathrooms}
+                                  {details.bathrooms}
                                 </span>
                               </div>
                             </OverlayTrigger>

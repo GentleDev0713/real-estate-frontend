@@ -109,8 +109,10 @@ const AdminFeatureCreate = (props) => {
               className="form-control col-md-6 col-lg-6"
             >
               <option value="">Select Icon</option>
-              {icons.map((value) => (
-                <option value={value}>{value}</option>
+              {icons.map((value, key) => (
+                <option key={key} value={value}>
+                  {value}
+                </option>
               ))}
             </select>
             <i

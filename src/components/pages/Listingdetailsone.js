@@ -12,6 +12,7 @@ const Listingdetailsone = () => {
         <meta name="description" content="#" />
       </Helmet>
       <Header />
+      <div style={{ marginBottom: "250px" }}></div>
       <Content />
       <Footer />
     </Fragment>

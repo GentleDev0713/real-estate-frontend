@@ -51,16 +51,16 @@ function Edit() {
         setPeriod(data.BasicInformation.period);
         setSpace(data.BasicInformation.space);
         setVideo(data.BasicInformation.video);
-        setThumbnail(data.Gallery.file);
-        setFiles(data.Gallery.picture);
+        // setThumbnail(data.Gallery.file);
+        // setFiles(data.Gallery.picture);
         setLocation({
           lat: data.Location.latitude,
           long: data.Location.longitude,
           region: data.Location.region,
           address: data.Location.address,
         });
-        let features = data.Features[0].split(",");
-        setFeatures(features);
+        // let features = data.Features[0].split(",");
+        // setFeatures(features);
         setId(data.Details.id);
         setBeds(data.Details.beds);
         setBaths(data.Details.bathrooms);
@@ -333,11 +333,8 @@ function Edit() {
         story: story,
         parking: parking,
         category: type ? type : typeList[0].name,
-        authorname: user.name,
-        email: user.email,
         authorId: user._id,
       };
-      console.log(formData);
       axios
         .put(
           `https://real-estate-backend-rwp6.onrender.com/admin/property/${params.id}/update`,

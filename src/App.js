@@ -46,6 +46,7 @@ import AdminCategoryEdit from "./components/pages/AdminCategoryEdit";
 import AdminProperty from "./components/pages/AdminProperty";
 import AdminPropertyCreate from "./components/pages/AdminPropertyCreate";
 import AdminPropertyEdit from "./components/pages/AdminPropertyEdit";
+import AdminPropertyDetail from "./components/pages/AdminPropertyDetail";
 import AdminCurrency from "./components/pages/AdminCurrency";
 import AdminCurrencyCreate from "./components/pages/AdminCurrencyCreate";
 import AdminCurrencyEdit from "./components/pages/AdminCurrencyEdit";
@@ -93,6 +94,10 @@ const App = () => {
           <Route
             path="/admin/property/:id"
             element={<AdminPropertyEdit url="/admin/properties" />}
+          />
+          <Route
+            path="/admin/property/:id/detail"
+            element={<AdminPropertyDetail url="/admin/properties" />}
           />
           <Route
             path="/admin/currencies"

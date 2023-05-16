@@ -67,7 +67,7 @@ const AdminCategoryEdit = (props) => {
       <AdminHeader />
       <AdminSider url={props.url} />
       <div className="text-center" style={{ margin: "20px" }}>
-        <h2>Property Category Create</h2>
+        <h2>Property Category Edit</h2>
       </div>
       <div
         className="acr-user-content"
@@ -116,8 +116,10 @@ const AdminCategoryEdit = (props) => {
               className="form-control col-md-6 col-lg-6"
             >
               <option value="">Select Icon</option>
-              {icons.map((value) => (
-                <option value={value}>{value}</option>
+              {icons.map((value, key) => (
+                <option key={key} value={value}>
+                  {value}
+                </option>
               ))}
             </select>
             <i
@@ -136,8 +138,8 @@ const AdminCategoryEdit = (props) => {
               className="form-control col-md-8 col-lg-8"
             >
               <option value="">Select Image</option>
-              {images.map((value) => (
-                <option value={value}>
+              {images.map((value, key) => (
+                <option key={key} value={value}>
                   {value.slice(value.lastIndexOf("/") + 1)}
                 </option>
               ))}

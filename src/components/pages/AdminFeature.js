@@ -102,7 +102,7 @@ const AdminFeature = (props) => {
             )}
             {data.map((res, key) => {
               return (
-                <tr>
+                <tr key={key}>
                   <td>{key + 1}</td>
                   <td>{res.name}</td>
                   <td>

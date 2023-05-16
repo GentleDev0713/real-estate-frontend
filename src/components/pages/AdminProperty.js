@@ -22,6 +22,9 @@ const AdminProperty = (props) => {
       });
   }, []);
 
+  const detailProperty = (id) => {
+    navigate(`/admin/property/${id}/detail`);
+  };
   const editProperty = (id) => {
     navigate(`/admin/property/${id}`);
   };
@@ -123,7 +126,7 @@ const AdminProperty = (props) => {
                   <td>
                     <button
                       className="btn btn-info"
-                      onClick={() => editProperty(res._id)}
+                      onClick={() => detailProperty(res._id)}
                       style={{ borderRadius: "5px" }}
                     >
                       <span className="fas fa-info-circle"></span>

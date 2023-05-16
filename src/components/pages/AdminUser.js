@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
@@ -21,10 +21,6 @@ const AdminUser = (props) => {
 
   const editUser = (id) => {
     navigate(`/admin/user/${id}`);
-    // axios.get(`/admin/user/${id}`).then((res) => {
-    //   setError(true);
-    //   setErrorMsg(res.data.Msg);
-    // });
   };
   const deleteUser = (id) => {
     axios
@@ -32,10 +28,11 @@ const AdminUser = (props) => {
         `https://real-estate-backend-rwp6.onrender.com/admin/delete/user/${id}`
       )
       .then((res) => {
-        // setError(true);
-        console.log(res.data);
         setState(res.data.result);
-        // setErrorMsg(res.data.Msg);
+      })
+      .catch((err) => {
+        setError(true);
+        setErrorMsg(err);
       });
   };
 
@@ -75,7 +72,7 @@ const AdminUser = (props) => {
             )}
             {state.map((res, key) => {
               return (
-                <tr>
+                <tr key={key}>
                   <td>{key + 1}</td>
                   <td>{res.name}</td>
                   <td>{res.email}</td>

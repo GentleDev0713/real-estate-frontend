@@ -8,7 +8,7 @@ const AdminLogin = () => {
 
   const setUser = (data) => {
     localStorage.setItem("userInfo", JSON.stringify(data));
-    window.location.replace("/admin");
+    window.location.replace("/");
   };
 
   const postData = async () => {

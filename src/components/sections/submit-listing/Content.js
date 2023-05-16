@@ -307,8 +307,6 @@ function Content() {
       formData.append("category", type ? type : typeList[0].name);
       // formData.append("buy");
 
-      formData.append("authorname", user.name);
-      formData.append("email", user.email);
       formData.append("authorId", user._id);
 
       axios
