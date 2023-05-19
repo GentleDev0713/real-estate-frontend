@@ -12,7 +12,7 @@ const Latestblog = () => {
 
   const SubmitlistingData = async () => {
     const resposne = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit"
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/submit`
     );
     const data = await resposne.json();
     setState(data.result.slice(-2));
@@ -40,15 +40,13 @@ const Latestblog = () => {
                 <div className="flex justify-center">
                   <img src="https://real-estate-frontend-u4cg.onrender.com/assets/img/Loading.gif" />
                 </div>
-                <p className="text-center my-4 text-xl font-medium ">
-                  Loading .....
-                </p>
+                <p className="text-center my-4 text-xl font-medium ">No Data</p>
               </div>
             ) : (
               state.map((res, key) => {
                 const basicInformation = res.BasicInformation;
                 const deatils = res.Details;
-                // const gallery = res.Gallery;
+                const gallery = res.Gallery;
                 const author = res.Author;
                 // console.log(author);
                 // console.log(gallery.picture);
@@ -58,7 +56,7 @@ const Latestblog = () => {
                     style={{ margin: "0.5rem" }}
                     key={key}
                   >
-                    <div className="listing-thumbnail" style={{ width: "60%" }}>
+                    <div className="listing-thumbnail" style={{ width: "80%" }}>
                       <Link
                         onClick={() => {
                           navigate(`/listing-details-v1/${res._id}`);
@@ -66,7 +64,7 @@ const Latestblog = () => {
                         }}
                       >
                         <img
-                          src="https://real-estate-frontend-u4cg.onrender.com/assets/img/listings/1.jpg"
+                          src={`${process.env.REACT_APP_SERVER_URL}/${gallery.file}`}
                           alt="listing"
                           style={{
                             width: "100%",
@@ -98,18 +96,16 @@ const Latestblog = () => {
                     <div className="listing-body" style={{ width: "70%" }}>
                       <div className="listing-author">
                         <img
-                          src={
-                            "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
-                          }
+                          src={`${process.env.REACT_APP_SERVER_URL}/${author.pic}`}
                           alt="author"
                         />
                         <div className="listing-author-body">
                           <p>
                             {" "}
-                            <Link to="#">{author.authorname}</Link>{" "}
+                            <Link to="#">{author.name}</Link>{" "}
                           </p>
                           <span className="listing-date">
-                            {"item.postdate"}
+                            {res.createdAt.split("T")[0]}
                           </span>
                         </div>
                         <Dropdown className="options-dropdown">
@@ -125,7 +121,7 @@ const Latestblog = () => {
                                   <i className="fas fa-phone" /> Call Agent
                                 </Link>{" "}
                               </li>
-                              <li onClick={() => acessChat(author.authorId)}>
+                              <li onClick={() => acessChat(author._id)}>
                                 <Link to="/chat">
                                   <i className="fas fa-envelope" /> Send Message
                                 </Link>
@@ -144,18 +140,26 @@ const Latestblog = () => {
                       <h5 className="listing-title">
                         {" "}
                         <Link
-                          to="/listing-details-v1"
+                          onClick={() => {
+                            navigate(`/listing-details-v1/${res._id}`);
+                            window.location.reload(false);
+                          }}
                           title={basicInformation.name}
                         >
                           {basicInformation.name}
                         </Link>{" "}
                       </h5>
                       <span className="listing-price">
+                        {basicInformation.currency}
                         {basicInformation.price}
                         {/* {new Intl.NumberFormat().format(
                           item.monthlyprice.toFixed(2)
                         )} */}
-                        $ <span>/{basicInformation.period}</span>{" "}
+                        {basicInformation.status === "Rental" ? (
+                          <span>/{basicInformation.period}</span>
+                        ) : (
+                          <></>
+                        )}
                       </span>
                       <p className="listing-text">
                         {basicInformation.description}
@@ -181,7 +185,7 @@ const Latestblog = () => {
                           <div className="acr-listing-icon">
                             <i className="flaticon-ruler" />
                             <span className="acr-listing-icon-value">
-                              {basicInformation.space}
+                              {basicInformation.space} SQM
                               {/* {new Intl.NumberFormat().format(item.area)} */}
                             </span>
                           </div>

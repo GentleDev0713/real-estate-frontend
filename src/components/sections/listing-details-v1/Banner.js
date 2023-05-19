@@ -10,7 +10,7 @@ const bannerpost = [
 ];
 
 const Banner = () => {
-  const { id } = useParams();
+  const params = useParams();
   const custome = useRef();
 
   const [data, setData] = useState({});
@@ -19,7 +19,7 @@ const Banner = () => {
   useEffect(() => {
     axios
       .get(
-        `https://real-estate-backend-rwp6.onrender.com/submitlisting/submit/${id}`
+        `${process.env.REACT_APP_SERVER_URL}/submitlisting/submit/${params.id}`
       )
       .then((res) => {
         setData(res.data.result);
@@ -40,8 +40,9 @@ const Banner = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    dots: false,
+    dots: true,
     fade: true,
+    speed: 500,
   };
 
   return (
@@ -51,17 +52,27 @@ const Banner = () => {
     >
       <div className="banner-item">
         {data.Gallery && data.Gallery.picture.length > 0 ? (
-          <Slider className="banner-slider" ref={custome} {...settings}>
+          <Slider
+            className="banner-slider"
+            ref={custome}
+            {...settings}
+            style={{ margin: "0px 20px" }}
+          >
             {data.Gallery.picture.map((item, i) => (
-              <div
-                key={i}
-                className="banner-inner bg-cover bg-center dark-overlay"
-              >
-                <img
-                  src={`https://real-estate-backend-rwp6.onrender.com/${item}`}
-                  alt="listing"
-                  style={{ width: "100%" }}
-                />
+              <div key={i}>
+                <div
+                  className="banner-inner bg-cover bg-center"
+                  style={{
+                    backgroundImage:
+                      "url(" +
+                      process.env.REACT_APP_SERVER_URL +
+                      "/" +
+                      item +
+                      ")",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                ></div>
               </div>
             ))}
           </Slider>
@@ -151,25 +162,25 @@ const Banner = () => {
                     <div className="col-lg-6 col-md-3 col-sm-3">
                       <div className="acr-listing-meta-item">
                         <span>Type</span>
-                        <p>House</p>
+                        <p>{data.BasicInformation.type}</p>
                       </div>
                     </div>
                     <div className="col-lg-6 col-md-3 col-sm-3">
                       <div className="acr-listing-meta-item">
                         <span>View</span>
-                        <p>City View</p>
+                        <p>{data.Details.view}</p>
                       </div>
                     </div>
                     <div className="col-lg-6 col-md-3 col-sm-3">
                       <div className="acr-listing-meta-item">
                         <span>Lot Size</span>
-                        <p>89 Acres</p>
+                        <p>{data.Details.lotsize}</p>
                       </div>
                     </div>
                     <div className="col-lg-6 col-md-3 col-sm-3">
                       <div className="acr-listing-meta-item">
                         <span>Condition</span>
-                        <p>Brand New</p>
+                        <p>{data.Details.condition}</p>
                       </div>
                     </div>
                   </div>

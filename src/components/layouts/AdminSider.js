@@ -32,6 +32,9 @@ const AdminSider = (props) => {
       <Link className="menu-item" to="/admin/features">
         Feature
       </Link>
+      <Link className="menu-item" to="/admin/locations">
+        Location
+      </Link>
     </Menu>
   );
 };

@@ -5,21 +5,22 @@ import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
 import { useToast } from "@chakra-ui/react";
-import icons from "./../../data/icons";
+import convertToBase64 from "../../helper/convert";
 
 const AdminFeatureCreate = (props) => {
   const navigate = useNavigate();
   const toast = useToast();
 
   const [name, setName] = useState("");
-  const [icon, setIcon] = useState("");
+  const [icon, setIcon] = useState();
+  const [url, setUrl] = useState();
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const onCancel = () => {
     navigate("/admin/features");
   };
-  const postData = () => {
+  const postData = async () => {
     if (name == "") {
       toast({
         title: "Error",
@@ -44,13 +45,15 @@ const AdminFeatureCreate = (props) => {
       });
       return false;
     }
-    const formData = {
-      name: name,
-      icon: icon,
-    };
-    axios
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("icon", icon);
+
+    await axios
       .post(
-        `https://real-estate-backend-rwp6.onrender.com/admin/feature/create`,
+        `${process.env.REACT_APP_SERVER_URL}/admin/feature/create`,
         formData
       )
       .then((res) => {
@@ -60,6 +63,12 @@ const AdminFeatureCreate = (props) => {
         setError(true);
         setErrorMsg(err);
       });
+  };
+
+  const onUpload = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setUrl(base64);
+    setIcon(e.target.files[0]);
   };
 
   return (
@@ -79,13 +88,14 @@ const AdminFeatureCreate = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
             width: "70%",
             padding: "2%",
           }}
+          // enctype="multipart/form-data"
+          //   method="post"
         >
           <div className="form-group">
             <label>Name</label>
@@ -99,29 +109,28 @@ const AdminFeatureCreate = (props) => {
             />
           </div>
           <div className="form-group row">
-            <label className="col-md-1 col-lg-1" style={{ marginTop: "10px" }}>
-              Icon :
+            <label htmlFor="icon" className="cursor-pointer">
+              Select Icon
             </label>
-            <select
-              value={icon}
-              onChange={(e) => setIcon(e.target.value)}
-              type="icon"
-              className="form-control col-md-6 col-lg-6"
-            >
-              <option value="">Select Icon</option>
-              {icons.map((value, key) => (
-                <option key={key} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-            <i
-              className={"flaticon-" + icon + ""}
-              style={{ fontSize: "30px", marginLeft: "20px" }}
-            ></i>
+            <input
+              onChange={onUpload}
+              type="file"
+              id="icon"
+              name="icon"
+              style={{ display: "none" }}
+            />
+            {url ? (
+              <img src={`${url}`} alt="Icon" style={{ width: "100px" }} />
+            ) : (
+              <></>
+            )}
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
+            <button
+              type="Submit"
+              onClick={() => postData()}
+              className="btn btn-primary"
+            >
               <span className="fa fa-save"></span> Save
             </button>
             <button

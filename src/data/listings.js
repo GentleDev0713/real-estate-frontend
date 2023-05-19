@@ -49,7 +49,7 @@ const listings = [
     text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     beds: 3,
     bathrooms: 2,
-    area: 2499,
+    area: 3500,
     star: false,
     sale: false,
     pending: true,

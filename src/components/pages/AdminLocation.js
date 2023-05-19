@@ -6,7 +6,7 @@ import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
 import { useToast } from "@chakra-ui/react";
 
-const AdminCategory = (props) => {
+const AdminCurrency = (props) => {
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -16,23 +16,23 @@ const AdminCategory = (props) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-categories`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-locations`)
       .then((res) => {
         setData(res.data.result);
       });
   }, []);
 
-  const editCategory = (id) => {
-    navigate(`/admin/category/${id}`);
+  const editLocation = (id) => {
+    navigate(`/admin/location/${id}`);
   };
-  const deleteCategory = (id) => {
+  const deleteLocation = (id) => {
     axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/admin/delete/category/${id}`)
+      .delete(`${process.env.REACT_APP_SERVER_URL}/admin/delete/location/${id}`)
       .then((res) => {
         setData(res.data.result);
         toast({
           title: "Success",
-          description: "Category deleted successfully.",
+          description: "Currency deleted successfully.",
           status: "success",
           duration: 2000,
           variant: "left-accent",
@@ -46,20 +46,20 @@ const AdminCategory = (props) => {
       });
   };
 
-  const addCategory = () => {
-    navigate("/admin/category/create");
+  const addLocation = () => {
+    navigate("/admin/location/create");
   };
 
   return (
     <div>
       <Helmet>
-        <title>Acres - Real Estate React Template | Admin Category</title>
+        <title>Acres - Real Estate React Template | Admin Location</title>
         <meta name="description" content="#" />
       </Helmet>
       <AdminHeader />
       <AdminSider url={props.url} />
       <div className="text-center" style={{ margin: "20px" }}>
-        <h2>Property Categories</h2>
+        <h2>Location Manage</h2>
       </div>
       <div
         style={{
@@ -72,9 +72,9 @@ const AdminCategory = (props) => {
         <button
           type="button"
           className="btn btn-success"
-          onClick={() => addCategory()}
+          onClick={() => addLocation()}
         >
-          <span className="fa fa-plus"></span> Add Category
+          <span className="fa fa-plus"></span> Add Location
         </button>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -85,17 +85,15 @@ const AdminCategory = (props) => {
           <thead>
             <tr>
               <th>No</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Icon</th>
-              <th>Image</th>
+              <th>Country</th>
+              <th>City</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {data.length == 0 ? (
               <tr>
-                <td colSpan="6">No Data</td>
+                <td colSpan="4">No Data</td>
               </tr>
             ) : (
               <></>
@@ -104,26 +102,12 @@ const AdminCategory = (props) => {
               return (
                 <tr key={key}>
                   <td>{key + 1}</td>
-                  <td>{res.name}</td>
-                  <td>{res.description}</td>
-                  <td>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
-                      alt="category"
-                      style={{ width: "70px" }}
-                    />
-                  </td>
-                  <td>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${res.img}`}
-                      alt="category"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
+                  <td>{res.country}</td>
+                  <td>{res.city}</td>
                   <td>
                     <button
                       className="btn btn-primary"
-                      onClick={() => editCategory(res._id)}
+                      onClick={() => editLocation(res._id)}
                       style={{ borderRadius: "5px" }}
                     >
                       <span className="fa fa-edit"></span>
@@ -131,7 +115,7 @@ const AdminCategory = (props) => {
                     </button>
                     <button
                       className="btn btn-danger"
-                      onClick={() => deleteCategory(res._id)}
+                      onClick={() => deleteLocation(res._id)}
                       style={{ borderRadius: "5px" }}
                     >
                       <span className="fa fa-trash"></span>
@@ -194,4 +178,4 @@ const AdminCategory = (props) => {
   );
 };
 
-export default AdminCategory;
+export default AdminCurrency;

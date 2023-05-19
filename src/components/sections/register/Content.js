@@ -71,7 +71,7 @@ const Content = () => {
     formData.append("pic", file);
 
     await axios
-      .post("https://real-estate-backend-rwp6.onrender.com/register", formData)
+      .post(`${process.env.REACT_APP_SERVER_URL}/register`, formData)
       .then((res) => {
         setVerify(true);
         setId(res.data.user.id);
@@ -93,10 +93,9 @@ const Content = () => {
     }
 
     await axios
-      .post(
-        `https://real-estate-backend-rwp6.onrender.com/register-verify/${id}`,
-        { code: code }
-      )
+      .post(`${process.env.REACT_APP_SERVER_URL}/register-verify/${id}`, {
+        code: code,
+      })
       .then((res) => {
         res.data.Msg === "register" ? registerUser(res.data) : setError(true);
         setErrorMsg(res.data.Msg);
@@ -160,7 +159,7 @@ const Content = () => {
                 <img
                   src={
                     url ||
-                    "https://real-estate-backend-rwp6.onrender.com/uploads/profiles/profile.png"
+                    `${process.env.REACT_APP_SERVER_URL}/uploads/profiles/profile.png`
                   }
                   className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
                   alt="avatar"
@@ -265,7 +264,7 @@ const Content = () => {
                 <img
                   src={
                     url ||
-                    "https://real-estate-backend-rwp6.onrender.com/uploads/profiles/profile.png"
+                    `${process.env.REACT_APP_SERVER_URL}/uploads/profiles/profile.png`
                   }
                   className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
                   alt="avatar"

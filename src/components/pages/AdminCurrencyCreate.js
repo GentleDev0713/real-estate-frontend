@@ -62,10 +62,7 @@ const AdminCurrencyCreate = (props) => {
       symbol: symbol,
     };
     axios
-      .post(
-        `https://real-estate-backend-rwp6.onrender.com/admin/currency/create`,
-        formData
-      )
+      .post(`${process.env.REACT_APP_SERVER_URL}/admin/currency/create`, formData)
       .then((res) => {
         navigate("/admin/currencies");
       })

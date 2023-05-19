@@ -13,20 +13,21 @@ const AdminUser = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-users")
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-users`)
       .then((res) => {
-        setState(res.data.result);
+        setState(res.data);
       });
   }, []);
 
+  const addUser = () => {
+    navigate("/admin/user/create");
+  };
   const editUser = (id) => {
     navigate(`/admin/user/${id}`);
   };
   const deleteUser = (id) => {
     axios
-      .delete(
-        `https://real-estate-backend-rwp6.onrender.com/admin/delete/user/${id}`
-      )
+      .delete(`${process.env.REACT_APP_SERVER_URL}/admin/delete/user/${id}`)
       .then((res) => {
         setState(res.data.result);
       })
@@ -47,6 +48,22 @@ const AdminUser = (props) => {
       <div className="text-center" style={{ margin: "20px" }}>
         <h2>Users</h2>
       </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "right",
+          width: "94%",
+          margin: "1%",
+        }}
+      >
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={() => addUser()}
+        >
+          <span className="fa fa-plus"></span> Add User
+        </button>
+      </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <table
           className="table-striped table-bordered text-center"
@@ -56,9 +73,11 @@ const AdminUser = (props) => {
             <tr>
               <th>Id</th>
               <th>Name</th>
-              <th>Email</th>
+              <th>Email or Phone</th>
               <th>Role</th>
               <th>Admin</th>
+              <th>OPT Code</th>
+              <th>Verify</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -78,6 +97,8 @@ const AdminUser = (props) => {
                   <td>{res.email}</td>
                   <td>{res.user}</td>
                   <td>{`${res.isAdmin}`}</td>
+                  <td>{res.opt}</td>
+                  <td>{`${res.verified}`}</td>
                   <td>
                     <button
                       className="btn btn-primary"

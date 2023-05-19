@@ -16,7 +16,7 @@ const AdminFeature = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-features")
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-features`)
       .then((res) => {
         setData(res.data.result);
       });
@@ -27,9 +27,7 @@ const AdminFeature = (props) => {
   };
   const deleteFeature = (id) => {
     axios
-      .delete(
-        `https://real-estate-backend-rwp6.onrender.com/admin/delete/feature/${id}`
-      )
+      .delete(`${process.env.REACT_APP_SERVER_URL}/admin/delete/feature/${id}`)
       .then((res) => {
         setData(res.data.result);
         toast({
@@ -81,7 +79,7 @@ const AdminFeature = (props) => {
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <table
-          className="table-striped table-bordered text-center"
+          className="table-striped table-bordered text"
           style={{ width: "90%", margin: "1%" }}
         >
           <thead>
@@ -106,10 +104,11 @@ const AdminFeature = (props) => {
                   <td>{key + 1}</td>
                   <td>{res.name}</td>
                   <td>
-                    <i
-                      className={"flaticon-" + res.icon + ""}
-                      style={{ fontSize: "30px" }}
-                    ></i>
+                    <img
+                      src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                      alt="Icon"
+                      style={{ width: "60px" }}
+                    />
                   </td>
                   <td>
                     <button

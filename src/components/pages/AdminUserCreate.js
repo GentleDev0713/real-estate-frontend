@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
 
-const AdminUserEdit = (props) => {
-  const params = useParams();
+const AdminUserCreate = (props) => {
   const navigate = useNavigate();
 
-  const [state, setState] = useState([]);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
@@ -18,36 +16,21 @@ const AdminUserEdit = (props) => {
   const [user, setUser] = useState("Buyer");
   const [admin, setAdmin] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/admin/user/${params.id}`)
-      .then((res) => {
-        setState(res.data.result);
-        setName(res.data.result.name);
-        setEmail(res.data.result.email);
-        setUser(res.data.result.user);
-        setAdmin(res.data.result.isAdmin);
-        setPassword("");
-      });
-  }, []);
-
   const onCancel = () => {
     navigate("/admin/users");
   };
+
   const postData = () => {
     const formData = {
       name: name,
+      email: email,
       password: password,
       user: user,
       isAdmin: admin,
-      email: email,
     };
 
     axios
-      .put(
-        `${process.env.REACT_APP_SERVER_URL}/admin/user/${state._id}/update`,
-        formData
-      )
+      .post(`${process.env.REACT_APP_SERVER_URL}/admin/user/create`, formData)
       .then((res) => {
         navigate("/admin/users");
       })
@@ -60,13 +43,13 @@ const AdminUserEdit = (props) => {
   return (
     <div>
       <Helmet>
-        <title>Acres - Real Estate React Template | Admin User Edit</title>
+        <title>Acres - Real Estate React Template | Admin User Create</title>
         <meta name="description" content="#" />
       </Helmet>
       <AdminHeader />
       <AdminSider url={props.url} />
       <div className="text-center" style={{ margin: "20px" }}>
-        <h2>User Edit</h2>
+        <h2>User Create</h2>
       </div>
       <div
         className="acr-user-content"
@@ -100,7 +83,7 @@ const AdminUserEdit = (props) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-control form-control-light"
-              placeholder="Email or Phone"
+              placeholder="Email"
               name="email"
             />
           </div>
@@ -142,7 +125,7 @@ const AdminUserEdit = (props) => {
           </div>
           <div className="form-group text-right">
             <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Update
+              <span className="fa fa-save"></span> Save
             </button>
             <button
               type="button"
@@ -205,4 +188,4 @@ const AdminUserEdit = (props) => {
   );
 };
 
-export default AdminUserEdit;
+export default AdminUserCreate;

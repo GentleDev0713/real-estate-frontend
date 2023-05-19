@@ -22,7 +22,7 @@ const Content = () => {
 
   const getData = async () => {
     const response = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/submit`,
       {
         method: "GET",
         headers: {

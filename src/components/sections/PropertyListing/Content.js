@@ -15,7 +15,7 @@ const Content = () => {
 
   const getData = async () => {
     const response = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/submit`,
       {
         method: "GET",
         headers: {
@@ -76,7 +76,7 @@ const Content = () => {
                     }}
                   >
                     <img
-                      src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.file}`}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
                       alt="listing"
                       style={{
                         width: "100%",
@@ -108,7 +108,7 @@ const Content = () => {
                 <div className="listing-body" style={{ width: "70%" }}>
                   <div className="listing-author">
                     <img
-                      src={`https://real-estate-backend-rwp6.onrender.com/${author.pic}`}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${author.pic}`}
                       alt="author"
                     />
                     <div className="listing-author-body">

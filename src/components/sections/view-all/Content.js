@@ -1,6 +1,7 @@
-import React from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
+import axios from "axios";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -12,20 +13,28 @@ const Content = () => {
 
   const navigate = useNavigate();
 
-  const location = useLocation();
-  const data = location.state;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/submitlisting/get-properties`)
+      .then((res) => {
+        setData(res.data.result);
+      });
+  });
+
   return (
     <div className="p-8">
       <div className="flex flex-wrap justify-around	">
-        {data.map((res) => {
+        {data.map((res, key) => {
           const basicInformation = res.BasicInformation;
-          const deatils = res.Details;
+          const details = res.Details;
           const Gallery = res.Gallery;
           const author = res.Author;
-          // console.log(author);
-          // console.log(gallery.picture);
+
           return (
             <div
+              key={key}
               className="listing listing-list"
               style={{ width: "45%", heigth: "100%" }}
             >
@@ -37,7 +46,7 @@ const Content = () => {
                   }}
                 >
                   <img
-                    src={`/${Gallery.file}`}
+                    src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
                     alt="listing"
                     style={{
                       width: "100%",
@@ -69,17 +78,17 @@ const Content = () => {
               <div className="listing-body" style={{ width: "70%" }}>
                 <div className="listing-author">
                   <img
-                    src={
-                      "https://real-estate-frontend-u4cg.onrender.com/assets/img/people/2.jpg"
-                    }
+                    src={`${process.env.REACT_APP_SERVER_URL}/${author.pic}`}
                     alt="author"
                   />
                   <div className="listing-author-body">
                     <p>
                       {" "}
-                      <Link to="#">{author.authorname}</Link>{" "}
+                      <Link to="#">{author.name}</Link>{" "}
                     </p>
-                    <span className="listing-date">{"item.postdate"}</span>
+                    <span className="listing-date">
+                      {res.createdAt.split("T")[0]}
+                    </span>
                   </div>
                   <Dropdown className="options-dropdown">
                     <Dropdown.Toggle as={NavLink}>
@@ -94,7 +103,7 @@ const Content = () => {
                             <i className="fas fa-phone" /> Call Agent
                           </Link>{" "}
                         </li>
-                        <li onClick={() => acessChat(author.authorId)}>
+                        <li onClick={() => acessChat(author._id)}>
                           <Link to="/chat">
                             <i className="fas fa-envelope" /> Send Message
                           </Link>
@@ -112,18 +121,20 @@ const Content = () => {
                 </div>
                 <h5 className="listing-title">
                   {" "}
-                  <Link to="/listing-details-v1" title={basicInformation.name}>
+                  <Link
+                    onClick={() => {
+                      navigate(`/listing-details-v1/${res._id}`);
+                      window.location.reload(false);
+                    }}
+                    title={basicInformation.name}
+                  >
                     {basicInformation.name}
                   </Link>{" "}
                 </h5>
                 <span className="listing-price">
+                  {basicInformation.currency}
                   {basicInformation.price}
-                  {/* {new Intl.NumberFormat().format(
-                    item.monthlyprice.toFixed(2)
-                )} */}
-                  ${" "}
-                  {basicInformation.period === "Monthly" ||
-                  basicInformation.period === "Yearly" ? (
+                  {basicInformation.status === "Rental" ? (
                     <span>/{basicInformation.period}</span>
                   ) : (
                     <></>
@@ -135,7 +146,7 @@ const Content = () => {
                     <div className="acr-listing-icon">
                       <i className="flaticon-bedroom" />
                       <span className="acr-listing-icon-value">
-                        {deatils.beds}
+                        {details.beds}
                       </span>
                     </div>
                   </OverlayTrigger>
@@ -143,7 +154,7 @@ const Content = () => {
                     <div className="acr-listing-icon">
                       <i className="flaticon-bathroom" />
                       <span className="acr-listing-icon-value">
-                        {deatils.bathrooms}
+                        {details.bathrooms}
                       </span>
                     </div>
                   </OverlayTrigger>
@@ -151,7 +162,7 @@ const Content = () => {
                     <div className="acr-listing-icon">
                       <i className="flaticon-ruler" />
                       <span className="acr-listing-icon-value">
-                        {basicInformation.space}
+                        {basicInformation.space} SQM
                         {/* {new Intl.NumberFormat().format(item.area)} */}
                       </span>
                     </div>

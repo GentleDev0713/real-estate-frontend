@@ -39,6 +39,7 @@ import View from "./components/sections/view-all/View-All";
 import AdminLogin from "./components/pages/AdminLogin";
 import AdminPanel from "./components/pages/AdminPanel";
 import AdminUser from "./components/pages/AdminUser";
+import AdminUserCreate from "./components/pages/AdminUserCreate";
 import AdminUserEdit from "./components/pages/AdminUserEdit";
 import AdminCategory from "./components/pages/AdminCategory";
 import AdminCategoryCreate from "./components/pages/AdminCategoryCreate";
@@ -53,6 +54,9 @@ import AdminCurrencyEdit from "./components/pages/AdminCurrencyEdit";
 import AdminFeature from "./components/pages/AdminFeature";
 import AdminFeatureCreate from "./components/pages/AdminFeatureCreate";
 import AdminFeatureEdit from "./components/pages/AdminFeatureEdit";
+import AdminLocation from "./components/pages/AdminLocation";
+import AdminLocationCreate from "./components/pages/AdminLocationCreate";
+import AdminLocationEdit from "./components/pages/AdminLocationEdit";
 
 const App = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -66,6 +70,10 @@ const App = () => {
           <Route
             path="/admin/users"
             element={<AdminUser url="/admin/users" />}
+          />
+          <Route
+            path="/admin/user/create"
+            element={<AdminUserCreate url="/admin/users" />}
           />
           <Route
             path="/admin/user/:id"
@@ -123,6 +131,19 @@ const App = () => {
             path="/admin/feature/:id"
             element={<AdminFeatureEdit url="/admin/features" />}
           />
+          <Route
+            path="/admin/locations"
+            element={<AdminLocation url="/admin/locations" />}
+          />
+          <Route
+            path="/admin/location/create"
+            element={<AdminLocationCreate url="/admin/locations" />}
+          />
+          <Route
+            path="/admin/location/:id"
+            element={<AdminLocationEdit url="/admin/locations" />}
+          />
+          <Route path="*" element={<div>Error 404 Page not found.</div>} />
         </Routes>
       ) : (
         <Routes>
@@ -164,6 +185,7 @@ const App = () => {
           <Route path="/Loans" element={<Loans />} />
           <Route path="/listing-map" element={<Listing />} />
           <Route path="/contact" component={Contact} />
+          <Route path="*" element={<div>Error 404 Page not found</div>} />
         </Routes>
       )}
     </div>

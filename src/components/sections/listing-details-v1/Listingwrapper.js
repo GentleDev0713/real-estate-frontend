@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   OverlayTrigger,
   Tooltip,
@@ -12,6 +12,7 @@ import listing from "../../../data/listings";
 import Calculator from "../../layouts/Calculator";
 import $ from "jquery";
 import "magnific-popup";
+import axios from "axios";
 
 // Gallery
 
@@ -21,6 +22,7 @@ const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Square Feet</Tooltip>;
 
 const Listingwrapper = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     Location: "location",
     BasicInformation: "BasicInformation",
@@ -30,12 +32,13 @@ const Listingwrapper = () => {
   });
 
   const [featureList, setFeatureList] = useState([]);
+  const [listing, setListing] = useState([]);
   const [showmore, setShowMore] = useState(false);
   const { id } = useParams();
 
   const getData = async () => {
     const response = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/get-properties",
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/get-properties`,
       {
         method: "GET",
         headers: {
@@ -48,7 +51,7 @@ const Listingwrapper = () => {
     const find = data.result.find((res) => res._id === id);
     setState(find);
     const features = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/admin/get-features",
+      `${process.env.REACT_APP_SERVER_URL}/admin/get-features`,
       {
         method: "GET",
         headers: {
@@ -62,14 +65,27 @@ const Listingwrapper = () => {
   };
   useEffect(() => {
     getData();
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/submitlisting/lastsubmit`)
+      .then((res) => {
+        setListing(res.data.result);
+      });
   }, []);
 
   function popup() {
+    var items = state.Gallery.picture.map((name) => {
+      return {
+        src: `${process.env.REACT_APP_SERVER_URL}/${name}`,
+      };
+    });
+
     $(".gallery-thumb").magnificPopup({
       type: "image",
       gallery: {
         enabled: true,
       },
+      tCounter: '<span class="mfp-counter">%curr% of %total%</span>', // markup of counter
+      items: items,
     });
   }
 
@@ -93,7 +109,7 @@ const Listingwrapper = () => {
                         style={{ border: "none", background: "none" }}
                       >
                         <img
-                          src={`https://real-estate-backend-rwp6.onrender.com/${item}`}
+                          src={`${process.env.REACT_APP_SERVER_URL}/${item}`}
                           alt="post"
                           style={{ width: "300px", height: "200px" }}
                         />
@@ -163,9 +179,7 @@ const Listingwrapper = () => {
                     </div>
                     <div className="listing-feature">
                       <i className="flaticon-garage" />
-                      <h6 className="listing-feature-label">
-                        Building Stories
-                      </h6>
+                      <h6 className="listing-feature-label">Building Floor</h6>
                       <span className="listing-feature-value">
                         {state.Details.story}
                       </span>
@@ -198,12 +212,16 @@ const Listingwrapper = () => {
                     <div className="listing-feature">
                       <i className="flaticon-ruler" />
                       <h6 className="listing-feature-label">Lot Size</h6>
-                      <span className="listing-feature-value">89 Acres</span>
+                      <span className="listing-feature-value">
+                        {state.Details.lotsize}
+                      </span>
                     </div>
                     <div className="listing-feature">
                       <i className="flaticon-ruler" />
-                      <h6 className="listing-feature-label">Grading</h6>
-                      <span className="listing-feature-value">Yes</span>
+                      <h6 className="listing-feature-label">View</h6>
+                      <span className="listing-feature-value">
+                        {state.Details.view}
+                      </span>
                     </div>
                     <div className="listing-feature">
                       <i className="flaticon-bathroom" />
@@ -230,7 +248,11 @@ const Listingwrapper = () => {
                       .slice(0, featureList.length / 2 + 1)
                       .map((item, key) => (
                         <div key={key} className="listing-feature">
-                          <i className={`flaticon-${item.icon}`}></i>
+                          <i>
+                            <img
+                              src={`${process.env.REACT_APP_SERVER_URL}/${item.icon}`}
+                            />
+                          </i>
                           <h6 className="listing-feature-label">{item.name}</h6>
                           {state.Features.indexOf(item._id) !== -1
                             ? "Yes"
@@ -507,12 +529,21 @@ const Listingwrapper = () => {
                 of type and scrambled it to make a type specimen book. It has
                 survived not only five centuries, but also the leap
               </p>
-              {state.Gallery.video ? (
+              {state.BasicInformation.video &&
+              state.BasicInformation.video.slice(0, 5) === "https" ? (
                 <div className="embed-responsive embed-responsive-21by9">
                   <iframe
                     title="video"
                     className="embed-responsive-item"
-                    src="https://www.youtube.com/embed/Sz_1tkcU0Co"
+                    src={state.BasicInformation.video}
+                  />
+                </div>
+              ) : state.BasicInformation.video ? (
+                <div className="embed-responsive embed-responsive-21by9">
+                  <iframe
+                    title="video"
+                    className="embed-responsive-item"
+                    src={`https://${state.BasicInformation.video}`}
                   />
                 </div>
               ) : (
@@ -773,37 +804,46 @@ const Listingwrapper = () => {
               <div className="sidebar-widget">
                 <h5>Recent Listings</h5>
                 {/* Listing Start */}
-                {listing
-                  .filter(function (item) {
-                    return item.recent === true;
-                  })
-                  .slice(0, 4)
-                  .map((item, i) => (
-                    <div key={i} className="listing listing-list">
-                      <div className="listing-thumbnail">
-                        <Link to="/listing-details-v1">
-                          <img
-                            src={process.env.PUBLIC_URL + "/" + item.gridimg}
-                            alt="listing"
-                          />
-                        </Link>
-                      </div>
-                      <div className="listing-body">
-                        <h6 className="listing-title">
-                          {" "}
-                          <Link to="/listing-details-v1" title={item.title}>
-                            {item.title}
-                          </Link>{" "}
-                        </h6>
-                        <span className="listing-price">
-                          {new Intl.NumberFormat().format(
-                            item.monthlyprice.toFixed(2)
-                          )}
-                          $ <span>/month</span>{" "}
-                        </span>
-                      </div>
+                {listing.map((item, i) => (
+                  <div key={i} className="listing listing-list">
+                    <div className="listing-thumbnail">
+                      <Link
+                        onClick={() => {
+                          navigate(`/listing-details-v1/${item._id}`);
+                          window.location.reload(false);
+                        }}
+                      >
+                        <img
+                          src={`${process.env.REACT_APP_SERVER_URL}/${item.Gallery.file}`}
+                          alt="listing"
+                        />
+                      </Link>
                     </div>
-                  ))}
+                    <div className="listing-body">
+                      <h6 className="listing-title">
+                        {" "}
+                        <Link
+                          onClick={() => {
+                            navigate(`/listing-details-v1/${item._id}`);
+                            window.location.reload(false);
+                          }}
+                          title={item.BasicInformation.name}
+                        >
+                          {item.BasicInformation.name}
+                        </Link>{" "}
+                      </h6>
+                      <span className="listing-price">
+                        {item.BasicInformation.currency}
+                        {item.BasicInformation.price}
+                        {item.BasicInformation.status === "Rental" ? (
+                          <span>/{item.BasicInformation.period}</span>
+                        ) : (
+                          <></>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                ))}
                 {/* Listing End */}
               </div>
               <div className="sidebar-widget">

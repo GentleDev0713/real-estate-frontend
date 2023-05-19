@@ -46,7 +46,7 @@ const Signup = () => {
       data.append("upload_preset", "كثير الكلام");
       data.append("cloud_name", "myclouddatabase");
       fetch(
-        "https://real-estate-backend-rwp6.onrender.com/v1_1/myclouddatabase/image/upload",
+        `${process.env.REACT_APP_SERVER_URL}/v1_1/myclouddatabase/image/upload`,
         {
           method: "POST",
           body: data,
@@ -105,7 +105,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "https://real-estate-backend-rwp6.onrender.com/api/user",
+        `${process.env.REACT_APP_SERVER_URL}/api/user`,
         { name, email, password, pic },
         config
       );

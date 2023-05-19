@@ -5,8 +5,39 @@ import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import Locationtab from "./Locationtab";
 import { statusList } from "../../../data/common";
+import convertToBase64 from "../../../helper/convert";
 
 import { Container, useToast } from "@chakra-ui/react";
+const thumbsContainer = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  marginTop: 16,
+};
+
+const thumb = {
+  display: "inline-flex",
+  borderRadius: 2,
+  border: "1px solid #eaeaea",
+  marginBottom: 8,
+  marginRight: 8,
+  width: 100,
+  height: 100,
+  padding: 4,
+  boxSizing: "border-box",
+};
+
+const thumbInner = {
+  display: "flex",
+  minWidth: 0,
+  overflow: "hidden",
+};
+
+const img = {
+  display: "block",
+  width: "auto",
+  height: "100%",
+};
 
 function Content() {
   const toast = useToast();
@@ -21,17 +52,17 @@ function Content() {
 
   useEffect(() => {
     axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-categories")
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-categories`)
       .then((res) => {
         setTypeList(res.data.result);
       });
     axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-currencies")
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-currencies`)
       .then((res) => {
         setCurrencyList(res.data.result);
       });
     axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-features")
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-features`)
       .then((res) => {
         setFeatureList(res.data.result);
       });
@@ -52,14 +83,16 @@ function Content() {
   const [price, setPrice] = useState("");
   const [period, setPeriod] = useState("");
   const [space, setSpace] = useState("");
+  const [land, setLand] = useState("");
   const [video, setVideo] = useState("");
 
   //  Gallery
-  const [thumbnail, setThumbnail] = useState("");
+  const [thumbnail, setThumbnail] = useState();
+  const [thumbnailUrl, setThumbnailUrl] = useState();
 
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: { "image/*": [] },
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>
@@ -72,16 +105,24 @@ function Content() {
   });
 
   const thumbs = files.map((file) => (
-    <div className="thumb" key={file.name}>
-      <div className="thumbInner">
-        <img src={file.preview} alt="img" />
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img
+          src={file.preview}
+          style={img}
+          // Revoke data uri after image is loaded
+          onLoad={() => {
+            URL.revokeObjectURL(file.preview);
+          }}
+        />
       </div>
     </div>
   ));
 
   useEffect(() => {
-    files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
 
   //  Location
   const [location, setLocation] = useState({
@@ -115,6 +156,8 @@ function Content() {
   const [dining, setDining] = useState(true);
   const [story, setStory] = useState(0);
   const [parking, setParking] = useState("");
+  const [lotsize, setLotsize] = useState("");
+  const [view, setView] = useState("");
 
   //  Validation
   const validate = () => {
@@ -281,6 +324,7 @@ function Content() {
       formData.append("price", price);
       formData.append("period", period ? period : "Monthly");
       formData.append("space", space);
+      formData.append("land", land);
       formData.append("video", video);
 
       formData.append("thumbnail", thumbnail);
@@ -303,6 +347,8 @@ function Content() {
       formData.append("dining", dining);
       formData.append("story", story);
       formData.append("parking", parking);
+      formData.append("lotsize", lotsize);
+      formData.append("view", view);
 
       formData.append("category", type ? type : typeList[0].name);
       // formData.append("buy");
@@ -311,7 +357,7 @@ function Content() {
 
       axios
         .post(
-          "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
+          `${process.env.REACT_APP_SERVER_URL}/submitlisting/submit`,
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -482,7 +528,7 @@ function Content() {
                         <></>
                       )}
                       <div className="col-md-6 form-group">
-                        <label>Property Space (Sqm)</label>
+                        <label>Property Space (SQM)</label>
                         <input
                           type="text"
                           className="form-control"
@@ -490,6 +536,17 @@ function Content() {
                           name="space"
                           value={space}
                           onChange={(e) => setSpace(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-md-6 form-group">
+                        <label>Property Land (SQM)</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Property Land (Sqm)"
+                          name="space"
+                          value={land}
+                          onChange={(e) => setLand(e.target.value)}
                         />
                       </div>
                       <div className="col-md-12 form-group">
@@ -506,30 +563,47 @@ function Content() {
                     </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab2">
-                    <div className="form-group">
+                    <div className="form-group row">
                       <label>Property Thumbnail</label>
-                      <div className="custom-file">
+                      <div className="custom-file col-md-4 col-lg-3">
                         <input
                           type="file"
                           className="custom-file-input"
                           id="propertyThumbnail"
-                          onChange={(e) => setThumbnail(e.target.files[0])}
+                          onChange={async (e) => {
+                            const base64 = await convertToBase64(
+                              e.target.files[0]
+                            );
+                            setThumbnailUrl(base64);
+                            setThumbnail(e.target.files[0]);
+                          }}
                           style={{ display: "none" }}
                         />
                         <label
-                          className="custom-file-label"
+                          className="custom-file-label cursor-pointer"
                           htmlFor="propertyThumbnail"
                         >
                           Choose File
                         </label>
-                        <span style={{ marginLeft: "30px" }}>
-                          {thumbnail ? thumbnail.name : ""}
-                        </span>
                       </div>
+
+                      {thumbnailUrl ? (
+                        <img
+                          className="col-lg-3 col-md-3"
+                          src={thumbnailUrl}
+                          style={{ width: "100px" }}
+                        />
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="form-group">
                       <label>Property Gallery</label>
-                      <div {...getRootProps({ className: "dropzone" })}>
+                      <div
+                        {...getRootProps({
+                          className: "dropzone cursor-pointer",
+                        })}
+                      >
                         <input {...getInputProps(-5)} multiple />
                         <div className="dropzone-msg dz-message needsclick">
                           <i className="fas fa-cloud-upload-alt" />
@@ -542,7 +616,7 @@ function Content() {
                           </span>
                         </div>
                       </div>
-                      <aside className="thumbsContainer">{thumbs}</aside>
+                      <aside className={thumbsContainer}>{thumbs}</aside>
                       <span className="acr-form-notice">
                         *You can upload up to 5 images for your listing
                       </span>
@@ -565,13 +639,13 @@ function Content() {
                               onClick={() => featuresData(res._id)}
                             />
                             <i className="acr-feature-check fas fa-check" />
-                            <i
-                              className={
-                                "acr-listing-feature-icon flaticon-" +
-                                res.icon +
-                                ""
-                              }
-                            />
+                            <i style={{ textAlign: "-webkit-center" }}>
+                              <img
+                                className="acr-listing-feature-icon"
+                                src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                                style={{ marginBottom: "20px" }}
+                              />
+                            </i>
                             {res.name}
                           </label>
                         </div>
@@ -671,7 +745,7 @@ function Content() {
                         </select>
                       </div>
                       <div className="col-md-6 form-group">
-                        <label>Building Stroies</label>
+                        <label>Building Floor</label>
                         <input
                           type="number"
                           className="form-control"
@@ -689,6 +763,28 @@ function Content() {
                           name="Parking"
                           value={parking}
                           onChange={(e) => setParking(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-md-6 form-group">
+                        <label>Lot Size</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Lot Size"
+                          name="lotsize"
+                          value={lotsize}
+                          onChange={(e) => setLotsize(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-md-6 form-group">
+                        <label>View</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="View"
+                          name="view"
+                          value={view}
+                          onChange={(e) => setView(e.target.value)}
                         />
                       </div>
                     </div>
@@ -717,7 +813,7 @@ function Content() {
                     >
                       Submit Listing
                     </button>
-                    {user.isAdmin ? (
+                    {user && user.isAdmin ? (
                       <button
                         type="button"
                         className="btn btn-default"

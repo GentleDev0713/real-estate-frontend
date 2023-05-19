@@ -4,8 +4,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
-import icons from "./../../data/icons";
-import images from "./../../data/images";
+import convertToBase64 from "../../helper/convert";
 
 const AdminCategoryEdit = (props) => {
   const navigate = useNavigate();
@@ -17,17 +16,17 @@ const AdminCategoryEdit = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [icon, setIcon] = useState("");
   const [img, setImg] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
 
   useEffect(() => {
     axios
-      .get(
-        `https://real-estate-backend-rwp6.onrender.com/admin/category/${params.id}`
-      )
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/category/${params.id}`)
       .then((res) => {
         setName(res.data.result.name);
         setDescription(res.data.result.description);
-        setIcon(res.data.result.icon);
-        setImg(res.data.result.img);
+        setIconUrl(res.data.result.icon);
+        setImgUrl(res.data.result.img);
       });
   }, []);
 
@@ -38,15 +37,15 @@ const AdminCategoryEdit = (props) => {
     if (name == "") {
       return false;
     }
-    const formData = {
-      name: name,
-      description: description,
-      icon: icon,
-      img: img,
-    };
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("icon", icon);
+    formData.append("img", img);
     axios
       .put(
-        `https://real-estate-backend-rwp6.onrender.com/admin/category/${params.id}/update`,
+        `${process.env.REACT_APP_SERVER_URL}/admin/category/${params.id}/update`,
         formData
       )
       .then((res) => {
@@ -56,6 +55,17 @@ const AdminCategoryEdit = (props) => {
         setError(true);
         setErrorMsg(err);
       });
+  };
+
+  const onUploadIcon = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setIconUrl(base64);
+    setIcon(e.target.files[0]);
+  };
+  const onUploadImage = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setImgUrl(base64);
+    setImg(e.target.files[0]);
   };
 
   return (
@@ -75,7 +85,6 @@ const AdminCategoryEdit = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
@@ -106,52 +115,53 @@ const AdminCategoryEdit = (props) => {
             />
           </div>
           <div className="form-group row">
-            <label className="col-md-1 col-lg-1" style={{ marginTop: "10px" }}>
-              Icon :
+            <label htmlFor="icon" className="cursor-pointer">
+              Select Icon
             </label>
-            <select
-              value={icon}
-              onChange={(e) => setIcon(e.target.value)}
-              type="icon"
-              className="form-control col-md-6 col-lg-6"
-            >
-              <option value="">Select Icon</option>
-              {icons.map((value, key) => (
-                <option key={key} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-            <i
-              className={"flaticon-" + icon + ""}
-              style={{ fontSize: "30px", marginLeft: "20px" }}
-            ></i>
+            <input
+              onChange={onUploadIcon}
+              type="file"
+              id="icon"
+              name="icon"
+              style={{ display: "none" }}
+            />
+            {iconUrl && iconUrl.slice(0, 7) == "uploads" ? (
+              <img
+                src={`${process.env.REACT_APP_SERVER_URL}/${iconUrl}`}
+                alt="Icon"
+                style={{ width: "100px" }}
+              />
+            ) : (
+              <img src={iconUrl} alt="Icon" style={{ width: "100px" }} />
+            )}
           </div>
           <div className="form-group row">
-            <label className="col-md-1 col-lg-1" style={{ marginTop: "10px" }}>
-              Image :
+            <label htmlFor="img" className="cursor-pointer">
+              Select Image
             </label>
-            <select
-              value={img}
-              onChange={(e) => setImg(e.target.value)}
-              type="image"
-              className="form-control col-md-8 col-lg-8"
-            >
-              <option value="">Select Image</option>
-              {images.map((value, key) => (
-                <option key={key} value={value}>
-                  {value.slice(value.lastIndexOf("/") + 1)}
-                </option>
-              ))}
-            </select>
-            <img
-              src={process.env.PUBLIC_URL + "/" + img}
-              alt="category"
-              style={{ marginLeft: "20px", width: "100px" }}
+            <input
+              onChange={onUploadImage}
+              type="file"
+              id="img"
+              name="img"
+              style={{ display: "none" }}
             />
+            {imgUrl && imgUrl.slice(0, 7) == "uploads" ? (
+              <img
+                src={`${process.env.REACT_APP_SERVER_URL}/${imgUrl}`}
+                alt="Icon"
+                style={{ width: "200px" }}
+              />
+            ) : (
+              <img src={imgUrl} alt="Icon" style={{ width: "200px" }} />
+            )}
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
+            <button
+              type="Submit"
+              onClick={() => postData()}
+              className="btn btn-primary"
+            >
               <span className="fa fa-save"></span> Save
             </button>
             <button

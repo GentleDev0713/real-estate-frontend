@@ -19,9 +19,7 @@ const AdminCurrencyEdit = (props) => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://real-estate-backend-rwp6.onrender.com/admin/currency/${params.id}`
-      )
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/currency/${params.id}`)
       .then((res) => {
         setName(res.data.result.name);
         setCode(res.data.result.code);
@@ -76,7 +74,7 @@ const AdminCurrencyEdit = (props) => {
     };
     axios
       .put(
-        `https://real-estate-backend-rwp6.onrender.com/admin/currency/${params.id}/update`,
+        `${process.env.REACT_APP_SERVER_URL}/admin/currency/${params.id}/update`,
         formData
       )
       .then((res) => {

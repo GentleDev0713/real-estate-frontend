@@ -2517,10 +2517,14 @@ table img {
 .banner.banner-2 .acr-arrows .slider-prev {
   top: 460px;
   transform: translateY(0);
+  border-color: blue;
+    color: blue;
 }
 .banner.banner-2 .acr-arrows .slider-next {
   top: 460px;
   transform: translateY(0);
+  border-color: blue;
+    color: blue;
 }
 .acr-listing-details {
   display: flex;
@@ -3644,7 +3648,7 @@ table img {
 
 /* 6.9. Top Listings */
 .acr-top-listing-item {
-  padding: 40px;
+  padding: 40px 40px 241px 40px;
   border-radius: 8px;
 }
 .acr-top-listing-item::before {

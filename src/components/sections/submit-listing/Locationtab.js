@@ -13,11 +13,35 @@ const Locationtab = ({ locationData }) => {
     return <Marker ref={initMarker} {...props} />;
   };
 
-  const [lat, setlat] = useState(50.29011);
-  const [long, setlong] = useState(5.2712);
+  const [status, setStatus] = useState(null);
+  const [lat, setLat] = useState("13.736717");
+  const [long, setLong] = useState("100.523186");
   const [address, setAddress] = useState("");
-  const [region, setRegion] = useState("");
+  const [city, setCity] = useState("");
+  const [provice, setProvice] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [country, setCountry] = useState("");
+
   const position = [lat, long];
+
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus(null);
+          setLat(position.coords.latitude);
+          setLong(position.coords.longitude);
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
+      console.log(position);
+    }
+  };
   const customMarker = L.icon({
     iconUrl: process.env.PUBLIC_URL + "/assets/img/misc/marker.png",
     iconSize: [50, 50],
@@ -26,22 +50,12 @@ const Locationtab = ({ locationData }) => {
 
   ////////////    Sending Data to Parent Component
 
-  const latChange = (lat) => {
-    setlat(lat);
-    locationData({ lat, long, region, address });
-  };
-
-  const longChange = (long) => {
-    setlong(long);
-    locationData({ lat, long, region, address });
-  };
-
   return (
     <Fragment>
       <div className="form-group submit-listing-map">
-        <MapContainer zoom={8} center={{ lat: lat, lng: long }}>
+        <MapContainer zoom={13} center={{ lat: lat, lng: long }}>
           <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-          <MyMarker position={position} icon={customMarker}>
+          <MyMarker position={position} icon={customMarker} druggable={true}>
             {/* <Popup position={position}>
               Current location: <pre>{JSON.stringify(position, null, 2)}</pre>
             </Popup> */}
@@ -60,37 +74,131 @@ const Locationtab = ({ locationData }) => {
           <input
             type="text"
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
+            }}
             name="address"
             className="form-control"
             placeholder="Full Address"
           />
         </div>
-        <div className="col-md-12 form-group">
-          <label>Region</label>
-          {/* <select className="form-control" name="region">
-                            <option value="Connecticut">Connecticut</option>
-                            <option value="Washington DC">Washington DC</option>
-                            <option value="Los Angelas">Los Angelas</option>
-                            <option value="Missouri">Missouri</option>
-                        </select> */}
+      </div>
+      <div className="row">
+        <div className="col-lg-3 col-md-3 form-group">
+          <label>Country</label>
           <input
             type="text"
-            name="region"
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
+            name="country"
+            value={country}
+            onChange={(e) => {
+              setCountry(e.target.value);
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
+            }}
             className="form-control"
-            placeholder="Region"
+            placeholder="Country"
+          />
+        </div>
+        <div className="col-lg-3 col-md-3 form-group">
+          <label>City</label>
+          <input
+            type="text"
+            name="city"
+            value={city}
+            onChange={(e) => {
+              setCity(e.target.value);
+              getLocation();
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
+            }}
+            className="form-control"
+            placeholder="City"
+          />
+        </div>
+        <div className="col-lg-3 col-md-3 form-group">
+          <label>Provice/State</label>
+          <input
+            type="text"
+            name="provice"
+            value={provice}
+            onChange={(e) => {
+              setProvice(e.target.value);
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
+            }}
+            className="form-control"
+            placeholder="Provice/State"
+          />
+        </div>
+        <div className="col-lg-3 col-md-3 form-group">
+          <label>Zipcode</label>
+          <input
+            type="text"
+            name="zipcode"
+            value={zipcode}
+            onChange={(e) => {
+              setZipcode(e.target.value);
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
+            }}
+            className="form-control"
+            placeholder="Zipcode"
           />
         </div>
         <div className="col-md-6 form-group">
-          <label>Longitude</label>
+          <label>Longitude (Optional)</label>
           <input
-            type="number"
+            type="text"
             name="lng"
             value={long}
             onChange={(e) => {
-              longChange(e.target.value);
+              setLong(e.target.value);
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
             }}
             id="lngVal"
             className="form-control"
@@ -98,13 +206,22 @@ const Locationtab = ({ locationData }) => {
           />
         </div>
         <div className="col-md-6 form-group">
-          <label>Latitude</label>
+          <label>Latitude (Optional)</label>
           <input
-            type="number"
+            type="text"
             name="lat"
             value={lat}
             onChange={(e) => {
-              latChange(e.target.value);
+              setLat(e.target.value);
+              locationData({
+                lat,
+                long,
+                address,
+                city,
+                provice,
+                zipcode,
+                country,
+              });
             }}
             id="latVal"
             className="form-control"

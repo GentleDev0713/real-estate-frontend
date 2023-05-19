@@ -15,11 +15,9 @@ const AdminProperty = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    axios
-      .get("https://real-estate-backend-rwp6.onrender.com/admin/get-properties")
-      .then((res) => {
-        setData(res.data.result);
-      });
+    axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/get-properties`).then((res) => {
+      setData(res.data.result);
+    });
   }, []);
 
   const detailProperty = (id) => {
@@ -30,9 +28,7 @@ const AdminProperty = (props) => {
   };
   const deleteProperty = (id) => {
     axios
-      .delete(
-        `https://real-estate-backend-rwp6.onrender.com/admin/delete/property/${id}`
-      )
+      .delete(`${process.env.REACT_APP_SERVER_URL}/admin/delete/property/${id}`)
       .then((res) => {
         setData(res.data.result);
         toast({

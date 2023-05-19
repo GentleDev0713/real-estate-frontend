@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import listing from "../../../data/listings";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
@@ -9,6 +8,19 @@ const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Square Feet</Tooltip>;
 
 const Recentlistings = () => {
+  const [data, setData] = useState([]);
+
+  const SubmitlistingData = async () => {
+    const resposne = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/lastsubmit`
+    );
+    const data = await resposne.json();
+    setData(data.result);
+  };
+
+  useEffect(() => {
+    SubmitlistingData();
+  }, []);
   return (
     <div className="section">
       <div className="container">
@@ -18,12 +30,12 @@ const Recentlistings = () => {
         </div>
         <div className="row">
           <div className="col-lg-8">
-            {listing.slice(0, 1).map((item, i) => (
+            {data.slice(0, 1).map((item, i) => (
               <div key={i} className="listing listing-list">
                 <div className="listing-thumbnail">
-                  <Link to="/listing-details-v1">
+                  <Link to={`/listing-details-v1/${item._id}`}>
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.listimg}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.Gallery.file}`}
                       alt="listing"
                     />
                   </Link>
@@ -64,15 +76,17 @@ const Recentlistings = () => {
                 <div className="listing-body">
                   <div className="listing-author">
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.Author.pic}`}
                       alt="author"
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{item.authorname}</Link>{" "}
+                        <Link to="#">{item.Author.name}</Link>{" "}
                       </p>
-                      <span className="listing-date">{item.postdate}</span>
+                      <span className="listing-date">
+                        {item.createdAt.split("T")[0]}
+                      </span>
                     </div>
                     <Dropdown className="options-dropdown">
                       <Dropdown.Toggle as={NavLink}>
@@ -107,23 +121,31 @@ const Recentlistings = () => {
                   </div>
                   <h5 className="listing-title">
                     {" "}
-                    <Link to="/listing-details-v1" title={item.title}>
-                      {item.title}
+                    <Link
+                      to={`/listing-details-v1/${item._id}`}
+                      title={item.BasicInformation.name}
+                    >
+                      {item.BasicInformation.name}
                     </Link>{" "}
                   </h5>
                   <span className="listing-price">
-                    {new Intl.NumberFormat().format(
-                      item.monthlyprice.toFixed(2)
-                    )}
-                    $ <span>/month</span>{" "}
+                    {item.BasicInformation.currency}
+                    {item.BasicInformation.price}
+                    {item.BasicInformation.status === "Rental" ? (
+                      <span>/{item.BasicInformation.period}</span>
+                    ) : (
+                      <></>
+                    )}{" "}
                   </span>
-                  <p className="listing-text">{item.text}</p>
+                  <p className="listing-text">
+                    {item.BasicInformation.description}
+                  </p>
                   <div className="acr-listing-icons">
                     <OverlayTrigger overlay={bedstip}>
                       <div className="acr-listing-icon">
                         <i className="flaticon-bedroom" />
                         <span className="acr-listing-icon-value">
-                          {item.beds}
+                          {item.Details.beds}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -131,7 +153,7 @@ const Recentlistings = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-bathroom" />
                         <span className="acr-listing-icon-value">
-                          {item.bathrooms}
+                          {item.Details.bathrooms}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -139,21 +161,21 @@ const Recentlistings = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-ruler" />
                         <span className="acr-listing-icon-value">
-                          {new Intl.NumberFormat().format(item.area)}
+                          {item.BasicInformation.space} SQM
                         </span>
                       </div>
                     </OverlayTrigger>
                   </div>
                   <div className="listing-gallery-wrapper">
                     <Link
-                      to="/listing-details-v1"
+                      to={`/listing-details-v1/${item._id}`}
                       className="btn-custom btn-sm secondary"
                     >
                       View Details
                     </Link>
                     <OverlayTrigger overlay={gallerytip}>
                       <Link to="#" className="listing-gallery">
-                        {" "}
+                        {/* {`${process.env.REACT_APP_SERVER_URL}/${item.Gallery.picture}`} */}
                         <i className="fas fa-camera" />{" "}
                       </Link>
                     </OverlayTrigger>
@@ -161,12 +183,12 @@ const Recentlistings = () => {
                 </div>
               </div>
             ))}
-            {listing.slice(1, 2).map((item, i) => (
+            {data.slice(1, 2).map((item, i) => (
               <div key={i} className="listing">
                 <div className="listing-thumbnail">
-                  <Link to="/listing-details-v1">
+                  <Link to={`/listing-details-v1/${item._id}`}>
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.gridimg}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.Gallery.file}`}
                       alt="listing"
                     />
                   </Link>
@@ -207,15 +229,17 @@ const Recentlistings = () => {
                 <div className="listing-body">
                   <div className="listing-author">
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.Author.pic}`}
                       alt="author"
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{item.authorname}</Link>{" "}
+                        <Link to="#">{item.Author.name}</Link>{" "}
                       </p>
-                      <span className="listing-date">{item.postdate}</span>
+                      <span className="listing-date">
+                        {item.createdAt.split("T")[0]}
+                      </span>
                     </div>
                     <Dropdown className="options-dropdown">
                       <Dropdown.Toggle as={NavLink}>
@@ -250,23 +274,34 @@ const Recentlistings = () => {
                   </div>
                   <h5 className="listing-title">
                     {" "}
-                    <Link to="/listing-details-v1" title={item.title}>
-                      {item.title}
+                    <Link
+                      to={`/listing-details-v1/${item._id}`}
+                      title={item.BasicInformation.name}
+                    >
+                      {item.BasicInformation.name}
                     </Link>{" "}
                   </h5>
                   <span className="listing-price">
-                    {new Intl.NumberFormat().format(
-                      item.monthlyprice.toFixed(2)
-                    )}
-                    $ <span>/month</span>{" "}
+                    {item.BasicInformation.currency}
+                    {/* {new Intl.NumberFormat().format(
+                      item.BasicInformation.price.toFixed(2)
+                    )} */}
+                    {item.BasicInformation.price}
+                    {item.BasicInformation.status === "Rental" ? (
+                      <span>/{item.BasicInformation.period}</span>
+                    ) : (
+                      <></>
+                    )}{" "}
                   </span>
-                  <p className="listing-text">{item.text}</p>
+                  <p className="listing-text">
+                    {item.BasicInformation.description}
+                  </p>
                   <div className="acr-listing-icons">
                     <OverlayTrigger overlay={bedstip}>
                       <div className="acr-listing-icon">
                         <i className="flaticon-bedroom" />
                         <span className="acr-listing-icon-value">
-                          {item.beds}
+                          {item.Details.beds}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -274,7 +309,7 @@ const Recentlistings = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-bathroom" />
                         <span className="acr-listing-icon-value">
-                          {item.bathrooms}
+                          {item.Details.bathrooms}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -282,14 +317,14 @@ const Recentlistings = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-ruler" />
                         <span className="acr-listing-icon-value">
-                          {new Intl.NumberFormat().format(item.area)}
+                          {item.BasicInformation.space} SQM
                         </span>
                       </div>
                     </OverlayTrigger>
                   </div>
                   <div className="listing-gallery-wrapper">
                     <Link
-                      to="/listing-details-v1"
+                      to={`/listing-details-v1/${item._id}`}
                       className="btn-custom btn-sm secondary"
                     >
                       View Details
@@ -306,12 +341,12 @@ const Recentlistings = () => {
             ))}
           </div>
           <div className="col-lg-4">
-            {listing.slice(3, 5).map((item, i) => (
+            {data.slice(2, 4).map((item, i) => (
               <div key={i} className="listing">
                 <div className="listing-thumbnail">
-                  <Link to="/listing-details-v1">
+                  <Link to={`/listing-details-v1/${item._id}`}>
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.gridimg}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.Gallery.file}`}
                       alt="listing"
                     />
                   </Link>
@@ -352,15 +387,17 @@ const Recentlistings = () => {
                 <div className="listing-body">
                   <div className="listing-author">
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.Author.pic}`}
                       alt="author"
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{item.authorname}</Link>{" "}
+                        <Link to="#">{item.Author.name}</Link>{" "}
                       </p>
-                      <span className="listing-date">{item.postdate}</span>
+                      <span className="listing-date">
+                        {item.createdAt.split("T")[0]}
+                      </span>
                     </div>
                     <Dropdown className="options-dropdown">
                       <Dropdown.Toggle as={NavLink}>
@@ -395,23 +432,31 @@ const Recentlistings = () => {
                   </div>
                   <h5 className="listing-title">
                     {" "}
-                    <Link to="/listing-details-v1" title={item.title}>
-                      {item.title}
+                    <Link
+                      to={`/listing-details-v1/${item._id}`}
+                      title={item.BasicInformation.name}
+                    >
+                      {item.BasicInformation.name}
                     </Link>{" "}
                   </h5>
                   <span className="listing-price">
-                    {new Intl.NumberFormat().format(
-                      item.monthlyprice.toFixed(2)
-                    )}
-                    $ <span>/month</span>{" "}
+                    {item.BasicInformation.currency}
+                    {item.BasicInformation.price}
+                    {item.BasicInformation.status === "Rental" ? (
+                      <span>/{item.BasicInformation.period}</span>
+                    ) : (
+                      <></>
+                    )}{" "}
                   </span>
-                  <p className="listing-text">{item.text}</p>
+                  <p className="listing-text">
+                    {item.BasicInformation.description}
+                  </p>
                   <div className="acr-listing-icons">
                     <OverlayTrigger overlay={bedstip}>
                       <div className="acr-listing-icon">
                         <i className="flaticon-bedroom" />
                         <span className="acr-listing-icon-value">
-                          {item.beds}
+                          {item.Details.beds}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -419,7 +464,7 @@ const Recentlistings = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-bathroom" />
                         <span className="acr-listing-icon-value">
-                          {item.bathrooms}
+                          {item.Details.bathrooms}
                         </span>
                       </div>
                     </OverlayTrigger>
@@ -427,14 +472,14 @@ const Recentlistings = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-ruler" />
                         <span className="acr-listing-icon-value">
-                          {new Intl.NumberFormat().format(item.area)}
+                          {item.BasicInformation.space} SQM
                         </span>
                       </div>
                     </OverlayTrigger>
                   </div>
                   <div className="listing-gallery-wrapper">
                     <Link
-                      to="/listing-details-v1"
+                      to={`/listing-details-v1/${item._id}`}
                       className="btn-custom btn-sm secondary"
                     >
                       View Details

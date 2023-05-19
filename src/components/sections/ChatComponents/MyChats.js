@@ -20,7 +20,7 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
       const { data } = await axios.get(
-        "https://real-estate-backend-rwp6.onrender.com/api/chat",
+        `${process.env.REACT_APP_SERVER_URL}/api/chat`,
         config
       );
       setChats(data);

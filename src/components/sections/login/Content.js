@@ -14,7 +14,7 @@ const Content = () => {
   };
 
   const postData = async () => {
-    await fetch("https://real-estate-backend-rwp6.onrender.com/login", {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

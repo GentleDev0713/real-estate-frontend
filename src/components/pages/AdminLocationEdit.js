@@ -4,69 +4,73 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
+import { useToast } from "@chakra-ui/react";
 
-const AdminUserEdit = (props) => {
-  const params = useParams();
+const AdminCurrencyEdit = (props) => {
   const navigate = useNavigate();
+  const params = useParams();
+  const toast = useToast();
 
-  const [state, setState] = useState([]);
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState("Buyer");
-  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/admin/user/${params.id}`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/location/${params.id}`)
       .then((res) => {
-        setState(res.data.result);
-        setName(res.data.result.name);
-        setEmail(res.data.result.email);
-        setUser(res.data.result.user);
-        setAdmin(res.data.result.isAdmin);
-        setPassword("");
+        setCountry(res.data.result.country);
+        setCity(res.data.result.city);
       });
   }, []);
 
   const onCancel = () => {
-    navigate("/admin/users");
+    navigate("/admin/locations");
   };
   const postData = () => {
+    if (country == "" || city == "") {
+      toast({
+        title: "Error",
+        description: "Field is empty!!!",
+        status: "error",
+        duration: 2000,
+        variant: "left-accent",
+        position: "top-right",
+        isClosable: true,
+      });
+      return false;
+    }
+
     const formData = {
-      name: name,
-      password: password,
-      user: user,
-      isAdmin: admin,
-      email: email,
+      country: country,
+      city: city,
     };
 
     axios
       .put(
-        `${process.env.REACT_APP_SERVER_URL}/admin/user/${state._id}/update`,
+        `${process.env.REACT_APP_SERVER_URL}/admin/location/${params.id}/update`,
         formData
       )
       .then((res) => {
-        navigate("/admin/users");
+        navigate("/admin/locations");
       })
       .catch((err) => {
         setError(true);
-        setErrorMsg(err);
+        setErrorMsg(err.response.data.Msg);
       });
   };
 
   return (
     <div>
       <Helmet>
-        <title>Acres - Real Estate React Template | Admin User Edit</title>
+        <title>Acres - Real Estate React Template | Admin Location Edit</title>
         <meta name="description" content="#" />
       </Helmet>
       <AdminHeader />
       <AdminSider url={props.url} />
       <div className="text-center" style={{ margin: "20px" }}>
-        <h2>User Edit</h2>
+        <h2>Location Edit</h2>
       </div>
       <div
         className="acr-user-content"
@@ -83,66 +87,30 @@ const AdminUserEdit = (props) => {
           }}
         >
           <div className="form-group">
-            <label>Username</label>
+            <label>Country</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
               className="form-control form-control-light"
-              placeholder="Username"
-              name="username"
+              placeholder="Enter a country name"
+              name="country"
             />
           </div>
           <div className="form-group">
-            <label>Email or Phone</label>
+            <label>City</label>
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               className="form-control form-control-light"
-              placeholder="Email or Phone"
-              name="email"
+              placeholder="Enter a city name"
+              name="city"
             />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-control form-control-light"
-              placeholder="Password"
-              name="password"
-            />
-          </div>
-          <div className="form-group">
-            <label>Role</label>
-            <select
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              type="user"
-              className="form-control"
-            >
-              <option value="Buyer">Buyer</option>
-              <option value="Seller">Seller</option>
-              <option value="Agent">Agent</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Admin</label>
-            <select
-              value={admin}
-              onChange={(e) => setAdmin(e.target.value)}
-              type="user"
-              className="form-control"
-            >
-              <option value="false">User</option>
-              <option value="true">Admin</option>
-            </select>
           </div>
           <div className="form-group text-right">
             <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Update
+              <span className="fa fa-save"></span> Save
             </button>
             <button
               type="button"
@@ -205,4 +173,4 @@ const AdminUserEdit = (props) => {
   );
 };
 
-export default AdminUserEdit;
+export default AdminCurrencyEdit;

@@ -33,7 +33,6 @@ const Calculator = () => {
             -yearsToMonths(loanDuration)
           ))
     );
-
     return monthlyPayment;
   };
 

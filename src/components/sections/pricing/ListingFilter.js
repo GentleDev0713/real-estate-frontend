@@ -1,33 +1,33 @@
-import React, { useState, useReducer } from "react";
-import Data from "../../../data/select";
-import PriceReducer from "../../../reducers/PriceReducer";
-import InputGroup from "react-bootstrap/InputGroup";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 var PriceFilter = {};
 
 const ListingFilter = ({ getData }) => {
   const [advanceSearch, setAdvanceSearch] = useState(true);
 
-  const {
-    locationlist,
-    statuslist,
-    pricerangelist,
-    bedslist,
-    bathroomslist,
-    typelist,
-    diameterlist,
-  } = Data;
+  const [typeList, setTypeList] = useState([]);
+  const [location, setLocation] = useState("");
+  const [buy, setBuy] = useState("");
+  const [type, setType] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [beds, setBeds] = useState("");
 
-  const [PriceState, dispatch] = useReducer(PriceReducer, PriceFilter);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-categories`)
+      .then((res) => {
+        setTypeList(res.data.result);
+      });
+  }, []);
 
   const filterData = () => {
     PriceFilter = {
-      location: PriceState.location,
-      type: PriceState.type,
-      bed: PriceState.bed === undefined ? 0 : PriceState.bed,
-      bathroom: PriceState.bathroom === undefined ? 0 : PriceState.bathroom,
-      price: PriceState.price === undefined ? "0" : PriceState.price,
-      diameter: PriceState.diameter,
-      status: PriceState.status === "Any Status" ? "" : PriceState.status,
+      location: location,
+      buy: buy == "any" ? "" : buy,
+      type: type == "any" ? "" : type,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
     };
     getData(PriceFilter);
   };
@@ -38,69 +38,67 @@ const ListingFilter = ({ getData }) => {
         <div className="w-11/12 min-md:w-8/12 md:9-12">
           <div className="border border-gray rounded-lg px-4 pt-4">
             <div className="row">
-              <InputGroup>
+              <div className="col-lg-4 col-md-4 grid-custom">
                 <input
-                  placeholder="Search by location, station, condo name or keyword"
+                  type="text"
+                  name="location"
                   className="col-md-6 form-control"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Search by location, station, condo name or keyword"
+                  style={{ fontWeight: "bold" }}
                 />
-
+              </div>
+              <div className="col-lg-2 col-md-2 grid-custom">
                 <select
                   className="col-md-2 form-control"
                   name="Status"
                   style={{ fontWeight: "bold" }}
-                  value={PriceState.status}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE",
-                      value: e.target.value,
-                      key: "status",
-                    })
-                  }
+                  value={buy}
+                  onChange={(e) => setBuy(e.target.value)}
                 >
                   <option value="" hidden>
                     Buy
                   </option>
-                  {statuslist.map((res, key) => {
-                    return (
-                      <option
-                        key={"buy" + key}
-                        className="form-control"
-                        value={res}
-                      >
-                        {res}
-                      </option>
-                    );
-                  })}
+                  <option className="form-control" value="any">
+                    Any
+                  </option>
+                  <option className="form-control" value="buy">
+                    Buy
+                  </option>
+                  <option className="form-control" value="sell">
+                    Sell
+                  </option>
                 </select>
-
+              </div>
+              <div className="col-lg-3 col-md-3 grid-custom">
                 <select
                   className="col-md-2 form-control"
-                  name="Status"
+                  name="type"
                   style={{ fontWeight: "bold", marginBottom: "15px" }}
-                  value={PriceState.status}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE",
-                      value: e.target.value,
-                      key: "status",
-                    })
-                  }
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
                 >
                   <option value="" hidden>
                     Property Type
                   </option>
-                  {statuslist.map((res, key) => {
+                  <option className="form-control" value="any">
+                    Any type
+                  </option>
+                  {typeList.map((res, key) => {
                     return (
                       <option
                         className="form-control"
-                        value={res}
+                        value={res.name}
                         key={"status" + key}
                       >
-                        {res}
+                        {res.name}
                       </option>
                     );
                   })}
                 </select>
+              </div>
+              <div className="col-lg-2 col-md-2 grid-custom">
                 <button
                   onClick={() => filterData()}
                   className="btn-block form-control col-md-2"
@@ -114,107 +112,44 @@ const ListingFilter = ({ getData }) => {
                 >
                   Search
                 </button>
-              </InputGroup>
+              </div>
             </div>
             <div className="row" style={{ alignItems: "center" }}>
               <div className="col-md-2 grid-custom">
-                <select
+                <input
                   className="form-control"
-                  name="Price Range"
+                  type="text"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  placeholder="Min Price"
                   style={{ fontWeight: "bold", marginBottom: "15px" }}
-                  size="sm"
-                  value={PriceState.price}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE",
-                      value: e.target.value,
-                      key: "price",
-                    })
-                  }
-                >
-                  <option value="" hidden>
-                    Min Price
-                  </option>
-                  {pricerangelist.map((res, key) => {
-                    return (
-                      <option
-                        className="form-control"
-                        value={res.value}
-                        key={"minprice" + key}
-                      >
-                        {res.res}
-                      </option>
-                    );
-                  })}
-                </select>
+                />
               </div>
               <div className="col-md-2 grid-custom">
-                <select
+                <input
                   className="form-control"
-                  name="Price Range"
+                  type="text"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  placeholder="Max Price"
                   style={{ fontWeight: "bold", marginBottom: "15px" }}
-                  size="sm"
-                  value={PriceState.price}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE",
-                      value: e.target.value,
-                      key: "price",
-                    })
-                  }
-                >
-                  <option value="" hidden>
-                    Max Price
-                  </option>
-                  {pricerangelist.map((res, key) => {
-                    return (
-                      <option
-                        className="form-control"
-                        value={res.value}
-                        key={"maxprice" + key}
-                      >
-                        {res.res}
-                      </option>
-                    );
-                  })}
-                </select>
+                />
               </div>
               <div className="col-md-2 grid-custom">
-                <select
+                <input
                   className="form-control"
-                  name="Price Range"
+                  type="text"
+                  value={beds}
+                  onChange={(e) => setBeds(e.target.value)}
+                  placeholder="Beds"
                   style={{ fontWeight: "bold", marginBottom: "15px" }}
-                  size="sm"
-                  value={PriceState.price}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE",
-                      value: e.target.value,
-                      key: "price",
-                    })
-                  }
-                >
-                  <option value="" hidden>
-                    Beds
-                  </option>
-                  {bedslist.map((res, key) => {
-                    return (
-                      <option
-                        className="form-control"
-                        value={res}
-                        key={"beds" + key}
-                      >
-                        {res}
-                      </option>
-                    );
-                  })}
-                </select>
+                />
               </div>
               <div className="col-md-3">
-                <input type="checkbox"></input>
+                {/* <input type="checkbox"></input>
                 <span className="banner-search-checkbox">
                   Near transport station
-                </span>
+                </span> */}
               </div>
             </div>
           </div>

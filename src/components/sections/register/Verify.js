@@ -69,7 +69,7 @@ const Verify = () => {
 
     await axios
       .post(
-        "https://real-estate-backend-rwp6.onrender.com/register",
+        `${process.env.REACT_APP_SERVER_URL}/register`,
         // method: "POST",
         // headers: {
         //   "Content-Type": "application/json",
@@ -139,7 +139,7 @@ const Verify = () => {
               <img
                 src={
                   url ||
-                  "https://real-estate-backend-rwp6.onrender.com/uploads/profiles/profile.png"
+                  `${process.env.REACT_APP_SERVER_URL}/uploads/profiles/profile.png`
                 }
                 className="border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer"
                 alt="avatar"

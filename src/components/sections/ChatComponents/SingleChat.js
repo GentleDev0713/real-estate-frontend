@@ -39,7 +39,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       };
       setLoading(true);
       const { data } = await axios.get(
-        `https://real-estate-backend-rwp6.onrender.com/api/message/${selectedChat._id}`,
+        `${process.env.REACT_APP_SERVER_URL}/api/message/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -62,7 +62,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "https://real-estate-backend-rwp6.onrender.com/api/message",
+          `${process.env.REACT_APP_SERVER_URL}/api/message`,
           {
             content: newMessage,
             chatId: selectedChat,

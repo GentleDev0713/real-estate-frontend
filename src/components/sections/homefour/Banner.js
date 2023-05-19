@@ -18,36 +18,36 @@ const Banner = () => {
   } = Data;
 
   const filterData = (data) => {
-    setScreen2(true);
+    // setScreen2(true);
+    console.log(data);
+    // const price =
+    //   data.price === 0 ? ["0", "900000000007676780"] : data.price.split(",");
+    // const status = data.status === undefined ? "" : data.status;
+    // const bed = data.bed === "Any amount" ? 0 : data.bed;
+    // const bathroom = data.bathroom === "Any amount" ? 0 : data.bathroom;
 
-    const price =
-      data.price === 0 ? ["0", "900000000007676780"] : data.price.split(",");
-    const status = data.status === undefined ? "" : data.status;
-    const bed = data.bed === "Any amount" ? 0 : data.bed;
-    const bathroom = data.bathroom === "Any amount" ? 0 : data.bathroom;
-
-    if (status === "") {
-      const abc = state.filter((item) => {
-        return (
-          parseInt(item.Details.beds) >= bed &&
-          parseInt(item.Details.bathrooms) >= bathroom &&
-          parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
-          parseInt(item.BasicInformation.price) <= parseInt(price[1])
-        );
-      });
-      setFilter(abc);
-    } else {
-      const abc = state.filter((item) => {
-        return (
-          parseInt(item.Details.beds) >= bed &&
-          parseInt(item.Details.bathrooms) >= bathroom &&
-          parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
-          parseInt(item.BasicInformation.price) <= parseInt(price[1]) &&
-          item.BasicInformation.type === status
-        );
-      });
-      setFilter(abc);
-    }
+    // if (status === "") {
+    //   const abc = state.filter((item) => {
+    //     return (
+    //       parseInt(item.Details.beds) >= bed &&
+    //       parseInt(item.Details.bathrooms) >= bathroom &&
+    //       parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
+    //       parseInt(item.BasicInformation.price) <= parseInt(price[1])
+    //     );
+    //   });
+    //   setFilter(abc);
+    // } else {
+    //   const abc = state.filter((item) => {
+    //     return (
+    //       parseInt(item.Details.beds) >= bed &&
+    //       parseInt(item.Details.bathrooms) >= bathroom &&
+    //       parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
+    //       parseInt(item.BasicInformation.price) <= parseInt(price[1]) &&
+    //       item.BasicInformation.type === status
+    //     );
+    //   });
+    //   setFilter(abc);
+    // }
   };
 
   return (

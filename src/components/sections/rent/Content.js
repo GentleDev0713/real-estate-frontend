@@ -17,16 +17,13 @@ const Content = () => {
   const navigate = useNavigate();
 
   const getData = async () => {
-    const response = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          mode: "no-cors",
-        },
-      }
-    );
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/submitlisting/submit`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+    });
     const data = await response.json();
 
     const newArray = data.result.filter(function (item) {

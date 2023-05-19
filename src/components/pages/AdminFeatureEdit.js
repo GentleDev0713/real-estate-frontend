@@ -5,7 +5,7 @@ import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
 import { useToast } from "@chakra-ui/react";
-import icons from "./../../data/icons";
+import convertToBase64 from "../../helper/convert";
 
 const AdminFeatureEdit = (props) => {
   const navigate = useNavigate();
@@ -13,18 +13,17 @@ const AdminFeatureEdit = (props) => {
   const toast = useToast();
 
   const [name, setName] = useState("");
-  const [icon, setIcon] = useState("");
+  const [icon, setIcon] = useState();
+  const [url, setUrl] = useState();
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     axios
-      .get(
-        `https://real-estate-backend-rwp6.onrender.com/admin/feature/${params.id}`
-      )
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/feature/${params.id}`)
       .then((res) => {
         setName(res.data.result.name);
-        setIcon(res.data.result.icon);
+        setUrl(res.data.result.icon);
       });
   }, []);
 
@@ -56,13 +55,14 @@ const AdminFeatureEdit = (props) => {
       });
       return false;
     }
-    const formData = {
-      name: name,
-      icon: icon,
-    };
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("icon", icon);
+
     axios
       .put(
-        `https://real-estate-backend-rwp6.onrender.com/admin/feature/${params.id}/update`,
+        `${process.env.REACT_APP_SERVER_URL}/admin/feature/${params.id}/update`,
         formData
       )
       .then((res) => {
@@ -72,6 +72,12 @@ const AdminFeatureEdit = (props) => {
         setError(true);
         setErrorMsg(err);
       });
+  };
+
+  const onUpload = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setUrl(base64);
+    setIcon(e.target.files[0]);
   };
 
   return (
@@ -111,26 +117,25 @@ const AdminFeatureEdit = (props) => {
             />
           </div>
           <div className="form-group row">
-            <label className="col-md-1 col-lg-1" style={{ marginTop: "10px" }}>
-              Icon :
+            <label htmlFor="icon" className="cursor-pointer">
+              Select Icon
             </label>
-            <select
-              value={icon}
-              onChange={(e) => setIcon(e.target.value)}
-              type="icon"
-              className="form-control col-md-6 col-lg-6"
-            >
-              <option value="">Select Icon</option>
-              {icons.map((value, key) => (
-                <option key={key} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-            <i
-              className={"flaticon-" + icon + ""}
-              style={{ fontSize: "30px", marginLeft: "20px" }}
-            ></i>
+            <input
+              onChange={onUpload}
+              type="file"
+              id="icon"
+              name="icon"
+              style={{ display: "none" }}
+            />
+            {url && url.slice(0, 7) == "uploads" ? (
+              <img
+                src={`${process.env.REACT_APP_SERVER_URL}/${url}`}
+                alt="Icon"
+                style={{ width: "100px" }}
+              />
+            ) : (
+              <img src={url} alt="Icon" style={{ width: "100px" }} />
+            )}
           </div>
           <div className="form-group text-right">
             <button type="Submit" className="btn btn-primary">

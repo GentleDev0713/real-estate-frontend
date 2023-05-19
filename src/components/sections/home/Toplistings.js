@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import Slider from "react-slick";
-import listing from "../../../data/listings";
 
 const gallerytip = () => <Tooltip>Gallery</Tooltip>;
 const bedstip = () => <Tooltip>Beds</Tooltip>;
@@ -12,6 +11,20 @@ const areatip = () => <Tooltip>Square Feet</Tooltip>;
 const Toplistings = () => {
   //creating the ref
   const customeSlider = useRef();
+
+  const [listing, setListing] = useState([]);
+
+  const SubmitlistingData = async () => {
+    const resposne = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/lastsubmit`
+    );
+    const data = await resposne.json();
+    setListing(data.result);
+  };
+
+  useEffect(() => {
+    SubmitlistingData();
+  }, []);
 
   const next = () => {
     customeSlider.current.slickNext();
@@ -38,7 +51,7 @@ const Toplistings = () => {
   return (
     <div className="section light-bg">
       <div className="container top-listings">
-        <div className="acr-arrows">
+        <div className="acr-arrows" style={{ left: "40px" }}>
           <i
             className="slider-prev fas fa-arrow-left slick-arrow"
             onClick={() => previous()}
@@ -61,34 +74,51 @@ const Toplistings = () => {
           {listing.slice(0, 4).map((item, i) => (
             <div key={i}>
               <div
-                className="acr-top-listing-item bg-cover dark-overlay bg-center"
+                // className="acr-top-listing-item bg-cover dark-overlay bg-center"
+                className="acr-top-listing-item bg-cover"
                 style={{
                   backgroundImage:
-                    "url(" + process.env.PUBLIC_URL + "/" + item.gridimg + ")",
+                    "url(" +
+                    process.env.REACT_APP_SERVER_URL +
+                    "/" +
+                    item.Gallery.file +
+                    ")",
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  // width: "inherit",
+                  height: "100% !important",
                 }}
               >
-                <div className="row">
-                  <div className="col-lg-6">
+                {/* <img
+                  className="acr-top-listing-item bg-cover dark-overlay bg-center"
+                  src={`${process.env.REACT_APP_SERVER_URL}/${item.Gallery.file}`}
+                  style={{ width: "inherit" }}
+                /> */}
+                <div className="row" style={{ height: "100%" }}>
+                  <div className="col-lg-4">
                     <div className="acr-top-listing-body listing">
                       <div className="listing-body">
                         <h5 className="listing-title">
                           {" "}
-                          <Link to="/listing-details-v1" title={item.title}>
-                            {item.title}
+                          <Link
+                            to={`/listing-details-v1/${item._id}`}
+                            title={item.BasicInformation.name}
+                          >
+                            {item.BasicInformation.name}
                           </Link>{" "}
                         </h5>
                         <div className="listing-author">
                           <img
-                            src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                            src={`${process.env.REACT_APP_SERVER_URL}/${item.Author.pic}`}
                             alt="author"
                           />
                           <div className="listing-author-body">
                             <p>
                               {" "}
-                              <Link to="#">{item.authorname}</Link>{" "}
+                              <Link to="#">{item.Author.name}</Link>{" "}
                             </p>
                             <span className="listing-date">
-                              {item.postdate}
+                              {item.createdAt.split("T")[0]}
                             </span>
                           </div>
                           <Dropdown className="options-dropdown">
@@ -124,18 +154,23 @@ const Toplistings = () => {
                           </Dropdown>
                         </div>
                         <span className="listing-price">
-                          {new Intl.NumberFormat().format(
-                            item.monthlyprice.toFixed(2)
-                          )}
-                          $ <span>/month</span>{" "}
+                          {item.BasicInformation.currency}
+                          {item.BasicInformation.price}
+                          {item.BasicInformation.status === "Rental" ? (
+                            <span>/{item.BasicInformation.period}</span>
+                          ) : (
+                            <></>
+                          )}{" "}
                         </span>
-                        <p className="listing-text">{item.text}</p>
+                        <p className="listing-text">
+                          {item.BasicInformation.description}
+                        </p>
                         <div className="acr-listing-icons">
                           <OverlayTrigger overlay={bedstip}>
                             <div className="acr-listing-icon">
                               <i className="flaticon-bedroom" />
                               <span className="acr-listing-icon-value">
-                                {item.beds}
+                                {item.Details.beds}
                               </span>
                             </div>
                           </OverlayTrigger>
@@ -143,7 +178,7 @@ const Toplistings = () => {
                             <div className="acr-listing-icon">
                               <i className="flaticon-bathroom" />
                               <span className="acr-listing-icon-value">
-                                {item.bathrooms}
+                                {item.Details.bathrooms}
                               </span>
                             </div>
                           </OverlayTrigger>
@@ -151,14 +186,14 @@ const Toplistings = () => {
                             <div className="acr-listing-icon">
                               <i className="flaticon-ruler" />
                               <span className="acr-listing-icon-value">
-                                {new Intl.NumberFormat().format(item.area)}
+                                {item.BasicInformation.space} SQM
                               </span>
                             </div>
                           </OverlayTrigger>
                         </div>
                         <div className="listing-gallery-wrapper">
                           <Link
-                            to="/listing-details-v1"
+                            to={`/listing-details-v1/${item._id}`}
                             className="btn-custom btn-sm secondary"
                           >
                             View Details

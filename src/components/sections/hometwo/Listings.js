@@ -22,8 +22,17 @@ const Listings = () => {
   const { chats, setChats, setSelectedChat } = user ? ChatState() : "";
 
   const [state, setState] = useState([]);
+  const [locationList, setLocationList] = useState([]);
+  const [typeList, setTypeList] = useState([]);
   const [filter, setFilter] = useState([]);
   const [screen2, setScreen2] = useState(null);
+
+  const [location, setLocation] = useState("");
+  const [type, setType] = useState("");
+  const [price, setPrice] = useState("");
+  const [beds, setBeds] = useState("");
+  const [baths, setBaths] = useState("");
+  const [floors, setFloors] = useState("");
 
   /// Using Reducer For ListingFilter
   const [listingState, ListingDispatch] = useReducer(
@@ -33,7 +42,7 @@ const Listings = () => {
 
   const SubmitlistingData = async () => {
     const resposne = await fetch(
-      "https://real-estate-backend-rwp6.onrender.com/submitlisting/submit"
+      `${process.env.REACT_APP_SERVER_URL}/submitlisting/submit`
     );
     const data = await resposne.json();
     setState(data.result);
@@ -41,6 +50,17 @@ const Listings = () => {
 
   useEffect(() => {
     SubmitlistingData();
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-locations`)
+      .then((res) => {
+        setLocationList(res.data.result);
+      });
+
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-categories`)
+      .then((res) => {
+        setTypeList(res.data.result);
+      });
   }, []);
 
   const filterData = () => {
@@ -103,7 +123,7 @@ const Listings = () => {
         };
 
         const { data } = await axios.post(
-          "https://real-estate-backend-rwp6.onrender.com/api/chat",
+          `${process.env.REACT_APP_SERVER_URL}/api/chat`,
           { userId },
           config
         );
@@ -115,14 +135,14 @@ const Listings = () => {
     }
   };
 
-  const {
-    locationlist,
-    statuslist,
-    pricerangelist,
-    bedslist,
-    bathroomslist,
-    typelist,
-  } = Data;
+  // const {
+  //   locationlist,
+  //   statuslist,
+  //   pricerangelist,
+  //   bedslist,
+  //   bathroomslist,
+  //   typelist,
+  // } = Data;
 
   return (
     <div className="section pt-0">
@@ -144,26 +164,23 @@ const Listings = () => {
                         marginBottom: "15px",
                         padding: "10px",
                       }}
-                      value={listingState.location}
-                      onChange={(e) =>
-                        ListingDispatch({
-                          type: "UPDATE",
-                          value: e.target.value,
-                          key: "location",
-                        })
-                      }
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
                     >
                       <option value="" hidden>
                         Location
                       </option>
-                      {locationlist.map((res, key) => {
+                      <option value="any" className="form-control">
+                        Any Location
+                      </option>
+                      {locationList.map((res, key) => {
                         return (
                           <option
                             className="form-control"
-                            value={res}
-                            key={"location" + key}
+                            value={res.city}
+                            key={key}
                           >
-                            {res}
+                            {`${res.city}, ${res.country}`}
                           </option>
                         );
                       })}
@@ -171,30 +188,27 @@ const Listings = () => {
                   </div>
                   <div className="">
                     <select
-                      defaultValue="Any Status"
+                      // defaultValue="Any Status"
                       className="form-control"
-                      name="Status"
+                      name="type"
                       style={{ fontWeight: "bold", marginBottom: "15px" }}
-                      value={listingState.status}
-                      onChange={(e) =>
-                        ListingDispatch({
-                          type: "UPDATE",
-                          value: e.target.value,
-                          key: "status",
-                        })
-                      }
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
                     >
                       <option value="" hidden>
-                        Status
+                        Property Type
                       </option>
-                      {statuslist.map((res, key) => {
+                      <option value="any" className="form-control">
+                        Any Type
+                      </option>
+                      {typeList.map((res, key) => {
                         return (
                           <option
                             className="form-control"
-                            value={res}
-                            key={"status" + key}
+                            value={res.name}
+                            key={key}
                           >
-                            {res}
+                            {res.name}
                           </option>
                         );
                       })}
@@ -203,24 +217,18 @@ const Listings = () => {
                   <div className="">
                     <select
                       className="form-control"
-                      value={listingState.price}
+                      value={price}
                       style={{
                         fontWeight: "bold",
                         marginBottom: "15px",
                         padding: "10px",
                       }}
-                      onChange={(e) =>
-                        ListingDispatch({
-                          type: "UPDATE",
-                          value: e.target.value,
-                          key: "price",
-                        })
-                      }
+                      onChange={(e) => setPrice(e.target.value)}
                     >
                       <option value="" hidden>
                         Price Range
                       </option>
-                      {pricerangelist.map((res, key) => {
+                      {/* {pricerangelist.map((res, key) => {
                         return (
                           <option
                             className="form-control"
@@ -230,107 +238,38 @@ const Listings = () => {
                             {res.res}
                           </option>
                         );
-                      })}
+                      })} */}
                     </select>
                   </div>
                   <div className="">
-                    <select
+                    <input
+                      type="text"
+                      value={beds}
                       className="form-control"
-                      value={listingState.bed}
-                      style={{
-                        fontWeight: "bold",
-                        marginBottom: "15px",
-                        padding: "10px",
-                      }}
-                      onChange={(e) =>
-                        ListingDispatch({
-                          type: "UPDATE",
-                          value: e.target.value,
-                          key: "bed",
-                        })
-                      }
-                    >
-                      <option value="" hidden>
-                        Beds
-                      </option>
-                      {bedslist.map((res, key) => {
-                        return (
-                          <option
-                            className="form-control"
-                            value={res}
-                            key={"beds" + key}
-                          >
-                            {res}
-                          </option>
-                        );
-                      })}
-                    </select>
+                      style={{ marginBottom: "15px" }}
+                      placeholder="Beds"
+                      onChange={(e) => setBeds(e.target.value)}
+                    />
                   </div>
                   <div className="">
-                    <select
+                    <input
+                      type="text"
+                      value={baths}
                       className="form-control"
-                      value={listingState.bathroom}
-                      style={{
-                        fontWeight: "bold",
-                        marginBottom: "15px",
-                        padding: "10px",
-                      }}
-                      onChange={(e) =>
-                        ListingDispatch({
-                          type: "UPDATE",
-                          value: e.target.value,
-                          key: "bathroom",
-                        })
-                      }
-                    >
-                      <option value="" hidden>
-                        Bathrooms
-                      </option>
-                      {bathroomslist.map((res, key) => {
-                        return (
-                          <option
-                            className="form-control"
-                            value={res}
-                            key={"baths" + key}
-                          >
-                            {res}
-                          </option>
-                        );
-                      })}
-                    </select>
+                      style={{ marginBottom: "15px" }}
+                      placeholder="Bathrooms"
+                      onChange={(e) => setBaths(e.target.value)}
+                    />
                   </div>
                   <div className="">
-                    <select
+                    <input
+                      type="text"
+                      value={floors}
                       className="form-control"
-                      value={listingState.type}
-                      style={{
-                        fontWeight: "bold",
-                        marginBottom: "15px",
-                        padding: "10px",
-                      }}
-                      onChange={(e) =>
-                        ListingDispatch({
-                          type: "UPDATE",
-                          value: e.target.value,
-                          key: "type",
-                        })
-                      }
-                    >
-                      <option value="" hidden>
-                        Type
-                      </option>
-                      {typelist.map((res, key) => {
-                        return (
-                          <option
-                            className="form-control"
-                            value={res}
-                            key={"type" + key}
-                          >
-                            {res}
-                          </option>
-                        );
-                      })}
-                    </select>
+                      style={{ marginBottom: "15px" }}
+                      placeholder="Floors"
+                      onChange={(e) => setFloors(e.target.value)}
+                    />
                   </div>
                   <button
                     onClick={() => filterData()}
@@ -357,7 +296,7 @@ const Listings = () => {
                           }}
                         >
                           <img
-                            src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.file}`}
+                            src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
                             alt="listing"
                             style={{
                               width: "100%",
@@ -379,11 +318,8 @@ const Listings = () => {
                           </Link>{" "}
                         </h5>
                         <span className="listing-price">
+                          {basicInformation.currency}
                           {basicInformation.price}
-                          {/* {new Intl.NumberFormat().format(
-                          item.monthlyprice.toFixed(2)
-                        )} */}
-                          ${" "}
                           {basicInformation.status === "Rental" ? (
                             <span>/{basicInformation.period}</span>
                           ) : (
@@ -393,7 +329,7 @@ const Listings = () => {
                             {Gallery.picture.map((item, key) => {
                               return (
                                 <img
-                                  src={`https://real-estate-backend-rwp6.onrender.com/${item}`}
+                                  src={`${process.env.REACT_APP_SERVER_URL}/${item}`}
                                   alt="listing"
                                   style={{
                                     width: "50px",
@@ -462,7 +398,7 @@ const Listings = () => {
                               }}
                             >
                               <img
-                                src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.picture}`}
+                                src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.picture}`}
                                 alt="listing"
                                 style={{
                                   width: "100%",
@@ -505,7 +441,7 @@ const Listings = () => {
                           >
                             <div className="listing-author">
                               <img
-                                src={`https://real-estate-backend-rwp6.onrender.com/${author.pic}`}
+                                src={`${process.env.REACT_APP_SERVER_URL}/${author.pic}`}
                                 alt="author"
                               />
                               <div className="listing-author-body">
@@ -596,7 +532,7 @@ const Listings = () => {
                                 <div className="acr-listing-icon">
                                   <i className="flaticon-ruler" />
                                   <span className="acr-listing-icon-value">
-                                    {basicInformation.space}
+                                    {basicInformation.space} SQM
                                     {/* {new Intl.NumberFormat().format(item.area)} */}
                                   </span>
                                 </div>
@@ -668,7 +604,7 @@ const Listings = () => {
                             }}
                           >
                             <img
-                              src={`https://real-estate-backend-rwp6.onrender.com/${Gallery.file}`}
+                              src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
                               alt="listing"
                               style={{
                                 width: "100%",
@@ -703,7 +639,7 @@ const Listings = () => {
                         <div className="listing-body" style={{ width: "70%" }}>
                           <div className="listing-author">
                             <img
-                              src={`https://real-estate-backend-rwp6.onrender.com/${author.pic}`}
+                              src={`${process.env.REACT_APP_SERVER_URL}/${author.pic}`}
                               alt="author"
                             />
                             <div className="listing-author-body">
@@ -758,8 +694,8 @@ const Listings = () => {
                             </Link>{" "}
                           </h5>
                           <span className="listing-price">
-                            {basicInformation.price}
                             {basicInformation.currency}
+                            {basicInformation.price}
                             {basicInformation.status === "Rental" ? (
                               <span>/{basicInformation.period}</span>
                             ) : (
@@ -790,7 +726,7 @@ const Listings = () => {
                               <div className="acr-listing-icon">
                                 <i className="flaticon-ruler" />
                                 <span className="acr-listing-icon-value">
-                                  {basicInformation.space}
+                                  {basicInformation.space} SQM
                                   {/* {new Intl.NumberFormat().format(item.area)} */}
                                 </span>
                               </div>

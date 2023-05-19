@@ -6,6 +6,7 @@ import AdminSider from "./../layouts/AdminSider";
 const AdminPanel = (props) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  console.log(process.env.REACT_APP_SERVER_URL);
 
   return (
     <div>

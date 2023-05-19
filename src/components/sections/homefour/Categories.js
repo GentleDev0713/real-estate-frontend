@@ -3,14 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Categories = () => {
-  // const { type } = category;
   const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
-      .get(
-        "https://real-estate-backend-rwp6.onrender.com/get-propertycount-by-category"
-      )
+      .get(`${process.env.REACT_APP_SERVER_URL}/get-propertycount-by-category`)
       .then((res) => {
         setData(res.data);
       });
@@ -28,10 +25,20 @@ const Categories = () => {
             <div key={i} className="col-lg-4 col-md-6">
               <div className="acr-category">
                 <div className="acr-category-thumb">
-                  <i className={"flaticon-" + item.icon + ""} />
+                  <i>
+                    <img
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.icon}`}
+                      style={{
+                        borderRadius: "inherit",
+                        height: "inherit",
+                        width: "inherit",
+                      }}
+                    />
+                  </i>
+                  {/* <i className={"flaticon-house"} /> */}
                   <Link to={`/property/${item.name}`}>
                     <img
-                      src={process.env.PUBLIC_URL + "/" + item.img}
+                      src={`${process.env.REACT_APP_SERVER_URL}/${item.img}`}
                       alt="category"
                     />
                   </Link>
