@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tab, Nav } from "react-bootstrap";
+import { Tab, Nav, Table } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import Locationtab from "./Locationtab";
@@ -48,6 +48,7 @@ function Content() {
   const [typeList, setTypeList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
   const [featureList, setFeatureList] = useState([]);
+  const [nearTypeList, setNearTypeList] = useState([]);
   const [tabKey, setTabKey] = useState("tab1");
 
   useEffect(() => {
@@ -65,6 +66,11 @@ function Content() {
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-features`)
       .then((res) => {
         setFeatureList(res.data.result);
+      });
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-nearbytypes`)
+      .then((res) => {
+        setNearTypeList(res.data.result);
       });
   }, []);
 
@@ -126,10 +132,13 @@ function Content() {
 
   //  Location
   const [location, setLocation] = useState({
-    lat: 50.29011,
-    long: 5.2712,
-    region: "",
     address: "",
+    country: "",
+    city: "",
+    provice: "",
+    zipcode: "",
+    lat: "13.736717",
+    long: "100.523186",
   });
   const locationData = (data) => {
     setLocation(data);
@@ -158,9 +167,50 @@ function Content() {
   const [parking, setParking] = useState("");
   const [lotsize, setLotsize] = useState("");
   const [view, setView] = useState("");
+  const [nears, setNears] = useState({ rows: [] });
+  const addRow = () => {
+    const newRow = {
+      type: nearTypeList[0]._id,
+      name: "",
+      distance: "",
+      isEdit: false,
+    };
+
+    const selectRow = [...nears.rows];
+
+    setNears({
+      rows: [...selectRow, newRow],
+    });
+  };
+
+  const enableEdit = (e, idx) => {
+    const multy = [...nears.rows];
+    if (e.target.innerHTML === "Edit") {
+      e.target.innerHTML = "Save";
+      multy[idx].isEdit = false;
+    } else {
+      e.target.innerHTML = "Edit";
+      multy[idx].isEdit = true;
+    }
+    setNears({
+      rows: [...multy],
+    });
+  };
+
+  const removeRow = (e, idx) => {
+    e.preventDefault();
+    const selectRow = [...nears.rows];
+
+    selectRow.splice(idx, 1);
+    setNears({
+      rows: [...selectRow],
+    });
+  };
 
   //  Validation
   const validate = () => {
+    console.log(location);
+    console.log(nears);
     if (!description) {
       toast({
         title: "Error",
@@ -333,7 +383,10 @@ function Content() {
       formData.append("lat", location.lat);
       formData.append("long", location.long);
       formData.append("address", location.address);
-      formData.append("region", location.region);
+      formData.append("country", location.country);
+      formData.append("city", location.city);
+      formData.append("provice", location.provice);
+      formData.append("zipcode", location.zipcode);
 
       formData.append("features", features);
 
@@ -349,6 +402,7 @@ function Content() {
       formData.append("parking", parking);
       formData.append("lotsize", lotsize);
       formData.append("view", view);
+      formData.append("near", nears.rows);
 
       formData.append("category", type ? type : typeList[0].name);
       // formData.append("buy");
@@ -788,7 +842,119 @@ function Content() {
                         />
                       </div>
                     </div>
-                    <div className="form-group">
+                    <div className="row">
+                      <label>Enter the Nearby </label>
+                      <table
+                        className="table table-bordered text-center"
+                        style={{ margin: "0px 20px" }}
+                      >
+                        <thead>
+                          <tr className="roof">
+                            <th className="col-3"> Select Type </th>
+                            <th className="col-4"> Name</th>
+                            <th className="col-2"> Distance (km)</th>
+                            <th className="col-3">
+                              <button
+                                className="btn btn-success"
+                                onClick={() => addRow()}
+                              >
+                                + Add Row
+                              </button>{" "}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nears.rows.map((item, idx) => (
+                            <tr key={idx}>
+                              <td>
+                                <select
+                                  className="form-control"
+                                  value={item.type}
+                                  name="type"
+                                  disabled={nears.rows[idx].isEdit}
+                                  onChange={(e) => {
+                                    const multy = [...nears.rows];
+                                    multy[idx].type = e.target.value;
+                                    setNears({
+                                      rows: [...multy],
+                                    });
+                                  }}
+                                >
+                                  {nearTypeList.map((res, key) => (
+                                    <option key={key} value={res._id}>
+                                      {res.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="name"
+                                  value={item.name}
+                                  disabled={nears.rows[idx].isEdit}
+                                  onChange={(e) => {
+                                    const multy = [...nears.rows];
+                                    multy[idx].name = e.target.value;
+                                    setNears((state) => {
+                                      return {
+                                        ...state,
+                                        rows: multy,
+                                      };
+                                    });
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="distance"
+                                  value={item.distance}
+                                  disabled={nears.rows[idx].isEdit}
+                                  onChange={(e) => {
+                                    const multy = [...nears.rows];
+                                    multy[idx].distance = e.target.value;
+                                    setNears({
+                                      rows: [...multy],
+                                    });
+                                  }}
+                                />
+                              </td>
+                              <td
+                                className="td-valid"
+                                style={{ textAlign: "center" }}
+                              >
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={(e) => {
+                                    // const multy = [...nears.rows];
+                                    // multy[idx].isEdit = false;
+                                    // console.log(multy);
+                                    // setNears({
+                                    //   rows: [...multy],
+                                    // });
+                                    enableEdit(e, idx);
+                                  }}
+                                  style={{ borderRadius: "5px" }}
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={(e) => removeRow(e, idx)}
+                                  style={{ borderRadius: "5px" }}
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="form-group" style={{ marginTop: "30px" }}>
                       <div className="custom-control custom-checkbox">
                         <input
                           type="checkbox"

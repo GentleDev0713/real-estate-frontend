@@ -35,6 +35,9 @@ const AdminSider = (props) => {
       <Link className="menu-item" to="/admin/locations">
         Location
       </Link>
+      <Link className="menu-item" to="/admin/nearbytypes">
+        Near Type
+      </Link>
     </Menu>
   );
 };

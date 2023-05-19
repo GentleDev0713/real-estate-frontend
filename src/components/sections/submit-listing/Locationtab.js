@@ -39,7 +39,6 @@ const Locationtab = ({ locationData }) => {
           setStatus("Unable to retrieve your location");
         }
       );
-      console.log(position);
     }
   };
   const customMarker = L.icon({

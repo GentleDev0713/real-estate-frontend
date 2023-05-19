@@ -57,6 +57,9 @@ import AdminFeatureEdit from "./components/pages/AdminFeatureEdit";
 import AdminLocation from "./components/pages/AdminLocation";
 import AdminLocationCreate from "./components/pages/AdminLocationCreate";
 import AdminLocationEdit from "./components/pages/AdminLocationEdit";
+import AdminNearbytype from "./components/pages/AdminNearbytype";
+import AdminNearbytypeCreate from "./components/pages/AdminNearbytypeCreate";
+import AdminNearbytypeEdit from "./components/pages/AdminNearbytypeEdit";
 
 const App = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -142,6 +145,18 @@ const App = () => {
           <Route
             path="/admin/location/:id"
             element={<AdminLocationEdit url="/admin/locations" />}
+          />
+          <Route
+            path="/admin/nearbytypes"
+            element={<AdminNearbytype url="/admin/nearbytypes" />}
+          />
+          <Route
+            path="/admin/nearbytype/create"
+            element={<AdminNearbytypeCreate url="/admin/nearbytypes" />}
+          />
+          <Route
+            path="/admin/nearbytype/:id"
+            element={<AdminNearbytypeEdit url="/admin/nearbytypes" />}
           />
           <Route path="*" element={<div>Error 404 Page not found.</div>} />
         </Routes>
