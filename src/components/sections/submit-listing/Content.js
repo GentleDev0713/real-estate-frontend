@@ -419,7 +419,7 @@ function Content() {
         )
         .then((res) => {
           const Msg = res.data.Msg;
-          navigate(-1);
+          navigate("/admin/properties");
         })
         .catch((err) => {
           const Msg = err.response.data.Msg;
@@ -481,7 +481,7 @@ function Content() {
             {/* Tabs End */}
             {/* Tab Content Start */}
             <div className="col-md-8">
-              <form>
+              <form onSubmit={(e) => e.preventDefault()}>
                 <Tab.Content className="m-0">
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
@@ -983,7 +983,7 @@ function Content() {
                       <button
                         type="button"
                         className="btn btn-default"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate("/admin/properties")}
                       >
                         <span className="fa fa-reply"></span> Cancel
                       </button>
