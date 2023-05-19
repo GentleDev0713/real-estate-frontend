@@ -46,7 +46,7 @@ const Content = () => {
             <div className="md:w-9/12 lg:w-4/6 my-4  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
               <div className="w-32 pr-12">
                 <img
-                  src="https://real-estate-frontend-u4cg.onrender.com/assets/img/exclaimationMark.png "
+                  src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/exclaimationMark.png`}
                   width={"100%"}
                 />
               </div>
@@ -70,10 +70,11 @@ const Content = () => {
               <div className="listing listing-list " key={key}>
                 <div className="listing-thumbnail" style={{ width: "60%" }}>
                   <Link
-                    onClick={() => {
-                      navigate(`/listing-details-v1/${res._id}`);
-                      window.location.reload(false);
-                    }}
+                    to={`/listing-details-v1/${res._id}`}
+                    // onClick={() => {
+                    //   navigate(`/listing-details-v1/${res._id}`);
+                    //   window.location.reload(false);
+                    // }}
                   >
                     <img
                       src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
@@ -140,7 +141,7 @@ const Content = () => {
                           </li>
                           <li>
                             {" "}
-                            <Link to="/listing-details-v1">
+                            <Link to={`/listing-details-v1/${res._id}`}>
                               {" "}
                               <i className="fas fa-bookmark" /> Book Tour
                             </Link>{" "}
@@ -152,7 +153,7 @@ const Content = () => {
                   <h5 className="listing-title">
                     {" "}
                     <Link
-                      to="/listing-details-v1"
+                      to=to={`/listing-details-v1/${res._id}`}
                       title={basicInformation.name}
                     >
                       {basicInformation.name}
@@ -189,7 +190,7 @@ const Content = () => {
                       <div className="acr-listing-icon">
                         <i className="flaticon-ruler" />
                         <span className="acr-listing-icon-value">
-                          {basicInformation.space}
+                          {basicInformation.space} SQM
                           {/* {new Intl.NumberFormat().format(item.area)} */}
                         </span>
                       </div>
@@ -197,10 +198,11 @@ const Content = () => {
                   </div>
                   <div className="listing-gallery-wrapper">
                     <Link
-                      onClick={() => {
-                        navigate(`/listing-details-v1/${res._id}`);
-                        window.location.reload(false);
-                      }}
+                    to={`/listing-details-v1/${res._id}`}
+                      // onClick={() => {
+                      //   navigate(`/listing-details-v1/${res._id}`);
+                      //   window.location.reload(false);
+                      // }}
                       className="btn-custom btn-sm secondary"
                     >
                       View Details

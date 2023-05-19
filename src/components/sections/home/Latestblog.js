@@ -38,7 +38,7 @@ const Latestblog = () => {
             {!state ? (
               <div className="">
                 <div className="flex justify-center">
-                  <img src="https://real-estate-frontend-u4cg.onrender.com/assets/img/Loading.gif" />
+                  <img src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/Loading.gif`} />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">No Data</p>
               </div>

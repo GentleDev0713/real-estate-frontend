@@ -364,7 +364,7 @@ const Listings = () => {
                   <div className="md:w-9/12 lg:w-4/6  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                     <div className="w-32 pr-12">
                       <img
-                        src="https://real-estate-frontend-u4cg.onrender.com/assets/img/exclaimationMark.png "
+                        src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/exclaimationMark.png`}
                         width={"100%"}
                       />
                     </div>
@@ -577,7 +577,9 @@ const Listings = () => {
             ) : !state ? (
               <div className="">
                 <div className="flex justify-center">
-                  <img src="https://real-estate-frontend-u4cg.onrender.com/assets/img/Loading.gif" />
+                  <img
+                    src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/Loading.gif`}
+                  />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">
                   Loading .....
@@ -772,12 +774,12 @@ const Listings = () => {
             )}
             {/* Listing End */}
             {/* Promoitional Banner */}
-            {/* <div className="mt-72">
+            <div className="mt-72">
               <img
-                src="https://real-estate-frontend-u4cg.onrender.com/assets/img/PromotionalBanner.png"
+                src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/PromotionalBanner.png`}
                 className="h-96"
               />
-            </div> */}
+            </div>
           </div>
           {/* Posts End */}
         </div>
