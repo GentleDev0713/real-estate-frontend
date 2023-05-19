@@ -110,7 +110,7 @@ function Content() {
         setParking(data.Details.parking);
         setLotsize(data.Details.lotsize);
         setView(data.Details.view);
-        setNears({ rows: [...data.Details.near] });
+        setNears({ rows: data.Details.near });
       });
   }, [params.id]);
 
@@ -255,6 +255,7 @@ function Content() {
   const [lotsize, setLotsize] = useState("");
   const [view, setView] = useState("");
   const [nears, setNears] = useState({ rows: [] });
+
   const addRow = () => {
     const newRow = {
       type: nearTypeList[0]._id,
@@ -264,7 +265,6 @@ function Content() {
     };
 
     const selectRow = [...nears.rows];
-
     setNears({
       rows: [...selectRow, newRow],
     });
@@ -492,7 +492,7 @@ function Content() {
         )
         .then((res) => {
           const Msg = res.data.Msg;
-          navigate(-1);
+          navigate("/admin/properties");
         })
         .catch((err) => {
           const Msg = err.response.data.Msg;
@@ -554,7 +554,7 @@ function Content() {
             {/* Tabs End */}
             {/* Tab Content Start */}
             <div className="col-md-8">
-              <form>
+              <form onSubmit={(e) => e.preventDefault()}>
                 <Tab.Content className="m-0">
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
@@ -1041,7 +1041,7 @@ function Content() {
                       <button
                         type="button"
                         className="btn btn-default"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate("/admin/properties")}
                       >
                         <span className="fa fa-reply"></span> Cancel
                       </button>

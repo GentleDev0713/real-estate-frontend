@@ -49,6 +49,7 @@ const Listingwrapper = () => {
     );
     const data = await response.json();
     const find = data.result.find((res) => res._id === id);
+    console.log(find);
     setState(find);
     const features = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/admin/get-features`,
@@ -123,7 +124,7 @@ const Listingwrapper = () => {
               <iframe
                 width="100%"
                 height="95%"
-                src={`https://maps.google.com/maps?q=${state.Location.latitude},${state.Location.longitude}&hl=es;z=14&output=embed`}
+                src={`https://maps.google.com/maps?q=${state.Location.lat},${state.Location.long}&hl=es;z=14&output=embed`}
               ></iframe>
             </div>
             {/* Content End */}
@@ -296,229 +297,49 @@ const Listingwrapper = () => {
             </div>
             <div className="section pt-0 acr-listing-nearby">
               <h4>What's Nearby</h4>
-              <div className="listing-nearby-item">
-                <h6 className="custom-success">
-                  <i className="fas fa-utensils" />
-                  Restaurants
-                </h6>
-                <ul>
-                  <li>
-                    <span>
-                      <b>The One</b> <span>(1.3 km)</span>{" "}
-                    </span>
+              {state.Details.near &&
+                state.Details.near.map((item, key) => (
+                  <div className="listing-nearby-item" key={key}>
+                    <h6 className="custom-success row">
+                      {/* <i className="fas fa-utensils" /> */}
+                      <i className="col-1">
+                        <img
+                          src={`${process.env.REACT_APP_SERVER_URL}/${item.type.icon}`}
+                        ></img>
+                      </i>
+                      <p
+                        className="col-6"
+                        style={{ color: `${item.type.color}`, padding: "0px" }}
+                      >
+                        {item.type.name}
+                      </p>
+                    </h6>
                     <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
                       <li>
-                        <i className="fas fa-star fa-xs" />
+                        <span>
+                          <b>{item.name}</b> <span>({item.distance} km)</span>{" "}
+                        </span>
+                        <ul>
+                          <li className="custom-warning">
+                            <i className="fas fa-star fa-xs" />
+                          </li>
+                          <li className="custom-warning">
+                            <i className="fas fa-star fa-xs" />
+                          </li>
+                          <li className="custom-warning">
+                            <i className="fas fa-star fa-xs" />
+                          </li>
+                          <li className="custom-warning">
+                            <i className="fas fa-star fa-xs" />
+                          </li>
+                          <li>
+                            <i className="fas fa-star fa-xs" />
+                          </li>
+                        </ul>
                       </li>
                     </ul>
-                  </li>
-                  <li>
-                    <span>
-                      <b>Elephant</b> <span>(0.2 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span>
-                      <b>Jorgie and Clyne</b> <span>(3.2 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li>
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-              <div className="listing-nearby-item">
-                <h6 className="custom-danger">
-                  <i className="fas fa-graduation-cap" />
-                  Education
-                </h6>
-                <ul>
-                  <li>
-                    <span>
-                      <b>Greater Moscow Liberty School</b> <span>(1.3 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li>
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span>
-                      <b>Chandler Highschool</b> <span>(0.2 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span>
-                      <b>Insitution of Science and Technology</b>{" "}
-                      <span>(3.2 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li>
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-              <div className="listing-nearby-item">
-                <h6 className="custom-warning">
-                  <i className="fas fa-shopping-basket" />
-                  Essentials
-                </h6>
-                <ul>
-                  <li>
-                    <span>
-                      <b>Joe's 24/7 Groceries</b> <span>(0.6 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li>
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span>
-                      <b>Frank and Joe</b> <span>(0.9 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span>
-                      <b>All United Store</b> <span>(1.2 km)</span>{" "}
-                    </span>
-                    <ul>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                      <li className="custom-warning">
-                        <i className="fas fa-star fa-xs" />
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+                  </div>
+                ))}
             </div>
             <div className="section pt-0">
               <h4>Property Video</h4>
