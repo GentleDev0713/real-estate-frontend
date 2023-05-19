@@ -153,7 +153,7 @@ const Content = () => {
                   <h5 className="listing-title">
                     {" "}
                     <Link
-                      to=to={`/listing-details-v1/${res._id}`}
+                      to={`/listing-details-v1/${res._id}`}
                       title={basicInformation.name}
                     >
                       {basicInformation.name}
@@ -198,7 +198,7 @@ const Content = () => {
                   </div>
                   <div className="listing-gallery-wrapper">
                     <Link
-                    to={`/listing-details-v1/${res._id}`}
+                      to={`/listing-details-v1/${res._id}`}
                       // onClick={() => {
                       //   navigate(`/listing-details-v1/${res._id}`);
                       //   window.location.reload(false);
