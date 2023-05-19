@@ -290,10 +290,11 @@ const Listings = () => {
                     <div className="listing listing-list " key={key}>
                       <div className="listing-thumbnail">
                         <Link
-                          onClick={() => {
-                            navigate(`/listing-details-v1/${res._id}`);
-                            window.location.reload(false);
-                          }}
+                          to={`/listing-details-v1/${res._id}`}
+                          // onClick={() => {
+                          //   navigate(`/listing-details-v1/${res._id}`);
+                          //   window.location.reload(false);
+                          // }}
                         >
                           <img
                             src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
@@ -309,10 +310,11 @@ const Listings = () => {
                         <h5 className="listing-title">
                           {" "}
                           <Link
-                            onClick={() => {
-                              navigate(`/listing-details-v1/${res._id}`);
-                              window.location.reload(false);
-                            }}
+                            to={`/listing-details-v1/${res._id}`}
+                            // onClick={() => {
+                            //   navigate(`/listing-details-v1/${res._id}`);
+                            //   window.location.reload(false);
+                            // }}
                           >
                             {basicInformation.name}
                           </Link>{" "}
@@ -364,7 +366,7 @@ const Listings = () => {
                   <div className="md:w-9/12 lg:w-4/6  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                     <div className="w-32 pr-12">
                       <img
-                        src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/exclaimationMark.png`}
+                        src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
                         width={"100%"}
                       />
                     </div>
@@ -392,10 +394,11 @@ const Listings = () => {
                             style={{ width: "60%" }}
                           >
                             <Link
-                              onClick={() => {
-                                navigate(`/listing-details-v1/${res._id}`);
-                                window.location.reload(false);
-                              }}
+                              to={`/listing-details-v1/${res._id}`}
+                              // onClick={() => {
+                              //   navigate(`/listing-details-v1/${res._id}`);
+                              //   window.location.reload(false);
+                              // }}
                             >
                               <img
                                 src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.picture}`}
@@ -491,7 +494,8 @@ const Listings = () => {
                             <h5 className="listing-title">
                               {" "}
                               <Link
-                                to="/listing-details-v1"
+                                to={`/listing-details-v1/${res._id}`}
+                                // to="/listing-details-v1"
                                 title={basicInformation.name}
                               >
                                 {basicInformation.name}
@@ -540,10 +544,11 @@ const Listings = () => {
                             </div>
                             <div className="listing-gallery-wrapper">
                               <Link
-                                onClick={() => {
-                                  navigate(`/listing-details-v1/${res._id}`);
-                                  window.location.reload(false);
-                                }}
+                                to={`/listing-details-v1/${res._id}`}
+                                // onClick={() => {
+                                //   navigate(`/listing-details-v1/${res._id}`);
+                                //   window.location.reload(false);
+                                // }}
                                 className="btn-custom btn-sm secondary"
                               >
                                 View Details
@@ -578,7 +583,7 @@ const Listings = () => {
               <div className="">
                 <div className="flex justify-center">
                   <img
-                    src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/Loading.gif`}
+                    src={`${process.env.PUBLIC_URL}/assets/img/Loading.gif`}
                   />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">
@@ -600,10 +605,11 @@ const Listings = () => {
                           style={{ width: "60%" }}
                         >
                           <Link
-                            onClick={() => {
-                              navigate(`/listing-details-v1/${res._id}`);
-                              window.location.reload(false);
-                            }}
+                            to={`/listing-details-v1/${res._id}`}
+                            // onClick={() => {
+                            //   navigate(`/listing-details-v1/${res._id}`);
+                            //   window.location.reload(false);
+                            // }}
                           >
                             <img
                               src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
@@ -736,10 +742,11 @@ const Listings = () => {
                           </div>
                           <div className="listing-gallery-wrapper">
                             <Link
-                              onClick={() => {
-                                navigate(`/listing-details-v1/${res._id}`);
-                                window.location.reload(false);
-                              }}
+                              to={`/listing-details-v1/${res._id}`}
+                              // onClick={() => {
+                              //   navigate(`/listing-details-v1/${res._id}`);
+                              //   window.location.reload(false);
+                              // }}
                               className="btn-custom btn-sm secondary"
                             >
                               View Details
@@ -776,7 +783,7 @@ const Listings = () => {
             {/* Promoitional Banner */}
             <div className="mt-72">
               <img
-                src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/PromotionalBanner.png`}
+                src={`${process.env.PUBLIC_URL}/assets/img/PromotionalBanner.png`}
                 className="h-96"
               />
             </div>

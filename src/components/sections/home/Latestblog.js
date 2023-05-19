@@ -38,7 +38,9 @@ const Latestblog = () => {
             {!state ? (
               <div className="">
                 <div className="flex justify-center">
-                  <img src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/Loading.gif`} />
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/img/Loading.gif`}
+                  />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">No Data</p>
               </div>
@@ -58,10 +60,11 @@ const Latestblog = () => {
                   >
                     <div className="listing-thumbnail" style={{ width: "80%" }}>
                       <Link
-                        onClick={() => {
-                          navigate(`/listing-details-v1/${res._id}`);
-                          window.location.reload(false);
-                        }}
+                        to={`/listing-details-v1/${res._id}`}
+                        // onClick={() => {
+                        //   navigate(`/listing-details-v1/${res._id}`);
+                        //   window.location.reload(false);
+                        // }}
                       >
                         <img
                           src={`${process.env.REACT_APP_SERVER_URL}/${gallery.file}`}
@@ -140,10 +143,11 @@ const Latestblog = () => {
                       <h5 className="listing-title">
                         {" "}
                         <Link
-                          onClick={() => {
-                            navigate(`/listing-details-v1/${res._id}`);
-                            window.location.reload(false);
-                          }}
+                          to={`/listing-details-v1/${res._id}`}
+                          // onClick={() => {
+                          //   navigate(`/listing-details-v1/${res._id}`);
+                          //   window.location.reload(false);
+                          // }}
                           title={basicInformation.name}
                         >
                           {basicInformation.name}
@@ -193,10 +197,11 @@ const Latestblog = () => {
                       </div>
                       <div className="listing-gallery-wrapper">
                         <Link
-                          onClick={() => {
-                            navigate(`/listing-details-v1/${res._id}`);
-                            window.location.reload(false);
-                          }}
+                          to={`/listing-details-v1/${res._id}`}
+                          // onClick={() => {
+                          //   navigate(`/listing-details-v1/${res._id}`);
+                          //   window.location.reload(false);
+                          // }}
                           className="btn-custom btn-sm secondary"
                         >
                           View Details

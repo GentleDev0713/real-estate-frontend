@@ -40,10 +40,11 @@ const Content = () => {
             >
               <div className="listing-thumbnail" style={{ width: "60%" }}>
                 <Link
-                  onClick={() => {
-                    navigate(`/listing-details-v1/${res._id}`);
-                    window.location.reload(false);
-                  }}
+                  to={`/listing-details-v1/${res._id}`}
+                  // onClick={() => {
+                  //   navigate(`/listing-details-v1/${res._id}`);
+                  //   window.location.reload(false);
+                  // }}
                 >
                   <img
                     src={`${process.env.REACT_APP_SERVER_URL}/${Gallery.file}`}
@@ -122,10 +123,11 @@ const Content = () => {
                 <h5 className="listing-title">
                   {" "}
                   <Link
-                    onClick={() => {
-                      navigate(`/listing-details-v1/${res._id}`);
-                      window.location.reload(false);
-                    }}
+                    to={`/listing-details-v1/${res._id}`}
+                    // onClick={() => {
+                    //   navigate(`/listing-details-v1/${res._id}`);
+                    //   window.location.reload(false);
+                    // }}
                     title={basicInformation.name}
                   >
                     {basicInformation.name}
@@ -170,10 +172,11 @@ const Content = () => {
                 </div>
                 <div className="listing-gallery-wrapper">
                   <Link
-                    onClick={() => {
-                      navigate(`/listing-details-v1/${res._id}`);
-                      window.location.reload(false);
-                    }}
+                    to={`/listing-details-v1/${res._id}`}
+                    // onClick={() => {
+                    //   navigate(`/listing-details-v1/${res._id}`);
+                    //   window.location.reload(false);
+                    // }}
                     className="btn-custom btn-sm secondary"
                   >
                     View Details

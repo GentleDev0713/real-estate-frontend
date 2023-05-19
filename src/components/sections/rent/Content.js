@@ -88,7 +88,7 @@ const Content = () => {
                 <div className="md:w-9/12 lg:w-4/6  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                   <div className="w-32 pr-12">
                     <img
-                      src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/exclaimationMark.png`}
+                      src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
                       width={"100%"}
                       alt="NotFound"
                     />
@@ -164,7 +164,7 @@ const Content = () => {
                         <div className="listing-body" style={{ width: "70%" }}>
                           <div className="listing-author">
                             <img
-                              src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/people/2.jpg`}
+                              src={`${process.env.PUBLIC_URL}/assets/img/people/2.jpg`}
                               alt="author"
                             />
                             <div className="listing-author-body">
@@ -286,7 +286,7 @@ const Content = () => {
               <div className="md:w-9/12 lg:w-4/6 my-4  border p-10 border-gray-500 rounded-lg flex justify-between items-center">
                 <div className="w-32 pr-12">
                   <img
-                    src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/exclaimationMark.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
                     width={"100%"}
                     alt="NotFound"
                   />
@@ -349,7 +349,7 @@ const Content = () => {
                   <div className="listing-body" style={{ width: "70%" }}>
                     <div className="listing-author">
                       <img
-                        src={`${process.env.REACT_APP_CLIENT_URL}/assets/img/people/2.jpg`}
+                        src={`${process.env.PUBLIC_URL}/assets/img/people/2.jpg`}
                         alt="author"
                       />
                       <div className="listing-author-body">
