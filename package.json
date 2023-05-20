@@ -58,6 +58,7 @@
       "react-app/jest"
     ]
   },
+  "homepage": "https://real-estate-frontend-u4cg.onrender.com/",
   "browserslist": {
     "production": [
       ">0.2%",
