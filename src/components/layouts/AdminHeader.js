@@ -12,9 +12,9 @@ const AdminHeader = () => {
 
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
-      navigate("/");
+      window.location.replace("/");
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <div
