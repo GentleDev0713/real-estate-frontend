@@ -10,7 +10,7 @@ const AdminSider = (props) => {
     $(".menu-item:first").css("color", "#d1d1d1");
     $(".menu-item.active").removeClass("active");
     $(".menu-item[href='" + props.url + "']").addClass("active");
-  }, []);
+  }, [props.url]);
 
   return (
     <Menu>
