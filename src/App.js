@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Homefour from "./components/pages/Homefour";
 import Chat from "./components/pages/Chat";
 import Services from "./components/pages/Services";
@@ -66,6 +66,7 @@ const App = () => {
 
   return (
     <div className="App">
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       {userInfo && userInfo.isAdmin ? (
         <Routes>
           <Route exact path="/" element={<Navigate to="/admin" />} />
@@ -203,6 +204,7 @@ const App = () => {
           <Route path="*" element={<div>Error 404 Page not found</div>} />
         </Routes>
       )}
+      </BrowserRouter>
     </div>
   );
 };
