@@ -39,7 +39,12 @@ const Categories = () => {
                   <Link to={`/property/${item.name}`}>
                     <img
                       src={`${process.env.REACT_APP_SERVER_URL}/${item.img}`}
-                      style={{ width: "inherit", height: "inherit" }}
+                      // className="img-fluid h-100"
+                      style={{
+                        width: "-webkit-fill-available",
+                        height: "300px",
+                        objectFit: "cover",
+                      }}
                       alt="category"
                     />
                   </Link>

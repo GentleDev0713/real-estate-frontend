@@ -168,12 +168,14 @@ function Content() {
   const [lotsize, setLotsize] = useState("");
   const [view, setView] = useState("");
   const [nears, setNears] = useState({ rows: [] });
+  const [nearId, setNearId] = useState([]);
   const addRow = () => {
     const newRow = {
-      type: nearTypeList[0]._id,
+      neartype: nearTypeList[0]._id,
       name: "",
       distance: "",
       isEdit: false,
+      key: "",
     };
 
     const selectRow = [...nears.rows];
@@ -184,6 +186,7 @@ function Content() {
   };
 
   const enableEdit = (e, idx) => {
+    e.preventDefault();
     const multy = [...nears.rows];
     if (e.target.innerHTML === "Edit") {
       e.target.innerHTML = "Save";
@@ -191,7 +194,18 @@ function Content() {
     } else {
       e.target.innerHTML = "Edit";
       multy[idx].isEdit = true;
+      axios
+        .post(
+          `${process.env.REACT_APP_SERVER_URL}/admin/near/create`,
+          multy[idx]
+        )
+        .then((res) => {
+          multy[idx].key = res.data.result._id;
+          setNearId([...nearId, res.data.result._id]);
+        })
+        .catch((err) => console.log(err));
     }
+
     setNears({
       rows: [...multy],
     });
@@ -201,6 +215,16 @@ function Content() {
     e.preventDefault();
     const selectRow = [...nears.rows];
 
+    if (selectRow[idx].isEdit) {
+      axios
+        .delete(
+          `${process.env.REACT_APP_SERVER_URL}/admin/delete/near/${selectRow[idx].key}`
+        )
+        .then((res) => {
+          nearId.splice(nearId.indexOf(res.data.result), 1);
+        })
+        .catch((err) => console.log(err));
+    }
     selectRow.splice(idx, 1);
     setNears({
       rows: [...selectRow],
@@ -209,8 +233,6 @@ function Content() {
 
   //  Validation
   const validate = () => {
-    console.log(location);
-    console.log(nears);
     if (!description) {
       toast({
         title: "Error",
@@ -362,7 +384,16 @@ function Content() {
     }
 
     if (user === null) {
-      alert("You need to login first");
+      toast({
+        title: "Error",
+        description: "You need to login first.",
+        status: "error",
+        duration: 2000,
+        variant: "left-accent",
+        position: "top-right",
+        isClosable: true,
+      });
+      return false;
     } else {
       const formData = new FormData();
 
@@ -402,7 +433,7 @@ function Content() {
       formData.append("parking", parking);
       formData.append("lotsize", lotsize);
       formData.append("view", view);
-      formData.append("near", nears.rows);
+      formData.append("near", nearId);
 
       formData.append("category", type ? type : typeList[0].name);
       // formData.append("buy");
@@ -422,23 +453,23 @@ function Content() {
           navigate("/admin/properties");
         })
         .catch((err) => {
-          const Msg = err.response.data.Msg;
-          if (Msg === "Please Fill Out All Feilds") {
-            setError(true);
-            setFieldError(true);
-            setMinFileError(false);
-          } else if (Msg === "Please Fill Thumbnail Picture") {
-            setError(true);
-            setFieldError(false);
-            setMinFileError(true);
-          } else if (Msg === "You can upload only 5 pictures") {
-            setError(true);
-            setFieldError(false);
-            setMinFileError(false);
-            setMaxFileError(true);
-          } else {
-            console.log(err.response.data);
-          }
+          // const Msg = err.response.data.Msg;
+          // if (Msg === "Please Fill Out All Feilds") {
+          // setError(true);
+          // setFieldError(true);
+          // setMinFileError(false);
+          // } else if (Msg === "Please Fill Thumbnail Picture") {
+          // setError(true);
+          // setFieldError(false);
+          // setMinFileError(true);
+          // } else if (Msg === "You can upload only 5 pictures") {
+          // setError(true);
+          // setFieldError(false);
+          // setMinFileError(false);
+          // setMaxFileError(true);
+          // } else {
+          console.log(err.response);
+          // }
         });
     }
   };
@@ -870,11 +901,11 @@ function Content() {
                                 <select
                                   className="form-control"
                                   value={item.type}
-                                  name="type"
+                                  name="neartype"
                                   disabled={nears.rows[idx].isEdit}
                                   onChange={(e) => {
                                     const multy = [...nears.rows];
-                                    multy[idx].type = e.target.value;
+                                    multy[idx].neartype = e.target.value;
                                     setNears({
                                       rows: [...multy],
                                     });
@@ -897,11 +928,8 @@ function Content() {
                                   onChange={(e) => {
                                     const multy = [...nears.rows];
                                     multy[idx].name = e.target.value;
-                                    setNears((state) => {
-                                      return {
-                                        ...state,
-                                        rows: multy,
-                                      };
+                                    setNears({
+                                      rows: [...multy],
                                     });
                                   }}
                                 />
@@ -929,12 +957,6 @@ function Content() {
                                 <button
                                   className="btn btn-primary"
                                   onClick={(e) => {
-                                    // const multy = [...nears.rows];
-                                    // multy[idx].isEdit = false;
-                                    // console.log(multy);
-                                    // setNears({
-                                    //   rows: [...multy],
-                                    // });
                                     enableEdit(e, idx);
                                   }}
                                   style={{ borderRadius: "5px" }}
