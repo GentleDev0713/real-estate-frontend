@@ -66,10 +66,10 @@ const App = () => {
 
   return (
     <div className="App">
-      {userInfo && userInfo.isAdmin ? (
+      {/* {userInfo && userInfo.isAdmin ? (
         <Routes>
           <Route exact path="/" element={<Navigate to="/admin" />} />
-          <Route exact path="/admin" element={<AdminPanel url="/admin" />} />
+          <Route path="/admin" element={<AdminPanel url="/admin" />} />
           <Route
             path="/admin/users"
             element={<AdminUser url="/admin/users" />}
@@ -160,49 +160,46 @@ const App = () => {
           />
           <Route path="*" element={<div>Error 404 Page not found.</div>} />
         </Routes>
-      ) : (
-        <Routes>
-          <Route exact path="/" element={<Homefour />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/submit-listing" element={<Submitlisting />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/agent" element={<Retirement />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/buy" element={<Pricing />} />
-          <Route path="/sell" element={<Sell />} />
-          <Route path="/rent" element={<Rent />} />
+      ) : ( */}
+      <Routes>
+        <Route exact path="/" element={<Homefour />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/submit-listing" element={<Submitlisting />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/agent" element={<Retirement />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/buy" element={<Pricing />} />
+        <Route path="/sell" element={<Sell />} />
+        <Route path="/rent" element={<Rent />} />
 
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route
-            path="/listing-details-v1/:id"
-            element={<ListingDetailsOne />}
-          />
-          <Route path="/property/:type" element={<PropertyListing />} />
-          <Route path="/sell/:type" element={<PropertyListing />} />
-          <Route path="/rent/:type" element={<PropertyListing />} />
-          <Route path="/view-all" element={<View />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/listing-details-v1/:id" element={<ListingDetailsOne />} />
+        <Route path="/property/:type" element={<PropertyListing />} />
+        <Route path="/sell/:type" element={<PropertyListing />} />
+        <Route path="/rent/:type" element={<PropertyListing />} />
+        <Route path="/view-all" element={<View />} />
 
-          <Route path="/Distress" element={<Distress />} />
-          <Route path="/Planing" element={<Planing />} />
-          <Route path="/Modification" element={<Modification />} />
-          <Route path="/Management" element={<Management />} />
-          <Route path="/Planner" element={<Planner />} />
+        <Route path="/Distress" element={<Distress />} />
+        <Route path="/Planing" element={<Planing />} />
+        <Route path="/Modification" element={<Modification />} />
+        <Route path="/Management" element={<Management />} />
+        <Route path="/Planner" element={<Planner />} />
 
-          <Route path="/Property" element={<Property />} />
-          <Route path="/Terms" element={<Terms />} />
-          <Route path="/Estate" element={<Estate />} />
-          <Route path="/Retire" element={<Retire />} />
+        <Route path="/Property" element={<Property />} />
+        <Route path="/Terms" element={<Terms />} />
+        <Route path="/Estate" element={<Estate />} />
+        <Route path="/Retire" element={<Retire />} />
 
-          <Route path="/Mortgage" element={<Mortgage />} />
-          <Route path="/Invest" element={<Invest />} />
-          <Route path="/Loans" element={<Loans />} />
-          <Route path="/listing-map" element={<Listing />} />
-          <Route path="/contact" component={Contact} />
-          <Route path="*" element={<div>Error 404 Page not found</div>} />
-        </Routes>
-      )}
+        <Route path="/Mortgage" element={<Mortgage />} />
+        <Route path="/Invest" element={<Invest />} />
+        <Route path="/Loans" element={<Loans />} />
+        <Route path="/listing-map" element={<Listing />} />
+        <Route path="/contact" component={Contact} />
+        <Route path="*" element={<div>Error 404 Page not found</div>} />
+      </Routes>
+      {/* )} */}
     </div>
   );
 };

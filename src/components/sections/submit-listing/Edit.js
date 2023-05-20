@@ -77,6 +77,7 @@ function Content() {
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/property/${params.id}`)
       .then((res) => {
         let data = res.data.result;
+        console.log(res.data.result);
         setDescription(data.BasicInformation.description);
         setName(data.BasicInformation.name);
         setStatus(data.BasicInformation.status);
@@ -97,7 +98,11 @@ function Content() {
           provice: data.Location.provice,
           zipcode: data.Location.zipcode,
         });
-        setFeatures(data.Features);
+        let features = [];
+        data.Features.map((item) => {
+          features.push(item._id);
+        });
+        setFeatures(features);
         setId(data.Details.id);
         setBeds(data.Details.beds);
         setBaths(data.Details.bathrooms);
@@ -220,39 +225,31 @@ function Content() {
       document.getElementsByName(`feature${id}`).checked = false;
     } else {
       setFeatures([...features, id]);
+      document.getElementsByName(`feature${id}`).checked = true;
     }
   };
 
-  const feature = featureList.map((res, key) => (
-    <div key={key} className="col-lg-4 col-md-6 col-sm-6">
-      <label className="acr-listing-feature">
-        {features.indexOf(res._id) !== -1 ? (
-          <input
-            type="checkbox"
-            name={"feature" + res._id + ""}
-            checked
-            onClick={() => featuresData(res._id)}
-          />
-        ) : (
-          <input
-            type="checkbox"
-            name={"feature" + res._id + ""}
-            onClick={() => featuresData(res._id)}
-          />
-        )}
-
-        <i className="acr-feature-check fas fa-check" />
-        <i style={{ textAlign: "-webkit-center" }}>
-          <img
-            className="acr-listing-feature-icon"
-            src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
-            style={{ marginBottom: "20px" }}
-          />
-        </i>
-        {res.name}
-      </label>
-    </div>
-  ));
+  // const feature = featureList.map((res, key) => (
+  //   <div key={key} className="col-lg-4 col-md-6 col-sm-6">
+  //     <label className="acr-listing-feature">
+  //       <input
+  //         type="checkbox"
+  //         name={"feature" + res._id + ""}
+  //         checked={features.indexOf(res._id) !== -1 ? true : false}
+  //         onClick={() => featuresData(res._id)}
+  //       />
+  //       <i className="acr-feature-check fas fa-check" />
+  //       <i style={{ textAlign: "-webkit-center" }}>
+  //         <img
+  //           className="acr-listing-feature-icon"
+  //           src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+  //           style={{ marginBottom: "20px" }}
+  //         />
+  //       </i>
+  //       {res.name}
+  //     </label>
+  //   </div>
+  // ));
   //  Details
   const [id, setId] = useState("");
   const [beds, setBeds] = useState(0);
@@ -444,19 +441,19 @@ function Content() {
     //   return false;
     // }
 
-    if (files.length === 0) {
-      toast({
-        title: "Error",
-        description: "Insert Property Gallery",
-        status: "error",
-        duration: 2000,
-        variant: "left-accent",
-        position: "top-right",
-        isClosable: true,
-      });
-      setTabKey("tab2");
-      return false;
-    }
+    // if (files.length === 0) {
+    //   toast({
+    //     title: "Error",
+    //     description: "Insert Property Gallery",
+    //     status: "error",
+    //     duration: 2000,
+    //     variant: "left-accent",
+    //     position: "top-right",
+    //     isClosable: true,
+    //   });
+    //   setTabKey("tab2");
+    //   return false;
+    // }
 
     if (files.length > 5) {
       toast({
@@ -478,7 +475,6 @@ function Content() {
   //  Submit
   const submitData = (e) => {
     e.preventDefault();
-
     if (!validate()) {
       return;
     }
@@ -496,6 +492,8 @@ function Content() {
         period: period ? period : "Monthly",
         space: space,
         video: video,
+        thumbnail: thumbnail ? thumbnail : thumbnailUrl,
+        picture: files,
         lat: location.lat,
         long: location.long,
         address: location.address,
@@ -503,6 +501,7 @@ function Content() {
         city: location.city,
         provice: location.provice,
         zipcode: location.zipcode,
+        features: features,
         id: id,
         beds: beds,
         bathrooms: baths,
@@ -799,7 +798,31 @@ function Content() {
                     <Locationtab locationData={locationData} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab4">
-                    <div className="row">{feature}</div>
+                    <div className="row">
+                      {featureList.map((res, key) => (
+                        <div key={key} className="col-lg-4 col-md-6 col-sm-6">
+                          <label className="acr-listing-feature">
+                            <input
+                              type="checkbox"
+                              name={"feature" + res._id + ""}
+                              checked={
+                                features.indexOf(res._id) !== -1 ? true : false
+                              }
+                              onChange={() => featuresData(res._id)}
+                            />
+                            <i className="acr-feature-check fas fa-check" />
+                            <i style={{ textAlign: "-webkit-center" }}>
+                              <img
+                                className="acr-listing-feature-icon"
+                                src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                                style={{ marginBottom: "20px" }}
+                              />
+                            </i>
+                            {res.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab5">
                     <div className="row">
