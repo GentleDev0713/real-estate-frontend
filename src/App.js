@@ -66,145 +66,145 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
-      {userInfo && userInfo.isAdmin ? (
-        <Routes>
-          <Route exact path="/" element={<Navigate to="/admin" />} />
-          <Route path="/admin" element={<AdminPanel url="/admin" />} />
-          <Route
-            path="/admin/users"
-            element={<AdminUser url="/admin/users" />}
-          />
-          <Route
-            path="/admin/user/create"
-            element={<AdminUserCreate url="/admin/users" />}
-          />
-          <Route
-            path="/admin/user/:id"
-            element={<AdminUserEdit url="/admin/users" />}
-          />
-          <Route
-            path="/admin/categories"
-            element={<AdminCategory url="/admin/categories" />}
-          />
-          <Route
-            path="/admin/category/create"
-            element={<AdminCategoryCreate url="/admin/categories" />}
-          />
-          <Route
-            path="/admin/category/:id"
-            element={<AdminCategoryEdit url="/admin/categories" />}
-          />
-          <Route
-            path="/admin/properties"
-            element={<AdminProperty url="/admin/properties" />}
-          />
-          <Route
-            path="/admin/property/create"
-            element={<AdminPropertyCreate url="/admin/properties" />}
-          />
-          <Route
-            path="/admin/property/:id"
-            element={<AdminPropertyEdit url="/admin/properties" />}
-          />
-          <Route
-            path="/admin/property/:id/detail"
-            element={<AdminPropertyDetail url="/admin/properties" />}
-          />
-          <Route
-            path="/admin/currencies"
-            element={<AdminCurrency url="/admin/currencies" />}
-          />
-          <Route
-            path="/admin/currency/create"
-            element={<AdminCurrencyCreate url="/admin/currencies" />}
-          />
-          <Route
-            path="/admin/currency/:id"
-            element={<AdminCurrencyEdit url="/admin/currencies" />}
-          />
-          <Route
-            path="/admin/features"
-            element={<AdminFeature url="/admin/features" />}
-          />
-          <Route
-            path="/admin/feature/create"
-            element={<AdminFeatureCreate url="/admin/features" />}
-          />
-          <Route
-            path="/admin/feature/:id"
-            element={<AdminFeatureEdit url="/admin/features" />}
-          />
-          <Route
-            path="/admin/locations"
-            element={<AdminLocation url="/admin/locations" />}
-          />
-          <Route
-            path="/admin/location/create"
-            element={<AdminLocationCreate url="/admin/locations" />}
-          />
-          <Route
-            path="/admin/location/:id"
-            element={<AdminLocationEdit url="/admin/locations" />}
-          />
-          <Route
-            path="/admin/nearbytypes"
-            element={<AdminNearbytype url="/admin/nearbytypes" />}
-          />
-          <Route
-            path="/admin/nearbytype/create"
-            element={<AdminNearbytypeCreate url="/admin/nearbytypes" />}
-          />
-          <Route
-            path="/admin/nearbytype/:id"
-            element={<AdminNearbytypeEdit url="/admin/nearbytypes" />}
-          />
-          <Route path="*" element={<div>Error 404 Page not found.</div>} />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route exact path="/" element={<Homefour />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/submit-listing" element={<Submitlisting />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/agent" element={<Retirement />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/buy" element={<Pricing />} />
-          <Route path="/sell" element={<Sell />} />
-          <Route path="/rent" element={<Rent />} />
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        {userInfo && userInfo.isAdmin ? (
+          <Routes>
+            <Route path="/" element={<Navigate to="/admin" />} />
+            <Route path="/admin" element={<AdminPanel url="/admin" />} />
+            <Route
+              path="/admin/users"
+              element={<AdminUser url="/admin/users" />}
+            />
+            <Route
+              path="/admin/user/create"
+              element={<AdminUserCreate url="/admin/users" />}
+            />
+            <Route
+              path="/admin/user/:id"
+              element={<AdminUserEdit url="/admin/users" />}
+            />
+            <Route
+              path="/admin/categories"
+              element={<AdminCategory url="/admin/categories" />}
+            />
+            <Route
+              path="/admin/category/create"
+              element={<AdminCategoryCreate url="/admin/categories" />}
+            />
+            <Route
+              path="/admin/category/:id"
+              element={<AdminCategoryEdit url="/admin/categories" />}
+            />
+            <Route
+              path="/admin/properties"
+              element={<AdminProperty url="/admin/properties" />}
+            />
+            <Route
+              path="/admin/property/create"
+              element={<AdminPropertyCreate url="/admin/properties" />}
+            />
+            <Route
+              path="/admin/property/:id"
+              element={<AdminPropertyEdit url="/admin/properties" />}
+            />
+            <Route
+              path="/admin/property/:id/detail"
+              element={<AdminPropertyDetail url="/admin/properties" />}
+            />
+            <Route
+              path="/admin/currencies"
+              element={<AdminCurrency url="/admin/currencies" />}
+            />
+            <Route
+              path="/admin/currency/create"
+              element={<AdminCurrencyCreate url="/admin/currencies" />}
+            />
+            <Route
+              path="/admin/currency/:id"
+              element={<AdminCurrencyEdit url="/admin/currencies" />}
+            />
+            <Route
+              path="/admin/features"
+              element={<AdminFeature url="/admin/features" />}
+            />
+            <Route
+              path="/admin/feature/create"
+              element={<AdminFeatureCreate url="/admin/features" />}
+            />
+            <Route
+              path="/admin/feature/:id"
+              element={<AdminFeatureEdit url="/admin/features" />}
+            />
+            <Route
+              path="/admin/locations"
+              element={<AdminLocation url="/admin/locations" />}
+            />
+            <Route
+              path="/admin/location/create"
+              element={<AdminLocationCreate url="/admin/locations" />}
+            />
+            <Route
+              path="/admin/location/:id"
+              element={<AdminLocationEdit url="/admin/locations" />}
+            />
+            <Route
+              path="/admin/nearbytypes"
+              element={<AdminNearbytype url="/admin/nearbytypes" />}
+            />
+            <Route
+              path="/admin/nearbytype/create"
+              element={<AdminNearbytypeCreate url="/admin/nearbytypes" />}
+            />
+            <Route
+              path="/admin/nearbytype/:id"
+              element={<AdminNearbytypeEdit url="/admin/nearbytypes" />}
+            />
+            <Route path="*" element={<div>Error 404 Page not found.</div>} />
+          </Routes>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Homefour />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/submit-listing" element={<Submitlisting />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/agent" element={<Retirement />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/buy" element={<Pricing />} />
+            <Route path="/sell" element={<Sell />} />
+            <Route path="/rent" element={<Rent />} />
 
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route
-            path="/listing-details-v1/:id"
-            element={<ListingDetailsOne />}
-          />
-          <Route path="/property/:type" element={<PropertyListing />} />
-          <Route path="/sell/:type" element={<PropertyListing />} />
-          <Route path="/rent/:type" element={<PropertyListing />} />
-          <Route path="/view-all" element={<View />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route
+              path="/listing-details-v1/:id"
+              element={<ListingDetailsOne />}
+            />
+            <Route path="/property/:type" element={<PropertyListing />} />
+            <Route path="/sell/:type" element={<PropertyListing />} />
+            <Route path="/rent/:type" element={<PropertyListing />} />
+            <Route path="/view-all" element={<View />} />
 
-          <Route path="/Distress" element={<Distress />} />
-          <Route path="/Planing" element={<Planing />} />
-          <Route path="/Modification" element={<Modification />} />
-          <Route path="/Management" element={<Management />} />
-          <Route path="/Planner" element={<Planner />} />
+            <Route path="/Distress" element={<Distress />} />
+            <Route path="/Planing" element={<Planing />} />
+            <Route path="/Modification" element={<Modification />} />
+            <Route path="/Management" element={<Management />} />
+            <Route path="/Planner" element={<Planner />} />
 
-          <Route path="/Property" element={<Property />} />
-          <Route path="/Terms" element={<Terms />} />
-          <Route path="/Estate" element={<Estate />} />
-          <Route path="/Retire" element={<Retire />} />
+            <Route path="/Property" element={<Property />} />
+            <Route path="/Terms" element={<Terms />} />
+            <Route path="/Estate" element={<Estate />} />
+            <Route path="/Retire" element={<Retire />} />
 
-          <Route path="/Mortgage" element={<Mortgage />} />
-          <Route path="/Invest" element={<Invest />} />
-          <Route path="/Loans" element={<Loans />} />
-          <Route path="/listing-map" element={<Listing />} />
-          <Route path="/contact" component={Contact} />
-          <Route path="*" element={<div>Error 404 Page not found</div>} />
-        </Routes>
-      )}
-      {/* </BrowserRouter> */}
+            <Route path="/Mortgage" element={<Mortgage />} />
+            <Route path="/Invest" element={<Invest />} />
+            <Route path="/Loans" element={<Loans />} />
+            <Route path="/listing-map" element={<Listing />} />
+            <Route path="/contact" component={Contact} />
+            <Route path="*" element={<div>Error 404 Page not found</div>} />
+          </Routes>
+        )}
+      </BrowserRouter>
     </div>
   );
 };
