@@ -19,7 +19,7 @@ const AdminCurrencyCreate = (props) => {
     navigate("/admin/locations");
   };
   const postData = () => {
-    if (country == "") {
+    if (country === "") {
       toast({
         title: "Error",
         description: "Country field is empty!!!",
@@ -31,7 +31,7 @@ const AdminCurrencyCreate = (props) => {
       });
       return false;
     }
-    if (city == "") {
+    if (city === "") {
       toast({
         title: "Error",
         description: "City field is Empty!",

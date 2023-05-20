@@ -29,7 +29,7 @@ const AdminUserEdit = (props) => {
         setAdmin(res.data.result.isAdmin);
         setPassword("");
       });
-  }, []);
+  }, [params.id]);
 
   const onCancel = () => {
     navigate("/admin/users");

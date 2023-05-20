@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useToast } from "@chakra-ui/react";
@@ -24,7 +24,7 @@ const AdminCategoryCreate = (props) => {
     navigate("/admin/categories");
   };
   const postData = async () => {
-    if (name == "") {
+    if (name === "") {
       toast({
         title: "Error",
         description: "Enter a category name",
@@ -168,7 +168,11 @@ const AdminCategoryCreate = (props) => {
               style={{ display: "none" }}
             />
             {imgUrl ? (
-              <img src={`${imgUrl}`} alt="Image" style={{ width: "200px" }} />
+              <img
+                src={`${imgUrl}`}
+                alt="CategoryImage"
+                style={{ width: "200px" }}
+              />
             ) : (
               <></>
             )}

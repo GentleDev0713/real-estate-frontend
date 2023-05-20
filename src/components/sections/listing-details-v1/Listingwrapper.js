@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
-  OverlayTrigger,
-  Tooltip,
+  // OverlayTrigger,
+  // Tooltip,
   Dropdown,
   NavLink,
   Accordion,
-  Card,
+  // Card,
 } from "react-bootstrap";
-import listing from "../../../data/listings";
 import Calculator from "../../layouts/Calculator";
 import $ from "jquery";
 import "magnific-popup";
@@ -16,10 +15,10 @@ import axios from "axios";
 
 // Gallery
 
-const gallerytip = <Tooltip>Gallery</Tooltip>;
-const bedstip = <Tooltip>Beds</Tooltip>;
-const bathstip = <Tooltip>Bathrooms</Tooltip>;
-const areatip = <Tooltip>Square Feet</Tooltip>;
+// const gallerytip = <Tooltip>Gallery</Tooltip>;
+// const bedstip = <Tooltip>Beds</Tooltip>;
+// const bathstip = <Tooltip>Bathrooms</Tooltip>;
+// const areatip = <Tooltip>Square Feet</Tooltip>;
 
 const Listingwrapper = () => {
   const navigate = useNavigate();
@@ -71,7 +70,7 @@ const Listingwrapper = () => {
       .then((res) => {
         setListing(res.data.result);
       });
-  }, []);
+  });
 
   function popup() {
     var items = state.Gallery.picture.map((name) => {
@@ -124,6 +123,7 @@ const Listingwrapper = () => {
               <iframe
                 width="100%"
                 height="95%"
+                title="direction"
                 src={`https://maps.google.com/maps?q=${state.Location.lat},${state.Location.long}&hl=es;z=14&output=embed`}
               ></iframe>
             </div>
@@ -252,6 +252,7 @@ const Listingwrapper = () => {
                           <i>
                             <img
                               src={`${process.env.REACT_APP_SERVER_URL}/${item.icon}`}
+                              alt="FeatureIcon"
                             />
                           </i>
                           <h6 className="listing-feature-label">{item.name}</h6>
@@ -304,14 +305,18 @@ const Listingwrapper = () => {
                       {/* <i className="fas fa-utensils" /> */}
                       <i className="col-1">
                         <img
-                          src={`${process.env.REACT_APP_SERVER_URL}/${item.type.icon}`}
+                          src={`${process.env.REACT_APP_SERVER_URL}/${item.neartype.icon}`}
+                          alt="TypeIcon"
                         ></img>
                       </i>
                       <p
                         className="col-6"
-                        style={{ color: `${item.type.color}`, padding: "0px" }}
+                        style={{
+                          color: `${item.neartype.color}`,
+                          padding: "0px",
+                        }}
                       >
-                        {item.type.name}
+                        {item.neartype.name}
                       </p>
                     </h6>
                     <ul>

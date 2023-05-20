@@ -23,6 +23,18 @@ import { BrowserRouter } from "react-router-dom";
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 const root = ReactDOM.createRoot(document.getElementById("acres"));
-root.render(<App></App>);
+root.render(
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+    {userInfo ? (
+      <ChatProvider>
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
+      </ChatProvider>
+    ) : (
+      <App />
+    )}
+  </BrowserRouter>
+);
 
 reportWebVitals();

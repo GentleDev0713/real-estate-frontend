@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -11,7 +11,7 @@ const Content = () => {
   const [state, setState] = useState([]);
 
   const { type } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const getData = async () => {
     const response = await fetch(
@@ -32,7 +32,7 @@ const Content = () => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  });
 
   const acessChat = () => {
     return;
@@ -47,6 +47,7 @@ const Content = () => {
               <div className="w-32 pr-12">
                 <img
                   src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
+                  alt="ExclaimationMark"
                   width={"100%"}
                 />
               </div>

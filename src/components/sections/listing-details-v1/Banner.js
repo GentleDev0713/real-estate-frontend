@@ -4,11 +4,6 @@ import Slider from "react-slick";
 import axios from "axios";
 import "./Banner.css";
 
-const bannerpost = [
-  "/uploads/picture/16826981888802.jpg",
-  "/uploads/picture/16826981888823.jpg",
-];
-
 const Banner = () => {
   const params = useParams();
   const custome = useRef();
@@ -27,7 +22,7 @@ const Banner = () => {
       .catch((err) => {
         setError(err.message);
       });
-  }, []);
+  }, [params.id]);
 
   const next = () => {
     custome.current.slickNext();

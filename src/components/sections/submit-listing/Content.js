@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tab, Nav, Table } from "react-bootstrap";
+import { Tab, Nav } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import Locationtab from "./Locationtab";
@@ -115,6 +115,7 @@ function Content() {
       <div style={thumbInner}>
         <img
           src={file.preview}
+          alt="ThumbImage"
           style={img}
           // Revoke data uri after image is loaded
           onLoad={() => {
@@ -128,7 +129,7 @@ function Content() {
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
+  });
 
   //  Location
   const [location, setLocation] = useState({
@@ -147,7 +148,7 @@ function Content() {
   //  Feature
   const [features, setFeatures] = useState([]);
   const featuresData = (id) => {
-    if (features.indexOf(id) != -1) {
+    if (features.indexOf(id) !== -1) {
       features.splice(features.indexOf(id), 1);
     } else {
       setFeatures([...features, id]);
@@ -449,7 +450,7 @@ function Content() {
           }
         )
         .then((res) => {
-          const Msg = res.data.Msg;
+          // const Msg = res.data.Msg;
           navigate("/admin/properties");
         })
         .catch((err) => {
@@ -676,6 +677,7 @@ function Content() {
                         <img
                           className="col-lg-3 col-md-3"
                           src={thumbnailUrl}
+                          alt="ThumbImage"
                           style={{ width: "100px" }}
                         />
                       ) : (
@@ -728,6 +730,7 @@ function Content() {
                               <img
                                 className="acr-listing-feature-icon"
                                 src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                                alt="ThumbImage"
                                 style={{ marginBottom: "20px" }}
                               />
                             </i>

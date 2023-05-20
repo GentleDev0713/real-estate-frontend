@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -20,7 +20,7 @@ const AdminCurrencyCreate = (props) => {
     navigate("/admin/currencies");
   };
   const postData = () => {
-    if (name == "") {
+    if (name === "") {
       toast({
         title: "Error",
         description: "Name field is empty!!!",
@@ -32,7 +32,7 @@ const AdminCurrencyCreate = (props) => {
       });
       return false;
     }
-    if (code == "") {
+    if (code === "") {
       toast({
         title: "Error",
         description: "Code field is Empty!",
@@ -44,7 +44,7 @@ const AdminCurrencyCreate = (props) => {
       });
       return false;
     }
-    if (symbol == "") {
+    if (symbol === "") {
       toast({
         title: "Error",
         description: "Symbol field is Empty!",
@@ -62,7 +62,10 @@ const AdminCurrencyCreate = (props) => {
       symbol: symbol,
     };
     axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/admin/currency/create`, formData)
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/currency/create`,
+        formData
+      )
       .then((res) => {
         navigate("/admin/currencies");
       })

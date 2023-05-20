@@ -82,7 +82,7 @@ const AdminUser = (props) => {
             </tr>
           </thead>
           <tbody>
-            {state.length == 0 ? (
+            {state.length === 0 ? (
               <tr>
                 <td colSpan="6">No Data</td>
               </tr>

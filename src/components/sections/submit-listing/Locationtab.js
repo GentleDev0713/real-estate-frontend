@@ -13,7 +13,6 @@ const Locationtab = ({ locationData }) => {
     return <Marker ref={initMarker} {...props} />;
   };
 
-  const [status, setStatus] = useState(null);
   const [lat, setLat] = useState("13.736717");
   const [long, setLong] = useState("100.523186");
   const [address, setAddress] = useState("");
@@ -24,23 +23,6 @@ const Locationtab = ({ locationData }) => {
 
   const position = [lat, long];
 
-  const getLocation = () => {
-    if (!navigator.geolocation) {
-      setStatus("Geolocation is not supported by your browser");
-    } else {
-      setStatus("Locating...");
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setStatus(null);
-          setLat(position.coords.latitude);
-          setLong(position.coords.longitude);
-        },
-        () => {
-          setStatus("Unable to retrieve your location");
-        }
-      );
-    }
-  };
   const customMarker = L.icon({
     iconUrl: process.env.PUBLIC_URL + "/assets/img/misc/marker.png",
     iconSize: [50, 50],
@@ -122,7 +104,6 @@ const Locationtab = ({ locationData }) => {
             value={city}
             onChange={(e) => {
               setCity(e.target.value);
-              getLocation();
               locationData({
                 lat,
                 long,

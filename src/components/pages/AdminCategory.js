@@ -93,7 +93,7 @@ const AdminCategory = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length == 0 ? (
+            {data.length === 0 ? (
               <tr>
                 <td colSpan="6">No Data</td>
               </tr>

@@ -28,13 +28,13 @@ const AdminCategoryEdit = (props) => {
         setIconUrl(res.data.result.icon);
         setImgUrl(res.data.result.img);
       });
-  }, []);
+  }, [params.id]);
 
   const onCancel = () => {
     navigate("/admin/categories");
   };
   const postData = () => {
-    if (name == "") {
+    if (name === "") {
       return false;
     }
     const formData = new FormData();
@@ -125,7 +125,7 @@ const AdminCategoryEdit = (props) => {
               name="icon"
               style={{ display: "none" }}
             />
-            {iconUrl && iconUrl.slice(0, 7) == "uploads" ? (
+            {iconUrl && iconUrl.slice(0, 7) === "uploads" ? (
               <img
                 src={`${process.env.REACT_APP_SERVER_URL}/${iconUrl}`}
                 alt="Icon"
@@ -146,7 +146,7 @@ const AdminCategoryEdit = (props) => {
               name="img"
               style={{ display: "none" }}
             />
-            {imgUrl && imgUrl.slice(0, 7) == "uploads" ? (
+            {imgUrl && imgUrl.slice(0, 7) === "uploads" ? (
               <img
                 src={`${process.env.REACT_APP_SERVER_URL}/${imgUrl}`}
                 alt="Icon"

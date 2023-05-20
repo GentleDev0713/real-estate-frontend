@@ -88,6 +88,7 @@ const Content = () => {
                   <div className="w-32 pr-12">
                     <img
                       src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
+                      alt="ExclaimationMark"
                       width={"20%"}
                     />
                   </div>
@@ -284,6 +285,7 @@ const Content = () => {
                 <div className="w-32 pr-12">
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
+                    alt="ExclaimationMark"
                     width={"100%"}
                   />
                 </div>

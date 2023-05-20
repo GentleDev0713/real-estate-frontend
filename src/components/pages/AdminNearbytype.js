@@ -94,7 +94,7 @@ const AdminNearbytype = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length == 0 ? (
+            {data.length === 0 ? (
               <tr className="text-center">
                 <td colSpan="5">No Data</td>
               </tr>

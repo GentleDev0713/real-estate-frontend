@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Accordion from "react-bootstrap/Accordion";
 import { Link } from "react-router-dom";
 import contactinfo from "../../../data/contactinfo.json";

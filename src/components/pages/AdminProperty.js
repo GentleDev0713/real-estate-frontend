@@ -15,9 +15,11 @@ const AdminProperty = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/get-properties`).then((res) => {
-      setData(res.data.result);
-    });
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-properties`)
+      .then((res) => {
+        setData(res.data.result);
+      });
   }, []);
 
   const detailProperty = (id) => {
@@ -97,7 +99,7 @@ const AdminProperty = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length == 0 ? (
+            {data.length === 0 ? (
               <tr>
                 <td colSpan="9">No Data</td>
               </tr>

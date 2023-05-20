@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
@@ -22,7 +22,7 @@ const Latestblog = () => {
     SubmitlistingData();
   }, []);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const acessChat = () => {};
 
@@ -40,6 +40,7 @@ const Latestblog = () => {
                 <div className="flex justify-center">
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/img/Loading.gif`}
+                    alt="Loading"
                   />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">No Data</p>

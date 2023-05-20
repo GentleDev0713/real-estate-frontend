@@ -91,7 +91,7 @@ const AdminFeature = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length == 0 ? (
+            {data.length === 0 ? (
               <tr>
                 <td colSpan="4">No Data</td>
               </tr>

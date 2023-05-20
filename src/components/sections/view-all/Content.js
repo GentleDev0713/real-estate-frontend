@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ const areatip = <Tooltip>Square Feet</Tooltip>;
 const Content = () => {
   const acessChat = () => {};
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [data, setData] = useState([]);
 

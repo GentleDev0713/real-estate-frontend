@@ -27,13 +27,13 @@ const AdminNearbytypeEdit = (props) => {
         setUrl(res.data.result.icon);
         setColor(res.data.result.color);
       });
-  }, []);
+  }, [params.id]);
 
   const onCancel = () => {
     navigate("/admin/nearbytypes");
   };
   const postData = () => {
-    if (name == "") {
+    if (name === "") {
       toast({
         title: "Error",
         description: "Name field is empty!!!",
@@ -45,7 +45,7 @@ const AdminNearbytypeEdit = (props) => {
       });
       return false;
     }
-    if (icon == "") {
+    if (icon === "") {
       toast({
         title: "Error",
         description: "Code field is Empty!",
@@ -141,7 +141,7 @@ const AdminNearbytypeEdit = (props) => {
               name="icon"
               style={{ display: "none" }}
             />
-            {url && url.slice(0, 7) == "uploads" ? (
+            {url && url.slice(0, 7) === "uploads" ? (
               <img
                 src={`${process.env.REACT_APP_SERVER_URL}/${url}`}
                 alt="Icon"

@@ -77,7 +77,6 @@ function Content() {
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/property/${params.id}`)
       .then((res) => {
         let data = res.data.result;
-        console.log(res.data.result);
         setDescription(data.BasicInformation.description);
         setName(data.BasicInformation.name);
         setStatus(data.BasicInformation.status);
@@ -100,7 +99,7 @@ function Content() {
         });
         let features = [];
         data.Features.map((item) => {
-          features.push(item._id);
+          return features.push(item._id);
         });
         setFeatures(features);
         setId(data.Details.id);
@@ -119,7 +118,7 @@ function Content() {
         let nears = [];
         data.Details.near.map((item) => {
           nearIds.push(item._id);
-          nears.push({
+          return nears.push({
             key: item._id,
             neartype: item.neartype,
             name: item.name,
@@ -175,6 +174,7 @@ function Content() {
           <img
             src={file.preview}
             style={img}
+            alt="ThumbImage"
             // Revoke data uri after image is loaded
             onLoad={() => {
               URL.revokeObjectURL(file.preview);
@@ -188,6 +188,7 @@ function Content() {
           <img
             src={`${process.env.REACT_APP_SERVER_URL}/${file}`}
             style={img}
+            alt="ThumbImage"
             // Revoke data uri after image is loaded
             onLoad={() => {
               URL.revokeObjectURL(file.preview);
@@ -201,7 +202,7 @@ function Content() {
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
+  });
 
   //  Location
   const [location, setLocation] = useState({
@@ -527,7 +528,7 @@ function Content() {
           // }
         )
         .then((res) => {
-          const Msg = res.data.Msg;
+          // const Msg = res.data.Msg;
           navigate("/admin/properties");
         })
         .catch((err) => {
@@ -750,16 +751,19 @@ function Content() {
                         </label>
                       </div>
 
-                      {thumbnailUrl && thumbnailUrl.slice(0, 7) == "uploads" ? (
+                      {thumbnailUrl &&
+                      thumbnailUrl.slice(0, 7) === "uploads" ? (
                         <img
                           className="col-lg-3 col-md-3"
                           src={`${process.env.REACT_APP_SERVER_URL}/${thumbnailUrl}`}
+                          alt="ThumbImage"
                           style={{ width: "100px" }}
                         />
                       ) : thumbnailUrl ? (
                         <img
                           className="col-lg-3 col-md-3"
                           src={thumbnailUrl}
+                          alt="ThumbImage"
                           style={{ width: "100px" }}
                         />
                       ) : (
@@ -815,6 +819,7 @@ function Content() {
                               <img
                                 className="acr-listing-feature-icon"
                                 src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                                alt="ThumbImage"
                                 style={{ marginBottom: "20px" }}
                               />
                             </i>

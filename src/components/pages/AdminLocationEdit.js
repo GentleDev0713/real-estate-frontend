@@ -23,13 +23,13 @@ const AdminCurrencyEdit = (props) => {
         setCountry(res.data.result.country);
         setCity(res.data.result.city);
       });
-  }, []);
+  }, [params.id]);
 
   const onCancel = () => {
     navigate("/admin/locations");
   };
   const postData = () => {
-    if (country == "" || city == "") {
+    if (country === "" || city === "") {
       toast({
         title: "Error",
         description: "Field is empty!!!",

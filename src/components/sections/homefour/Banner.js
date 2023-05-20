@@ -1,21 +1,10 @@
-import React, { useState } from "react";
-import Data from "../../../data/select";
+import React from "react";
 import ListingFilter from "../pricing/ListingFilter";
 
 const Banner = () => {
-  const [state, setState] = useState([]);
-  const [filter, setFilter] = useState([]);
-  const [screen2, setScreen2] = useState(null);
-
-  const {
-    locationlist,
-    statuslist,
-    pricerangelist,
-    bedslist,
-    bathroomslist,
-    typelist,
-    diameterlist,
-  } = Data;
+  // const [state, setState] = useState([]);
+  // const [filter, setFilter] = useState([]);
+  // const [screen2, setScreen2] = useState(null);
 
   const filterData = (data) => {
     // setScreen2(true);

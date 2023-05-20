@@ -3,7 +3,7 @@ import axios from "axios";
 var PriceFilter = {};
 
 const ListingFilter = ({ getData }) => {
-  const [advanceSearch, setAdvanceSearch] = useState(true);
+  // const [advanceSearch, setAdvanceSearch] = useState(true);
 
   const [typeList, setTypeList] = useState([]);
   const [location, setLocation] = useState("");
@@ -24,8 +24,8 @@ const ListingFilter = ({ getData }) => {
   const filterData = () => {
     PriceFilter = {
       location: location,
-      buy: buy == "any" ? "" : buy,
-      type: type == "any" ? "" : type,
+      buy: buy === "any" ? "" : buy,
+      type: type === "any" ? "" : type,
       minPrice: minPrice,
       maxPrice: maxPrice,
     };

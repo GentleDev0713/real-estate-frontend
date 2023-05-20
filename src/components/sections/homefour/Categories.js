@@ -28,6 +28,7 @@ const Categories = () => {
                   <i>
                     <img
                       src={`${process.env.REACT_APP_SERVER_URL}/${item.icon}`}
+                      alt="CategoryIcon"
                       style={{
                         borderRadius: "inherit",
                         height: "inherit",

@@ -3,12 +3,12 @@ import Menu from "../layouts/Menu";
 import Mobilemenu from "../layouts/Mobilemenu";
 import { Link } from "react-router-dom";
 import { Dropdown, NavLink } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [navtoggle, setnavtoggle] = useState(false);
   const [sticky, setSticky] = useState("false");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const logout = () => {
     localStorage.removeItem("userInfo");

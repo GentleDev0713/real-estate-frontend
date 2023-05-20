@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const AdminHeader = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const logout = () => {
@@ -14,7 +14,7 @@ const AdminHeader = () => {
     if (!userInfo || !userInfo.isAdmin) {
       window.location.replace("/");
     }
-  }, []);
+  });
 
   return (
     <div

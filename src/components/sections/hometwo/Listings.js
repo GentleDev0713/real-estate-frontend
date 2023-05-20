@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Data from "../../../data/select";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import Calculator from "../../layouts/Calculator";
 import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
-import ListingReducer from "../../../reducers/ListingReducer";
 import Gallery from "../services/Gallery";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
@@ -13,7 +11,7 @@ const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Square Feet</Tooltip>;
 
-var ListingData = {};
+// var ListingData = {};
 
 const Listings = () => {
   const navigate = useNavigate();
@@ -35,10 +33,10 @@ const Listings = () => {
   const [floors, setFloors] = useState("");
 
   /// Using Reducer For ListingFilter
-  const [listingState, ListingDispatch] = useReducer(
-    ListingReducer,
-    ListingData
-  );
+  // const [listingState, ListingDispatch] = useReducer(
+  //   ListingReducer,
+  //   ListingData
+  // );
 
   const SubmitlistingData = async () => {
     const resposne = await fetch(
@@ -64,49 +62,46 @@ const Listings = () => {
   }, []);
 
   const filterData = () => {
-    ListingData = {
-      bed: listingState.bed === undefined ? 0 : listingState.bed,
-      bathroom: listingState.bathroom === undefined ? 0 : listingState.bathroom,
-      price: listingState.price === undefined ? "0" : listingState.price,
-      status: listingState.status === "Any Status" ? "" : listingState.status,
-      location: listingState.location,
-      type: listingState.type,
-    };
+    //   ListingData = {
+    //     bed: listingState.bed === undefined ? 0 : listingState.bed,
+    //     bathroom: listingState.bathroom === undefined ? 0 : listingState.bathroom,
+    //     price: listingState.price === undefined ? "0" : listingState.price,
+    //     status: listingState.status === "Any Status" ? "" : listingState.status,
+    //     location: listingState.location,
+    //     type: listingState.type,
+    //   };
     setScreen2(true);
-
-    const price =
-      ListingData.price === 0
-        ? ["0", "900000000007676780"]
-        : ListingData.price.split(",");
-    const status = ListingData.status === undefined ? "" : ListingData.status;
-    const bed = ListingData.bed === "Any amount" ? 0 : ListingData.bed;
-    const bathroom =
-      ListingData.bathroom === "Any amount" ? 0 : ListingData.bathroom;
-
-    //////   Filtering Data With Conditions
-
-    if (status === "") {
-      const abc = state.filter((item) => {
-        return (
-          parseInt(item.Details.beds) >= bed &&
-          parseInt(item.Details.bathrooms) >= bathroom &&
-          parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
-          parseInt(item.BasicInformation.price) <= parseInt(price[1])
-        );
-      });
-      setFilter(abc);
-    } else {
-      const abc = state.filter((item) => {
-        return (
-          parseInt(item.Details.beds) >= bed &&
-          parseInt(item.Details.bathrooms) >= bathroom &&
-          parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
-          parseInt(item.BasicInformation.price) <= parseInt(price[1]) &&
-          item.BasicInformation.type === status
-        );
-      });
-      setFilter(abc);
-    }
+    //   const price =
+    //     ListingData.price === 0
+    //       ? ["0", "900000000007676780"]
+    //       : ListingData.price.split(",");
+    //   const status = ListingData.status === undefined ? "" : ListingData.status;
+    //   const bed = ListingData.bed === "Any amount" ? 0 : ListingData.bed;
+    //   const bathroom =
+    //     ListingData.bathroom === "Any amount" ? 0 : ListingData.bathroom;
+    //   //////   Filtering Data With Conditions
+    //   if (status === "") {
+    //     const abc = state.filter((item) => {
+    //       return (
+    //         parseInt(item.Details.beds) >= bed &&
+    //         parseInt(item.Details.bathrooms) >= bathroom &&
+    //         parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
+    //         parseInt(item.BasicInformation.price) <= parseInt(price[1])
+    //       );
+    //     });
+    setFilter("abc");
+    //   } else {
+    //     const abc = state.filter((item) => {
+    //       return (
+    //         parseInt(item.Details.beds) >= bed &&
+    //         parseInt(item.Details.bathrooms) >= bathroom &&
+    //         parseInt(item.BasicInformation.price) >= parseInt(price[0]) &&
+    //         parseInt(item.BasicInformation.price) <= parseInt(price[1]) &&
+    //         item.BasicInformation.type === status
+    //       );
+    //     });
+    //     setFilter(abc);
+    //   }
   };
 
   /////  Acessing Chat
@@ -367,6 +362,7 @@ const Listings = () => {
                     <div className="w-32 pr-12">
                       <img
                         src={`${process.env.PUBLIC_URL}/assets/img/exclaimationMark.png`}
+                        alt="ExclaimationMark"
                         width={"100%"}
                       />
                     </div>
@@ -584,6 +580,7 @@ const Listings = () => {
                 <div className="flex justify-center">
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/img/Loading.gif`}
+                    alt="Loading"
                   />
                 </div>
                 <p className="text-center my-4 text-xl font-medium ">
@@ -784,6 +781,7 @@ const Listings = () => {
             <div className="mt-72">
               <img
                 src={`${process.env.PUBLIC_URL}/assets/img/PromotionalBanner.png`}
+                alt="PromotionalBanner"
                 className="h-96"
               />
             </div>

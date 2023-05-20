@@ -22,7 +22,7 @@ const AdminNearbytypeCreate = (props) => {
     navigate("/admin/nearbytypes");
   };
   const postData = async () => {
-    if (name == "") {
+    if (name === "") {
       toast({
         title: "Error",
         description: "Name field is empty!!!",
@@ -34,7 +34,7 @@ const AdminNearbytypeCreate = (props) => {
       });
       return false;
     }
-    if (icon == "") {
+    if (icon === "") {
       toast({
         title: "Error",
         description: "Select an Icon",

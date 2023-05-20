@@ -25,13 +25,13 @@ const AdminCurrencyEdit = (props) => {
         setCode(res.data.result.code);
         setSymbol(res.data.result.symbol);
       });
-  }, []);
+  }, [params.id]);
 
   const onCancel = () => {
     navigate("/admin/currencies");
   };
   const postData = () => {
-    if (name == "") {
+    if (name === "") {
       toast({
         title: "Error",
         description: "Name field is empty!!!",
@@ -43,7 +43,7 @@ const AdminCurrencyEdit = (props) => {
       });
       return false;
     }
-    if (code == "") {
+    if (code === "") {
       toast({
         title: "Error",
         description: "Code field is Empty!",
@@ -55,7 +55,7 @@ const AdminCurrencyEdit = (props) => {
       });
       return false;
     }
-    if (symbol == "") {
+    if (symbol === "") {
       toast({
         title: "Error",
         description: "Symbol field is Empty!",
