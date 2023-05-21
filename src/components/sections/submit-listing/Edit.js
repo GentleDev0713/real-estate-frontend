@@ -819,8 +819,8 @@ function Content() {
                               <img
                                 className="acr-listing-feature-icon"
                                 src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
-                                alt="ThumbImage"
-                                style={{ marginBottom: "20px" }}
+                                alt="Icon"
+                                style={{ marginBottom: "20px", height: "30px" }}
                               />
                             </i>
                             {res.name}

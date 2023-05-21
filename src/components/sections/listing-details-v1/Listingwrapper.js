@@ -48,7 +48,6 @@ const Listingwrapper = () => {
     );
     const data = await response.json();
     const find = data.result.find((res) => res._id === id);
-    console.log(find);
     setState(find);
     const features = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/admin/get-features`,
