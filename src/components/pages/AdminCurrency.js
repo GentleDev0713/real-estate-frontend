@@ -11,6 +11,7 @@ const AdminCurrency = (props) => {
   const toast = useToast();
 
   const [data, setData] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,6 +19,7 @@ const AdminCurrency = (props) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-currencies`)
       .then((res) => {
+        setFlag(true);
         setData(res.data.result);
       });
   }, []);
@@ -92,41 +94,44 @@ const AdminCurrency = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
-              <tr>
+            {data.length === 0 && flag ? (
+              <tr className="text-center">
                 <td colSpan="5">No Data</td>
               </tr>
+            ) : data.length === 0 && flag === false ? (
+              <tr className="text-center">
+                <td colSpan="5">Loading ...</td>
+              </tr>
             ) : (
-              <></>
+              data.map((res, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>{res.name}</td>
+                    <td>{res.code}</td>
+                    <td>{res.symbol}</td>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => editCurrency(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-edit"></span>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteCurrency(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-trash"></span>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
-            {data.map((res, key) => {
-              return (
-                <tr key={key}>
-                  <td>{key + 1}</td>
-                  <td>{res.name}</td>
-                  <td>{res.code}</td>
-                  <td>{res.symbol}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => editCurrency(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-edit"></span>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteCurrency(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-trash"></span>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>

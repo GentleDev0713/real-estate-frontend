@@ -15,6 +15,7 @@ const AdminFeatureEdit = (props) => {
   const [name, setName] = useState("");
   const [icon, setIcon] = useState();
   const [url, setUrl] = useState();
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -43,7 +44,7 @@ const AdminFeatureEdit = (props) => {
       });
       return false;
     }
-    if (icon === "") {
+    if (!icon) {
       toast({
         title: "Error",
         description: "Code field is Empty!",
@@ -59,16 +60,28 @@ const AdminFeatureEdit = (props) => {
 
     formData.append("name", name);
     formData.append("icon", icon);
-
+    setFlag(true);
     axios
       .put(
         `${process.env.REACT_APP_SERVER_URL}/admin/feature/${params.id}/update`,
         formData
       )
       .then((res) => {
-        navigate("/admin/features");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been updated successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/features");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -97,7 +110,6 @@ const AdminFeatureEdit = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
@@ -138,9 +150,19 @@ const AdminFeatureEdit = (props) => {
             )}
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

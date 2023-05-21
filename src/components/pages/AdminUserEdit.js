@@ -4,12 +4,15 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
+import { useToast } from "@chakra-ui/react";
 
 const AdminUserEdit = (props) => {
   const params = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [state, setState] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
@@ -42,16 +45,28 @@ const AdminUserEdit = (props) => {
       isAdmin: admin,
       email: email,
     };
-
+    setFlag(true);
     axios
       .put(
         `${process.env.REACT_APP_SERVER_URL}/admin/user/${state._id}/update`,
         formData
       )
       .then((res) => {
-        navigate("/admin/users");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been updated successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/users");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -74,7 +89,6 @@ const AdminUserEdit = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
@@ -141,9 +155,19 @@ const AdminUserEdit = (props) => {
             </select>
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Update
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

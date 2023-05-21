@@ -5,13 +5,16 @@ import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
 import convertToBase64 from "../../helper/convert";
+import { useToast } from "@chakra-ui/react";
 
 const AdminCategoryEdit = (props) => {
   const navigate = useNavigate();
+  const toast = useToast();
   const params = useParams();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [icon, setIcon] = useState("");
@@ -43,15 +46,30 @@ const AdminCategoryEdit = (props) => {
     formData.append("description", description);
     formData.append("icon", icon);
     formData.append("img", img);
+
+    setFlag(true);
+
     axios
       .put(
         `${process.env.REACT_APP_SERVER_URL}/admin/category/${params.id}/update`,
         formData
       )
       .then((res) => {
-        navigate("/admin/categories");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been updated successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/categories");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -128,11 +146,11 @@ const AdminCategoryEdit = (props) => {
             {iconUrl && iconUrl.slice(0, 7) === "uploads" ? (
               <img
                 src={`${process.env.REACT_APP_SERVER_URL}/${iconUrl}`}
-                alt="Icon"
+                alt="NoIcon"
                 style={{ width: "100px" }}
               />
             ) : (
-              <img src={iconUrl} alt="Icon" style={{ width: "100px" }} />
+              <img src={iconUrl} alt="NoIcon" style={{ width: "100px" }} />
             )}
           </div>
           <div className="form-group row">
@@ -149,21 +167,27 @@ const AdminCategoryEdit = (props) => {
             {imgUrl && imgUrl.slice(0, 7) === "uploads" ? (
               <img
                 src={`${process.env.REACT_APP_SERVER_URL}/${imgUrl}`}
-                alt="Icon"
+                alt="NoImage"
                 style={{ width: "200px" }}
               />
             ) : (
-              <img src={imgUrl} alt="Icon" style={{ width: "200px" }} />
+              <img src={imgUrl} alt="NoImage" style={{ width: "200px" }} />
             )}
           </div>
           <div className="form-group text-right">
-            <button
-              type="Submit"
-              onClick={() => postData()}
-              className="btn btn-primary"
-            >
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

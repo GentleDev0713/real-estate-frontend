@@ -14,6 +14,7 @@ const AdminFeatureCreate = (props) => {
   const [name, setName] = useState("");
   const [icon, setIcon] = useState();
   const [url, setUrl] = useState();
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -33,7 +34,7 @@ const AdminFeatureCreate = (props) => {
       });
       return false;
     }
-    if (icon === "") {
+    if (!icon) {
       toast({
         title: "Error",
         description: "Select an Icon",
@@ -50,16 +51,28 @@ const AdminFeatureCreate = (props) => {
 
     formData.append("name", name);
     formData.append("icon", icon);
-
+    setFlag(true);
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/admin/feature/create`,
         formData
       )
       .then((res) => {
-        navigate("/admin/features");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been saved successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/features");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -94,8 +107,6 @@ const AdminFeatureCreate = (props) => {
             width: "70%",
             padding: "2%",
           }}
-          // enctype="multipart/form-data"
-          //   method="post"
         >
           <div className="form-group">
             <label>Name</label>
@@ -126,13 +137,19 @@ const AdminFeatureCreate = (props) => {
             )}
           </div>
           <div className="form-group text-right">
-            <button
-              type="Submit"
-              onClick={() => postData()}
-              className="btn btn-primary"
-            >
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

@@ -8,6 +8,7 @@ import AdminSider from "./../layouts/AdminSider";
 const AdminUser = (props) => {
   const navigate = useNavigate();
   const [state, setState] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -15,6 +16,7 @@ const AdminUser = (props) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-users`)
       .then((res) => {
+        setFlag(true);
         setState(res.data);
       });
   }, []);
@@ -82,44 +84,47 @@ const AdminUser = (props) => {
             </tr>
           </thead>
           <tbody>
-            {state.length === 0 ? (
-              <tr>
-                <td colSpan="6">No Data</td>
+            {state.length === 0 && flag ? (
+              <tr className="text-center">
+                <td colSpan="8">No Data</td>
+              </tr>
+            ) : state.length === 0 && flag === false ? (
+              <tr className="text-center">
+                <td colSpan="8">Loading ...</td>
               </tr>
             ) : (
-              <></>
+              state.map((res, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>{res.name}</td>
+                    <td>{res.email}</td>
+                    <td>{res.user}</td>
+                    <td>{`${res.isAdmin}`}</td>
+                    <td>{res.opt}</td>
+                    <td>{`${res.verified}`}</td>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => editUser(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-edit"></span>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteUser(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-trash"></span>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
-            {state.map((res, key) => {
-              return (
-                <tr key={key}>
-                  <td>{key + 1}</td>
-                  <td>{res.name}</td>
-                  <td>{res.email}</td>
-                  <td>{res.user}</td>
-                  <td>{`${res.isAdmin}`}</td>
-                  <td>{res.opt}</td>
-                  <td>{`${res.verified}`}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => editUser(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-edit"></span>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteUser(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-trash"></span>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>

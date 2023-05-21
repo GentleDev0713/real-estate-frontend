@@ -15,6 +15,7 @@ const AdminNearbytypeCreate = (props) => {
   const [icon, setIcon] = useState();
   const [color, setColor] = useState("");
   const [url, setUrl] = useState();
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -34,7 +35,7 @@ const AdminNearbytypeCreate = (props) => {
       });
       return false;
     }
-    if (icon === "") {
+    if (!icon) {
       toast({
         title: "Error",
         description: "Select an Icon",
@@ -52,16 +53,28 @@ const AdminNearbytypeCreate = (props) => {
     formData.append("name", name);
     formData.append("icon", icon);
     formData.append("color", color);
-
+    setFlag(true);
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/admin/nearbytype/create`,
         formData
       )
       .then((res) => {
-        navigate("/admin/nearbytypes");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been saved successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/nearbytypes");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -98,8 +111,6 @@ const AdminNearbytypeCreate = (props) => {
             width: "70%",
             padding: "2%",
           }}
-          // enctype="multipart/form-data"
-          //   method="post"
         >
           <div className="form-group">
             <label>Name</label>
@@ -141,13 +152,19 @@ const AdminNearbytypeCreate = (props) => {
             )}
           </div>
           <div className="form-group text-right">
-            <button
-              type="Submit"
-              onClick={() => postData()}
-              className="btn btn-primary"
-            >
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

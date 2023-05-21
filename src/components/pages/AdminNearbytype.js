@@ -11,6 +11,7 @@ const AdminNearbytype = (props) => {
   const toast = useToast();
 
   const [data, setData] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,6 +19,7 @@ const AdminNearbytype = (props) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-nearbytypes`)
       .then((res) => {
+        setFlag(true);
         setData(res.data.result);
       });
   }, []);
@@ -34,7 +36,7 @@ const AdminNearbytype = (props) => {
         setData(res.data.result);
         toast({
           title: "Success",
-          description: "Feature deleted successfully.",
+          description: "It has been deleted successfully.",
           status: "success",
           duration: 2000,
           variant: "left-accent",
@@ -94,47 +96,50 @@ const AdminNearbytype = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
+            {data.length === 0 && flag ? (
               <tr className="text-center">
                 <td colSpan="5">No Data</td>
               </tr>
+            ) : data.length === 0 && flag === false ? (
+              <tr className="text-center">
+                <td colSpan="5">Loading ...</td>
+              </tr>
             ) : (
-              <></>
+              data.map((res, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>{res.name}</td>
+                    <td>
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                        alt="No Icon"
+                        style={{ width: "60px" }}
+                      />
+                    </td>
+                    <td>{res.color}</td>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => editNearbytype(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-edit"></span>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteNearbytype(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-trash"></span>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
-            {data.map((res, key) => {
-              return (
-                <tr key={key}>
-                  <td>{key + 1}</td>
-                  <td>{res.name}</td>
-                  <td>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
-                      alt="Icon"
-                      style={{ width: "60px" }}
-                    />
-                  </td>
-                  <td>{res.color}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => editNearbytype(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-edit"></span>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteNearbytype(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-trash"></span>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>

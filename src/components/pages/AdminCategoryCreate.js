@@ -13,6 +13,7 @@ const AdminCategoryCreate = (props) => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [icon, setIcon] = useState("");
@@ -66,16 +67,28 @@ const AdminCategoryCreate = (props) => {
     formData.append("description", description);
     formData.append("icon", icon);
     formData.append("img", img);
-
+    setFlag(true);
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/admin/category/create`,
         formData
       )
       .then((res) => {
-        navigate("/admin/categories");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been saved successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/categories");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -151,7 +164,11 @@ const AdminCategoryCreate = (props) => {
               style={{ display: "none" }}
             />
             {iconUrl ? (
-              <img src={`${iconUrl}`} alt="Icon" style={{ width: "100px" }} />
+              <img
+                src={`${iconUrl}`}
+                alt="No Icon"
+                style={{ width: "100px" }}
+              />
             ) : (
               <></>
             )}
@@ -168,23 +185,25 @@ const AdminCategoryCreate = (props) => {
               style={{ display: "none" }}
             />
             {imgUrl ? (
-              <img
-                src={`${imgUrl}`}
-                alt="CategoryImage"
-                style={{ width: "200px" }}
-              />
+              <img src={`${imgUrl}`} alt="NoImage" style={{ width: "200px" }} />
             ) : (
               <></>
             )}
           </div>
           <div className="form-group text-right">
-            <button
-              type="Submit"
-              onClick={() => postData()}
-              className="btn btn-primary"
-            >
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

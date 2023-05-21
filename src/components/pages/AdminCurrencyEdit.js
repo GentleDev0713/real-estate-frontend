@@ -14,6 +14,7 @@ const AdminCurrencyEdit = (props) => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [symbol, setSymbol] = useState("");
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -30,7 +31,7 @@ const AdminCurrencyEdit = (props) => {
   const onCancel = () => {
     navigate("/admin/currencies");
   };
-  const postData = () => {
+  const postData = async () => {
     if (name === "") {
       toast({
         title: "Error",
@@ -72,15 +73,28 @@ const AdminCurrencyEdit = (props) => {
       code: code,
       symbol: symbol,
     };
-    axios
+    setFlag(true);
+    await axios
       .put(
         `${process.env.REACT_APP_SERVER_URL}/admin/currency/${params.id}/update`,
         formData
       )
       .then((res) => {
-        navigate("/admin/currencies");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been updated successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/currencies");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -103,7 +117,6 @@ const AdminCurrencyEdit = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
@@ -145,9 +158,19 @@ const AdminCurrencyEdit = (props) => {
             />
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

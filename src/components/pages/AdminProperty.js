@@ -11,6 +11,7 @@ const AdminProperty = (props) => {
   const toast = useToast();
 
   const [data, setData] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,6 +19,7 @@ const AdminProperty = (props) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-properties`)
       .then((res) => {
+        setFlag(true);
         setData(res.data.result);
       });
   }, []);
@@ -99,57 +101,60 @@ const AdminProperty = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
-              <tr>
+            {data.length === 0 && flag ? (
+              <tr className="text-center">
                 <td colSpan="9">No Data</td>
               </tr>
+            ) : data.length === 0 && flag === false ? (
+              <tr className="text-center">
+                <td colSpan="9">Loading ...</td>
+              </tr>
             ) : (
-              <></>
+              data.map((res, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>{res.Details.id}</td>
+                    <td>{res.BasicInformation.name}</td>
+                    <td>{res.BasicInformation.description}</td>
+                    <td>{res.BasicInformation.type}</td>
+                    <td>{res.BasicInformation.status}</td>
+                    <td>
+                      {res.BasicInformation.status === "Rental"
+                        ? `${res.BasicInformation.currency}${res.BasicInformation.price}/${res.BasicInformation.period}`
+                        : `${res.BasicInformation.currency}${res.BasicInformation.price}`}
+                    </td>
+                    <td>{res.BasicInformation.space}</td>
+                    <td>
+                      <button
+                        className="btn btn-info"
+                        onClick={() => detailProperty(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fas fa-info-circle"></span>
+                        Detail
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => editProperty(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-edit"></span>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteProperty(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-trash"></span>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
-            {data.map((res, key) => {
-              return (
-                <tr key={key}>
-                  <td>{key + 1}</td>
-                  <td>{res.Details.id}</td>
-                  <td>{res.BasicInformation.name}</td>
-                  <td>{res.BasicInformation.description}</td>
-                  <td>{res.BasicInformation.type}</td>
-                  <td>{res.BasicInformation.status}</td>
-                  <td>
-                    {res.BasicInformation.status === "Rental"
-                      ? `${res.BasicInformation.currency}${res.BasicInformation.price}/${res.BasicInformation.period}`
-                      : `${res.BasicInformation.currency}${res.BasicInformation.price}`}
-                  </td>
-                  <td>{res.BasicInformation.space}</td>
-                  <td>
-                    <button
-                      className="btn btn-info"
-                      onClick={() => detailProperty(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fas fa-info-circle"></span>
-                      Detail
-                    </button>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => editProperty(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-edit"></span>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteProperty(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-trash"></span>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>

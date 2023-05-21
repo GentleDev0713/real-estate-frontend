@@ -11,6 +11,7 @@ const AdminFeature = (props) => {
   const toast = useToast();
 
   const [data, setData] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,6 +19,7 @@ const AdminFeature = (props) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-features`)
       .then((res) => {
+        setFlag(true);
         setData(res.data.result);
       });
   }, []);
@@ -91,46 +93,49 @@ const AdminFeature = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
-              <tr>
+            {data.length === 0 && flag ? (
+              <tr className="text-center">
                 <td colSpan="4">No Data</td>
               </tr>
+            ) : data.length === 0 && flag === false ? (
+              <tr className="text-center">
+                <td colSpan="4">Loading ...</td>
+              </tr>
             ) : (
-              <></>
+              data.map((res, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>{res.name}</td>
+                    <td>
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                        alt="NoIcon"
+                        style={{ width: "60px" }}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => editFeature(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-edit"></span>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteFeature(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-trash"></span>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
-            {data.map((res, key) => {
-              return (
-                <tr key={key}>
-                  <td>{key + 1}</td>
-                  <td>{res.name}</td>
-                  <td>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
-                      alt="Icon"
-                      style={{ width: "60px" }}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => editFeature(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-edit"></span>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteFeature(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-trash"></span>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>

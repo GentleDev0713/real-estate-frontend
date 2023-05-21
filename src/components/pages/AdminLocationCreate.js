@@ -12,6 +12,7 @@ const AdminCurrencyCreate = (props) => {
 
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -47,15 +48,28 @@ const AdminCurrencyCreate = (props) => {
       country: country,
       city: city,
     };
+    setFlag(true);
     axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/admin/location/create`,
         formData
       )
       .then((res) => {
-        navigate("/admin/locations");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been saved successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/locations");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err.response.data.Msg);
       });
@@ -80,7 +94,6 @@ const AdminCurrencyCreate = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
@@ -111,9 +124,19 @@ const AdminCurrencyCreate = (props) => {
             />
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"

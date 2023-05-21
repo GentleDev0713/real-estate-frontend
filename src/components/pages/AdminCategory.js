@@ -11,6 +11,7 @@ const AdminCategory = (props) => {
   const toast = useToast();
 
   const [data, setData] = useState([]);
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,6 +19,7 @@ const AdminCategory = (props) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/admin/get-categories`)
       .then((res) => {
+        setFlag(true);
         setData(res.data.result);
       });
   }, []);
@@ -93,54 +95,57 @@ const AdminCategory = (props) => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
+            {data.length === 0 && flag ? (
               <tr>
                 <td colSpan="6">No Data</td>
               </tr>
+            ) : data.length === 0 && flag === false ? (
+              <tr>
+                <td colSpan="6">Loading ...</td>
+              </tr>
             ) : (
-              <></>
+              data.map((res, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>{res.name}</td>
+                    <td>{res.description}</td>
+                    <td>
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
+                        alt="No Icon"
+                        style={{ width: "60px" }}
+                      />
+                    </td>
+                    <td>
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}/${res.img}`}
+                        alt="NoImage"
+                        style={{ width: "80px" }}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => editCategory(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-edit"></span>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteCategory(res._id)}
+                        style={{ borderRadius: "5px" }}
+                      >
+                        <span className="fa fa-trash"></span>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
-            {data.map((res, key) => {
-              return (
-                <tr key={key}>
-                  <td>{key + 1}</td>
-                  <td>{res.name}</td>
-                  <td>{res.description}</td>
-                  <td>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${res.icon}`}
-                      alt="category"
-                      style={{ width: "70px" }}
-                    />
-                  </td>
-                  <td>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${res.img}`}
-                      alt="category"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => editCategory(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-edit"></span>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteCategory(res._id)}
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <span className="fa fa-trash"></span>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>

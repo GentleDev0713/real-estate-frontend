@@ -4,10 +4,13 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import AdminHeader from "./../layouts/AdminHeader";
 import AdminSider from "./../layouts/AdminSider";
+import { useToast } from "@chakra-ui/react";
 
 const AdminUserCreate = (props) => {
   const navigate = useNavigate();
+  const toast = useToast();
 
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
@@ -28,13 +31,25 @@ const AdminUserCreate = (props) => {
       user: user,
       isAdmin: admin,
     };
-
+    setFlag(true);
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/admin/user/create`, formData)
       .then((res) => {
-        navigate("/admin/users");
+        setFlag(false);
+        toast({
+          title: "Success",
+          description: "It has been saved successfully.",
+          status: "success",
+          duration: 2000,
+          variant: "left-accent",
+          position: "top-right",
+          isClosable: true,
+        });
+        return true;
+        // navigate("/admin/users");
       })
       .catch((err) => {
+        setFlag(false);
         setError(true);
         setErrorMsg(err);
       });
@@ -57,7 +72,6 @@ const AdminUserCreate = (props) => {
       >
         <form
           onSubmit={(e) => {
-            postData();
             e.preventDefault();
           }}
           style={{
@@ -124,9 +138,19 @@ const AdminUserCreate = (props) => {
             </select>
           </div>
           <div className="form-group text-right">
-            <button type="Submit" className="btn btn-primary">
-              <span className="fa fa-save"></span> Save
-            </button>
+            {flag ? (
+              <button type="Submit" disabled className="btn btn-primary">
+                <span className="fa fa-save"></span> Saving...
+              </button>
+            ) : (
+              <button
+                type="Submit"
+                onClick={() => postData()}
+                className="btn btn-primary"
+              >
+                <span className="fa fa-save"></span> Save
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-default"
