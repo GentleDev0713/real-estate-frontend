@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const AdminLogin = () => {
+  const [flag, setFlag] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +13,7 @@ const AdminLogin = () => {
   };
 
   const postData = async () => {
+    setFlag(true);
     await fetch(`${process.env.REACT_APP_SERVER_URL}/login`, {
       method: "POST",
       headers: {
@@ -26,6 +28,7 @@ const AdminLogin = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        setFlag(false);
         data.Msg === "login" ? setUser(data) : setError(true);
         setErrorMsg(data.Msg);
       });
@@ -38,7 +41,6 @@ const AdminLogin = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            postData();
           }}
         >
           <div className="mb-3">
@@ -71,9 +73,19 @@ const AdminLogin = () => {
             </a>
           </p>
           <div className="d-grid">
-            <button className="btn btn-primary" type="submit">
-              Login
-            </button>
+            {flag ? (
+              <button className="btn btn-primary" disabled type="submit">
+                Please wait
+              </button>
+            ) : (
+              <button
+                className="btn btn-primary"
+                type="submit"
+                onClick={() => postData()}
+              >
+                Login
+              </button>
+            )}
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {error ? (

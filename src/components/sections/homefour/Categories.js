@@ -4,11 +4,13 @@ import axios from "axios";
 
 const Categories = () => {
   const [data, setData] = useState([]);
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/get-propertycount-by-category`)
       .then((res) => {
+        setFlag(true);
         setData(res.data);
       });
   }, []);
@@ -21,47 +23,53 @@ const Categories = () => {
           <h2 className="title">Browse By Category</h2>
         </div>
         <div className="row">
-          {data.map((item, i) => (
-            <div key={i} className="col-lg-4 col-md-6">
-              <div className="acr-category">
-                <div className="acr-category-thumb">
-                  <i>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${item.icon}`}
-                      alt="CategoryIcon"
-                      style={{
-                        borderRadius: "inherit",
-                        height: "inherit",
-                        width: "inherit",
-                      }}
-                    />
-                  </i>
-                  {/* <i className={"flaticon-house"} /> */}
-                  <Link to={`/property/${item.name}`}>
-                    <img
-                      src={`${process.env.REACT_APP_SERVER_URL}/${item.img}`}
-                      // className="img-fluid h-100"
-                      style={{
-                        width: "-webkit-fill-available",
-                        height: "300px",
-                        objectFit: "cover",
-                      }}
-                      alt="category"
-                    />
-                  </Link>
-                  <div className="acr-category-body">
-                    <h5>
-                      {" "}
-                      <Link to={`/property/${item.name}`}>
-                        {item.name}
-                      </Link>{" "}
-                    </h5>
-                    <span>{item.count} Listings</span>
+          {data.length === 0 && flag ? (
+            <h3>No Category</h3>
+          ) : data.length === 0 && flag === false ? (
+            <h3>Loading...</h3>
+          ) : (
+            data.map((item, i) => (
+              <div key={i} className="col-lg-4 col-md-6">
+                <div className="acr-category">
+                  <div className="acr-category-thumb">
+                    <i>
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}/${item.icon}`}
+                        alt="CategoryIcon"
+                        style={{
+                          borderRadius: "inherit",
+                          height: "inherit",
+                          width: "inherit",
+                        }}
+                      />
+                    </i>
+                    {/* <i className={"flaticon-house"} /> */}
+                    <Link to={`/property/${item.name}`}>
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}/${item.img}`}
+                        // className="img-fluid h-100"
+                        style={{
+                          width: "-webkit-fill-available",
+                          height: "300px",
+                          objectFit: "cover",
+                        }}
+                        alt="category"
+                      />
+                    </Link>
+                    <div className="acr-category-body">
+                      <h5>
+                        {" "}
+                        <Link to={`/property/${item.name}`}>
+                          {item.name}
+                        </Link>{" "}
+                      </h5>
+                      <span>{item.count} Listings</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>
