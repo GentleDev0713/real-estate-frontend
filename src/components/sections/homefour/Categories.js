@@ -24,9 +24,9 @@ const Categories = () => {
         </div>
         <div className="row">
           {data.length === 0 && flag ? (
-            <h3>No Category</h3>
+            <h5>No Category</h5>
           ) : data.length === 0 && flag === false ? (
-            <h3>Loading...</h3>
+            <h5>Loading...</h5>
           ) : (
             data.map((item, i) => (
               <div key={i} className="col-lg-4 col-md-6">
